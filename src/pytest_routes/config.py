@@ -52,6 +52,54 @@ class RouteOverride:
 
 
 @dataclass
+class SchemathesisConfig:
+    """Configuration for Schemathesis integration.
+
+    Attributes:
+        enabled: Whether Schemathesis mode is enabled.
+        schema_path: Path to fetch OpenAPI schema from the app.
+        validate_responses: Whether to validate response bodies against schema.
+        stateful: Stateful testing mode ('none', 'links').
+        checks: List of Schemathesis checks to run.
+    """
+
+    enabled: bool = False
+    schema_path: str = "/openapi.json"
+    validate_responses: bool = True
+    stateful: str = "none"
+    checks: list[str] = field(
+        default_factory=lambda: [
+            "status_code_conformance",
+            "content_type_conformance",
+            "response_schema_conformance",
+        ]
+    )
+
+
+@dataclass
+class ReportConfig:
+    """Configuration for test reporting.
+
+    Attributes:
+        enabled: Whether to generate reports.
+        output_path: Path to write HTML report.
+        json_output: Path to write JSON report (None to skip).
+        title: Title for the HTML report.
+        include_coverage: Whether to include coverage metrics.
+        include_timing: Whether to include timing metrics.
+        theme: Color theme ('light' or 'dark').
+    """
+
+    enabled: bool = False
+    output_path: str = "pytest-routes-report.html"
+    json_output: str | None = None
+    title: str = "pytest-routes Test Report"
+    include_coverage: bool = True
+    include_timing: bool = True
+    theme: str = "light"
+
+
+@dataclass
 class RouteTestConfig:
     """Configuration for route smoke testing."""
 
@@ -90,6 +138,12 @@ class RouteTestConfig:
 
     # Per-route overrides
     route_overrides: list[RouteOverride] = field(default_factory=list)
+
+    # Schemathesis integration
+    schemathesis: SchemathesisConfig = field(default_factory=SchemathesisConfig)
+
+    # Reporting
+    report: ReportConfig = field(default_factory=ReportConfig)
 
     def get_override_for_route(self, path: str) -> RouteOverride | None:
         """Get the matching override for a route path.
@@ -178,6 +232,12 @@ class RouteTestConfig:
         # Parse route overrides if present
         route_overrides = _parse_route_overrides(data.get("routes", []))
 
+        # Parse schemathesis configuration if present
+        schemathesis = _parse_schemathesis_config(data.get("schemathesis", {}))
+
+        # Parse report configuration if present
+        report = _parse_report_config(data.get("report", {}))
+
         return cls(
             max_examples=data.get("max_examples", defaults.max_examples),
             timeout_per_route=data.get("timeout", defaults.timeout_per_route),
@@ -195,6 +255,8 @@ class RouteTestConfig:
             verbose=data.get("verbose", defaults.verbose),
             auth=auth,
             route_overrides=route_overrides,
+            schemathesis=schemathesis,
+            report=report,
         )
 
 
@@ -291,6 +353,68 @@ def _parse_route_overrides(routes_data: list[dict[str, Any]]) -> list[RouteOverr
         overrides.append(override)
 
     return overrides
+
+
+def _parse_schemathesis_config(data: dict[str, Any]) -> SchemathesisConfig:
+    """Parse Schemathesis configuration from dictionary.
+
+    Args:
+        data: Schemathesis configuration dictionary.
+
+    Returns:
+        SchemathesisConfig instance.
+
+    Example config in pyproject.toml::
+
+        [tool.pytest - routes.schemathesis]
+        enabled = true
+        schema_path = "/openapi.json"
+        validate_responses = true
+        stateful = "links"
+        checks = ["status_code_conformance", "response_schema_conformance"]
+    """
+    defaults = SchemathesisConfig()
+
+    return SchemathesisConfig(
+        enabled=data.get("enabled", defaults.enabled),
+        schema_path=data.get("schema_path", defaults.schema_path),
+        validate_responses=data.get("validate_responses", defaults.validate_responses),
+        stateful=data.get("stateful", defaults.stateful),
+        checks=data.get("checks", defaults.checks),
+    )
+
+
+def _parse_report_config(data: dict[str, Any]) -> ReportConfig:
+    """Parse report configuration from dictionary.
+
+    Args:
+        data: Report configuration dictionary.
+
+    Returns:
+        ReportConfig instance.
+
+    Example config in pyproject.toml::
+
+        [tool.pytest - routes.report]
+        enabled = true
+        output_path = "pytest-routes-report.html"
+        json_output = "pytest-routes-report.json"
+        title = "API Route Tests"
+        include_coverage = true
+        include_timing = true
+        theme = "dark"
+    """
+    defaults = ReportConfig()
+
+    return ReportConfig(
+        enabled=data.get("enabled", defaults.enabled),
+        output_path=data.get("output_path", defaults.output_path),
+        json_output=data.get("json_output", defaults.json_output),
+        title=data.get("title", defaults.title),
+        include_coverage=data.get("include_coverage", defaults.include_coverage),
+        include_timing=data.get("include_timing", defaults.include_timing),
+        theme=data.get("theme", defaults.theme),
+    )
 
 
 def load_config_from_pyproject(path: Path | None = None) -> RouteTestConfig:
@@ -448,4 +572,68 @@ def merge_configs(
         auth=cli_config.auth if cli_config.auth is not None else file_config.auth,
         # Route overrides: merge both lists (CLI overrides first for pattern matching priority)
         route_overrides=cli_config.route_overrides + file_config.route_overrides,
+        # Schemathesis: CLI takes precedence if enabled
+        schemathesis=_merge_schemathesis_config(cli_config.schemathesis, file_config.schemathesis),
+        # Report: CLI takes precedence if enabled
+        report=_merge_report_config(cli_config.report, file_config.report),
+    )
+
+
+def _merge_schemathesis_config(
+    cli_config: SchemathesisConfig,
+    file_config: SchemathesisConfig,
+) -> SchemathesisConfig:
+    """Merge schemathesis configs with CLI taking precedence."""
+    defaults = SchemathesisConfig()
+
+    enabled = cli_config.enabled if cli_config.enabled != defaults.enabled else file_config.enabled
+    schema_path = cli_config.schema_path if cli_config.schema_path != defaults.schema_path else file_config.schema_path
+    validate_responses = (
+        cli_config.validate_responses
+        if cli_config.validate_responses != defaults.validate_responses
+        else file_config.validate_responses
+    )
+    stateful = cli_config.stateful if cli_config.stateful != defaults.stateful else file_config.stateful
+    checks = cli_config.checks if cli_config.checks != defaults.checks else file_config.checks
+
+    return SchemathesisConfig(
+        enabled=enabled,
+        schema_path=schema_path,
+        validate_responses=validate_responses,
+        stateful=stateful,
+        checks=checks,
+    )
+
+
+def _merge_report_config(
+    cli_config: ReportConfig,
+    file_config: ReportConfig,
+) -> ReportConfig:
+    """Merge report configs with CLI taking precedence."""
+    defaults = ReportConfig()
+
+    enabled = cli_config.enabled if cli_config.enabled != defaults.enabled else file_config.enabled
+    output_path = cli_config.output_path if cli_config.output_path != defaults.output_path else file_config.output_path
+    json_output = cli_config.json_output if cli_config.json_output is not None else file_config.json_output
+    title = cli_config.title if cli_config.title != defaults.title else file_config.title
+    include_coverage = (
+        cli_config.include_coverage
+        if cli_config.include_coverage != defaults.include_coverage
+        else file_config.include_coverage
+    )
+    include_timing = (
+        cli_config.include_timing
+        if cli_config.include_timing != defaults.include_timing
+        else file_config.include_timing
+    )
+    theme = cli_config.theme if cli_config.theme != defaults.theme else file_config.theme
+
+    return ReportConfig(
+        enabled=enabled,
+        output_path=output_path,
+        json_output=json_output,
+        title=title,
+        include_coverage=include_coverage,
+        include_timing=include_timing,
+        theme=theme,
     )

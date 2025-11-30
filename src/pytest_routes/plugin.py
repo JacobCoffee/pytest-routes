@@ -8,7 +8,13 @@ from typing import TYPE_CHECKING, Any
 
 import pytest
 
-from pytest_routes.config import RouteTestConfig, load_config_from_pyproject, merge_configs
+from pytest_routes.config import (
+    ReportConfig,
+    RouteTestConfig,
+    SchemathesisConfig,
+    load_config_from_pyproject,
+    merge_configs,
+)
 from pytest_routes.discovery import get_extractor
 from pytest_routes.execution.runner import RouteTestRunner
 
@@ -17,8 +23,12 @@ if TYPE_CHECKING:
 
 # Global storage for routes (set during collection)
 _discovered_routes: list[RouteInfo] = []
+_all_routes: list[RouteInfo] = []
 _route_runner: RouteTestRunner | None = None
 _routes_enabled: bool = False
+_route_config: RouteTestConfig | None = None
+_test_metrics: Any = None
+_coverage_metrics: Any = None
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
@@ -71,11 +81,42 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         default=False,
         help="Show generated values for each request (path params, query params, body)",
     )
+    group.addoption(
+        "--routes-schemathesis",
+        action="store_true",
+        default=False,
+        help="Enable Schemathesis integration for schema-based validation",
+    )
+    group.addoption(
+        "--routes-schemathesis-schema-path",
+        action="store",
+        default="/openapi.json",
+        help="Path to fetch OpenAPI schema from app (default: /openapi.json)",
+    )
+    group.addoption(
+        "--routes-report",
+        action="store",
+        default=None,
+        help="Generate HTML report at specified path (e.g., report.html)",
+    )
+    group.addoption(
+        "--routes-report-json",
+        action="store",
+        default=None,
+        help="Generate JSON report at specified path (e.g., report.json)",
+    )
+    group.addoption(
+        "--routes-report-title",
+        action="store",
+        default="pytest-routes Test Report",
+        help="Title for the HTML report",
+    )
 
 
 def pytest_configure(config: pytest.Config) -> None:
     """Register plugin markers and discover routes if enabled."""
-    global _discovered_routes, _route_runner, _routes_enabled
+    global _discovered_routes, _all_routes, _route_runner, _routes_enabled
+    global _route_config, _test_metrics, _coverage_metrics
 
     config.addinivalue_line("markers", "routes: mark test as route smoke test")
     config.addinivalue_line("markers", "routes_app(app): specify ASGI app for route testing")
@@ -117,6 +158,22 @@ def pytest_configure(config: pytest.Config) -> None:
     cli_methods_str = config.getoption("--routes-methods", default="GET,POST,PUT,PATCH,DELETE")
     cli_methods = [m.strip().upper() for m in cli_methods_str.split(",")]
 
+    # Build schemathesis config from CLI
+    schemathesis_enabled = config.getoption("--routes-schemathesis", default=False)
+    schemathesis_config = SchemathesisConfig(
+        enabled=schemathesis_enabled,
+        schema_path=config.getoption("--routes-schemathesis-schema-path", default="/openapi.json"),
+    )
+
+    # Build report config from CLI
+    report_path = config.getoption("--routes-report", default=None)
+    report_config = ReportConfig(
+        enabled=report_path is not None,
+        output_path=report_path or "pytest-routes-report.html",
+        json_output=config.getoption("--routes-report-json", default=None),
+        title=config.getoption("--routes-report-title", default="pytest-routes Test Report"),
+    )
+
     # Create CLI config (only with values that were explicitly set)
     cli_config = RouteTestConfig(
         max_examples=config.getoption("--routes-max-examples", default=100),
@@ -125,6 +182,8 @@ def pytest_configure(config: pytest.Config) -> None:
         methods=cli_methods,
         seed=config.getoption("--routes-seed", default=None),
         verbose=config.getoption("--routes-verbose", default=False),
+        schemathesis=schemathesis_config,
+        report=report_config,
     )
 
     # Merge configs: CLI > pyproject.toml > defaults
@@ -173,6 +232,7 @@ def pytest_configure(config: pytest.Config) -> None:
     # Discover routes
     extractor = get_extractor(app)
     routes = extractor.extract_routes(app)
+    _all_routes = routes.copy()
 
     # Filter routes
     for route in routes:
@@ -204,6 +264,21 @@ def pytest_configure(config: pytest.Config) -> None:
     # Create runner
     _route_runner = RouteTestRunner(app, route_config)
 
+    # Store config for later use
+    _route_config = route_config
+
+    # Initialize metrics if reporting is enabled
+    if route_config.report.enabled:
+        from pytest_routes.reporting.metrics import TestMetrics
+        from pytest_routes.reporting.route_coverage import CoverageMetrics
+
+        _test_metrics = TestMetrics()
+        _coverage_metrics = CoverageMetrics()
+
+        # Add all routes to coverage tracking
+        for route in _all_routes:
+            _coverage_metrics.add_route(route)
+
     # Print discovered routes
     print(f"\n{'=' * 60}")
     print("pytest-routes: Route Discovery")
@@ -219,6 +294,10 @@ def pytest_configure(config: pytest.Config) -> None:
         print(f"Include patterns: {', '.join(route_config.include_patterns)}")
     if route_config.seed is not None:
         print(f"Random seed: {route_config.seed}")
+    if route_config.schemathesis.enabled:
+        print(f"Schemathesis: enabled (schema: {route_config.schemathesis.schema_path})")
+    if route_config.report.enabled:
+        print(f"Report: {route_config.report.output_path}")
     print("\nRoutes to test:")
     for route in _discovered_routes:
         print(f"  {', '.join(route.methods):20} {route.path}")
@@ -549,7 +628,38 @@ def pytest_unconfigure(config: pytest.Config) -> None:
     Args:
         config: The pytest Config object.
     """
-    global _discovered_routes, _route_runner, _routes_enabled
+    global _discovered_routes, _all_routes, _route_runner, _routes_enabled
+    global _route_config, _test_metrics, _coverage_metrics
+
+    # Generate report if enabled
+    if _route_config is not None and _route_config.report.enabled and _test_metrics is not None:
+        from pytest_routes.reporting.html import HTMLReportGenerator
+        from pytest_routes.reporting.html import ReportConfig as HTMLReportConfig
+
+        _test_metrics.finish()
+
+        report_config = HTMLReportConfig(
+            output_path=_route_config.report.output_path,
+            title=_route_config.report.title,
+            theme=_route_config.report.theme,
+        )
+
+        generator = HTMLReportGenerator(report_config)
+        report_path = generator.write(_test_metrics, _coverage_metrics)
+        print(f"\npytest-routes: Report generated at {report_path}")
+
+        if _route_config.report.json_output:
+            json_path = generator.write_json(
+                _test_metrics,
+                _coverage_metrics,
+                output_path=_route_config.report.json_output,
+            )
+            print(f"pytest-routes: JSON report generated at {json_path}")
+
     _discovered_routes = []
+    _all_routes = []
     _route_runner = None
     _routes_enabled = False
+    _route_config = None
+    _test_metrics = None
+    _coverage_metrics = None

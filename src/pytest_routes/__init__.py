@@ -11,8 +11,10 @@ from pytest_routes.auth import (
     NoAuth,
 )
 from pytest_routes.config import (
+    ReportConfig,
     RouteOverride,
     RouteTestConfig,
+    SchemathesisConfig,
     load_config_from_pyproject,
     merge_configs,
 )
@@ -34,6 +36,20 @@ from pytest_routes.generation.strategies import (
     temporary_strategy,
     unregister_strategy,
 )
+from pytest_routes.integrations.schemathesis import (
+    SchemathesisAdapter,
+    SchemathesisValidator,
+    schemathesis_available,
+)
+from pytest_routes.reporting import (
+    CoverageMetrics,
+    HTMLReportGenerator,
+    RouteCoverage,
+    RouteMetrics,
+    TestMetrics,
+    aggregate_metrics,
+    calculate_coverage,
+)
 from pytest_routes.validation.response import (
     CompositeValidator,
     ContentTypeValidator,
@@ -53,8 +69,10 @@ __all__ = [
     "CompositeAuth",
     "NoAuth",
     # Config
+    "ReportConfig",
     "RouteOverride",
     "RouteTestConfig",
+    "SchemathesisConfig",
     "load_config_from_pyproject",
     "merge_configs",
     # Discovery
@@ -85,4 +103,16 @@ __all__ = [
     "ResponseValidator",
     "StatusCodeValidator",
     "ValidationResult",
+    # Integrations
+    "SchemathesisAdapter",
+    "SchemathesisValidator",
+    "schemathesis_available",
+    # Reporting
+    "CoverageMetrics",
+    "HTMLReportGenerator",
+    "RouteCoverage",
+    "RouteMetrics",
+    "TestMetrics",
+    "aggregate_metrics",
+    "calculate_coverage",
 ]
