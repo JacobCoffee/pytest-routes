@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 ---
+## [0.3.4](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.3..v0.3.4) - 2025-11-30
+
+### Documentation
+
+- regenerate changelog for v0.3.3 - ([1434504](https://github.com/JacobCoffee/pytest-routes/commit/14345048f6c977aaadb95ac57abae49633adaf40)) - github-actions[bot]
+- remove redundant TOCs from API reference pages - ([a2834ee](https://github.com/JacobCoffee/pytest-routes/commit/a2834ee0cae550a6b5cce4cb25e8966d06abdea1)) - Jacob Coffee
+
+### Miscellaneous Chores
+
+- bump version to 0.3.4 - ([b0c1c06](https://github.com/JacobCoffee/pytest-routes/commit/b0c1c066a41e557fad320351ad4c3ab059dc90c3)) - Jacob Coffee
+
+---
 ## [0.3.3](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.2..v0.3.3) - 2025-11-30
 
 ### Bug Fixes
