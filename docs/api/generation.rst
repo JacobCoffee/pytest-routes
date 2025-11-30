@@ -10,11 +10,6 @@ generation, and header generation.
 
 .. currentmodule:: pytest_routes.generation
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Overview
 ========

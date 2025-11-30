@@ -6,11 +6,6 @@ Integrations
 
 The integrations module provides adapters for external testing tools like Schemathesis.
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Schemathesis Integration
 ========================

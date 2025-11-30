@@ -7,11 +7,6 @@ Reporting
 The reporting module provides HTML report generation and metrics collection for
 route smoke tests.
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Metrics Classes
 ===============

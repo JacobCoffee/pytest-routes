@@ -9,11 +9,6 @@ related utilities for controlling pytest-routes behavior.
 
 .. currentmodule:: pytest_routes.config
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Overview
 ========

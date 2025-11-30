@@ -10,11 +10,6 @@ and can also extract routes from OpenAPI schemas.
 
 .. currentmodule:: pytest_routes.discovery
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Overview
 ========

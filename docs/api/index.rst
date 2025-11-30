@@ -8,11 +8,6 @@ This section provides complete API documentation for pytest-routes, organized by
 functional area. All public APIs are fully documented with type hints, examples,
 and cross-references to related functionality.
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Quick Reference
 ===============

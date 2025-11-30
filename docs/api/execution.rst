@@ -9,11 +9,6 @@ data and validates responses according to configuration.
 
 .. currentmodule:: pytest_routes.execution
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Overview
 ========

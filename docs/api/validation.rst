@@ -9,11 +9,6 @@ expected schemas, status codes, content types, and other criteria.
 
 .. currentmodule:: pytest_routes.validation
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-   :backlinks: none
-
 
 Overview
 ========
