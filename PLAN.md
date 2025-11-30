@@ -6,16 +6,16 @@
 
 ## Current Status
 
-**Version**: 0.1.0 (Released)
-**Phase**: Post-Release - Ready for v0.2.0 Development
+**Version**: 0.2.3 (Released)
+**Phase**: Post-Release - Ready for v0.3.0 Development
 **Last Updated**: 2025-11-30
 
 ### Test Coverage
 
 | Metric | Value |
 |--------|-------|
-| Unit Tests | 202 |
-| Route Smoke Tests | 7 (per example app) |
+| Unit Tests | 219 |
+| Route Smoke Tests | 9 (per example app) |
 | Coverage | ~90% |
 | Target | 90% |
 
@@ -41,7 +41,7 @@
 
 | App | Framework | Routes | Command |
 |-----|-----------|--------|---------|
-| `examples/litestar_app.py` | Litestar 2.x | 7 | `make test-routes-litestar` |
+| `examples/litestar_app.py` | Litestar 2.x | 9 (incl. 2 protected) | `make test-routes-litestar` |
 | `examples/fastapi_app.py` | FastAPI | 7 | `make test-routes-fastapi` |
 | `examples/starlette_app.py` | Starlette | 8 | `make test-routes-starlette` |
 
@@ -143,9 +143,7 @@ Initial development on `main`:
 
 **Released**: v0.1.0 on PyPI with Sigstore signatures.
 
-### In Progress
-
-#### v0.2.0 - Authentication & Advanced Features (In Development)
+#### v0.2.0 - Authentication & Advanced Features (Complete) ✅
 - [x] Authentication support (Bearer token, API key)
   - [x] `BearerTokenAuth` - Bearer token with env var support (`$ENV_VAR` syntax)
   - [x] `APIKeyAuth` - API key via header or query param with env var support
@@ -165,13 +163,31 @@ Initial development on `main`:
 - [x] pyproject.toml auth configuration support
 - [x] Test suite for auth providers (24 tests)
 - [x] Test suite for config with auth/overrides (43 tests)
-- [ ] Documentation updates for new features
-- [ ] Example app with authenticated routes
+- [x] Documentation updates for new features (`docs/usage/authentication.md`)
+- [x] Example app with authenticated routes (`examples/litestar_app.py`)
 
-#### Next Up
-- **v0.3.0**: Schemathesis integration (optional), HTML report generation, coverage metrics per route
-- **v0.4.0**: Stateful testing (CRUD flows via Schemathesis links), WebSocket routes
-- **v1.0.0**: Stable release, fuzz testing mode
+**Released**: v0.2.0 → v0.2.3 (patch releases for CI fixes)
+
+### Next Up
+
+#### v0.3.0 - Schemathesis Integration & Reporting (Planned)
+- [ ] Schemathesis integration (optional dependency)
+  - [ ] `SchemathesisAdapter` class for schema-based testing
+  - [ ] `--routes-schemathesis` CLI flag
+  - [ ] Response schema validation via Schemathesis
+- [ ] HTML report generation
+- [ ] Coverage metrics per route
+- [ ] Performance timing per route
+
+#### v0.4.0 - Stateful Testing & WebSocket Support (Planned)
+- [ ] Stateful testing (CRUD flows via Schemathesis links)
+- [ ] WebSocket route testing
+- [ ] State machine visualization
+
+#### v1.0.0 - Stable Release (Planned)
+- [ ] Stable API guarantee
+- [ ] Fuzz testing mode
+- [ ] Comprehensive CI/CD integration examples
 
 ---
 
@@ -1080,7 +1096,7 @@ pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathes
 
 ---
 
-*Document Version: 1.2.0*
+*Document Version: 1.3.0*
 *Last Updated: 2025-11-30*
 *Author: Claude (Architecture Review)*
-*Status: Phase 1 Complete - Schemathesis Integration Planned for v0.3.0*
+*Status: v0.2.0 Complete - Schemathesis Integration Planned for v0.3.0*
