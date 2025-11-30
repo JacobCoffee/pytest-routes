@@ -32,6 +32,8 @@ test = [
     "pytest-xdist>=3.5.0",
     "uvicorn>=0.30.0",
     "sniffio>=1.3.1",
+    "schemathesis>=3.0",
+    "jinja2>=3.0.0",
 ]
 dev = [
     {include-group = "docs"},
@@ -91,13 +93,16 @@ pytest_routes = "pytest_routes.plugin"
 
 [project.optional-dependencies]
 all = [
-    "pytest-routes[litestar,fastapi,starlette]",
+    "pytest-routes[litestar,fastapi,starlette,schemathesis]",
 ]
 fastapi = [
     "fastapi>=0.100.0",
 ]
 litestar = [
     "litestar>=2.0.0",
+]
+schemathesis = [
+    "schemathesis>=3.0",
 ]
 starlette = [
     "starlette>=0.27.0",
@@ -315,6 +320,12 @@ max-complexity = 12
     "SLF001",   # private-member-access (internal access in closures)
     "T201",     # print (used for verbose output)
 ]
+"src/pytest_routes/reporting/html.py" = [
+    "E501",     # line-too-long (template strings)
+]
+"src/pytest_routes/integrations/schemathesis.py" = [
+    "PERF203",  # try-except-in-loop (necessary for collecting all errors)
+]
 "tests/**/*.*" = [
     "A",
     "ANN",
@@ -362,6 +373,7 @@ unresolved-import = "warn"  # Optional dependencies (tomli)
 exclude = [
     "docs/conf.py",
     "tests/",
+    "examples/",
 ]
 
 [tool.uv]
