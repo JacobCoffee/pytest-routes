@@ -150,7 +150,7 @@ class TestTestMetrics:
         assert "pass_rate" in result
 
 
-class TestAggregrateMetrics:
+class TestAggregateMetrics:
     """Tests for aggregate_metrics function."""
 
     def test_aggregate_empty(self):

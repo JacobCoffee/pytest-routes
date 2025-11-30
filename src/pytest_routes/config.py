@@ -366,7 +366,7 @@ def _parse_schemathesis_config(data: dict[str, Any]) -> SchemathesisConfig:
 
     Example config in pyproject.toml::
 
-        [tool.pytest - routes.schemathesis]
+        [tool.pytest - routes.schemathesis]  # no spaces around hyphen
         enabled = true
         schema_path = "/openapi.json"
         validate_responses = true
@@ -395,7 +395,7 @@ def _parse_report_config(data: dict[str, Any]) -> ReportConfig:
 
     Example config in pyproject.toml::
 
-        [tool.pytest - routes.report]
+        [tool.pytest - routes.report]  # no spaces around hyphen
         enabled = true
         output_path = "pytest-routes-report.html"
         json_output = "pytest-routes-report.json"
