@@ -351,10 +351,12 @@ pattern = "/api/*"     # Would NOT match /api/v1/users if above matches first
 
 ## API Reference
 
-See the [API documentation](../api/auth.md) for complete details on:
+The authentication module provides:
 
 - `AuthProvider` - Base class for custom providers
 - `BearerTokenAuth` - Bearer token implementation
 - `APIKeyAuth` - API key implementation
 - `CompositeAuth` - Combine multiple providers
 - `NoAuth` - Explicit no-auth provider
+
+All classes are exported from `pytest_routes` and `pytest_routes.auth`.
