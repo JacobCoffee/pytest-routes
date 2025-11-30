@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 
-import json
-
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
-
 
 # In-memory "database"
 users_db: dict[int, dict] = {
