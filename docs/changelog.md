@@ -2,11 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 ---
-## [unreleased]
+## [0.3.0](https://github.com/JacobCoffee/pytest-routes/compare/v0.2.3..v0.3.0) - 2025-11-30
 
 ### Bug Fixes
 
 - **(ci)** configure PAT for changelog push - ([819cbaa](https://github.com/JacobCoffee/pytest-routes/commit/819cbaafcbacbbb912c891f488a3b4b195cfe612)) - Jacob Coffee
+- address PR review comments from Copilot - ([cebfe0e](https://github.com/JacobCoffee/pytest-routes/commit/cebfe0e38cff2f5fc295857ed767efc8fe98571a)) - Jacob Coffee
+
+### Documentation
+
+- regenerate changelog for v0.2.3 - ([6d2efc9](https://github.com/JacobCoffee/pytest-routes/commit/6d2efc9864fcb55d03d310f4d6f61ac7aa774214)) - github-actions[bot]
+- update PLAN.md with v0.2.0 completion status - ([70eab23](https://github.com/JacobCoffee/pytest-routes/commit/70eab238dcde03d5ed4934343e55ffdd4cedb64b)) - Jacob Coffee
+
+### Features
+
+- add schemathesis integration and HTML reports (#2) - ([38896a3](https://github.com/JacobCoffee/pytest-routes/commit/38896a34f895c9999fe9cb09149c8819ff4ed5f9)) - Jacob Coffee
+
+### Miscellaneous Chores
+
+- bump version to 0.3.0 - ([9e04089](https://github.com/JacobCoffee/pytest-routes/commit/9e04089cc4dca30b1766f4dd8de7e258ecd5193f)) - Jacob Coffee
 
 ---
 ## [0.2.3](https://github.com/JacobCoffee/pytest-routes/compare/v0.2.2..v0.2.3) - 2025-11-30
