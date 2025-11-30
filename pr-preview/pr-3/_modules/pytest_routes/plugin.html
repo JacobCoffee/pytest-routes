@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>pytest_routes.plugin - pytest-routes</title><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="pytest_routes.plugin"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Module code</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">pytest_routes.plugin</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <h1>Source code for pytest_routes.plugin</h1><div class="highlight"><pre>
+<span></span><span data-line="1"><span class="sd">&quot;&quot;&quot;Pytest plugin for route smoke testing.&quot;&quot;&quot;</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+</span><span data-line="6"><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+</span><span data-line="7"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.config</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="12">    <span class="n">ReportConfig</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">RouteTestConfig</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">SchemathesisConfig</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">load_config_from_pyproject</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">merge_configs</span><span class="p">,</span>
+</span><span data-line="17"><span class="p">)</span>
+</span><span data-line="18"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_extractor</span>
+</span><span data-line="19"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.execution.runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestRunner</span>
+</span><span data-line="20">
+</span><span data-line="21"><span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+</span><span data-line="22">    <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.discovery.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteInfo</span>
+</span><span data-line="23">
+</span><span data-line="24"><span class="c1"># Global storage for routes (set during collection)</span>
+</span><span data-line="25"><span class="n">_discovered_routes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RouteInfo</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="26"><span class="n">_all_routes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RouteInfo</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="27"><span class="n">_route_runner</span><span class="p">:</span> <span class="n">RouteTestRunner</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="28"><span class="n">_routes_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="29"><span class="n">_route_config</span><span class="p">:</span> <span class="n">RouteTestConfig</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="30"><span class="n">_test_metrics</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="31"><span class="n">_coverage_metrics</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="32">
+</span><span data-line="33">
+</span><span data-line="34"><span class="k">def</span><span class="w"> </span><span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="35"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add pytest command line options.&quot;&quot;&quot;</span>
+</span><span data-line="36">    <span class="n">group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getgroup</span><span class="p">(</span><span class="s2">&quot;routes&quot;</span><span class="p">)</span>
+</span><span data-line="37">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="38">        <span class="s2">&quot;--routes&quot;</span><span class="p">,</span>
+</span><span data-line="39">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+</span><span data-line="40">        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="41">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run route smoke tests&quot;</span><span class="p">,</span>
+</span><span data-line="42">    <span class="p">)</span>
+</span><span data-line="43">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="44">        <span class="s2">&quot;--routes-app&quot;</span><span class="p">,</span>
+</span><span data-line="45">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="46">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Import path to ASGI app (e.g., &#39;myapp:app&#39;)&quot;</span><span class="p">,</span>
+</span><span data-line="47">    <span class="p">)</span>
+</span><span data-line="48">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="49">        <span class="s2">&quot;--routes-max-examples&quot;</span><span class="p">,</span>
+</span><span data-line="50">        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+</span><span data-line="51">        <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span data-line="52">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Max examples per route (default: 100)&quot;</span><span class="p">,</span>
+</span><span data-line="53">    <span class="p">)</span>
+</span><span data-line="54">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="55">        <span class="s2">&quot;--routes-exclude&quot;</span><span class="p">,</span>
+</span><span data-line="56">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="57">        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span data-line="58">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Comma-separated patterns to exclude (e.g., &#39;/health,/metrics&#39;)&quot;</span><span class="p">,</span>
+</span><span data-line="59">    <span class="p">)</span>
+</span><span data-line="60">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="61">        <span class="s2">&quot;--routes-include&quot;</span><span class="p">,</span>
+</span><span data-line="62">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="63">        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span data-line="64">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Comma-separated patterns to include (e.g., &#39;/api/*&#39;)&quot;</span><span class="p">,</span>
+</span><span data-line="65">    <span class="p">)</span>
+</span><span data-line="66">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="67">        <span class="s2">&quot;--routes-methods&quot;</span><span class="p">,</span>
+</span><span data-line="68">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="69">        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;GET,POST,PUT,PATCH,DELETE&quot;</span><span class="p">,</span>
+</span><span data-line="70">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Comma-separated HTTP methods to test (default: GET,POST,PUT,PATCH,DELETE)&quot;</span><span class="p">,</span>
+</span><span data-line="71">    <span class="p">)</span>
+</span><span data-line="72">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="73">        <span class="s2">&quot;--routes-seed&quot;</span><span class="p">,</span>
+</span><span data-line="74">        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+</span><span data-line="75">        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="76">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Random seed for reproducibility&quot;</span><span class="p">,</span>
+</span><span data-line="77">    <span class="p">)</span>
+</span><span data-line="78">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="79">        <span class="s2">&quot;--routes-verbose&quot;</span><span class="p">,</span>
+</span><span data-line="80">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+</span><span data-line="81">        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="82">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Show generated values for each request (path params, query params, body)&quot;</span><span class="p">,</span>
+</span><span data-line="83">    <span class="p">)</span>
+</span><span data-line="84">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="85">        <span class="s2">&quot;--routes-schemathesis&quot;</span><span class="p">,</span>
+</span><span data-line="86">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+</span><span data-line="87">        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="88">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable Schemathesis integration for schema-based validation&quot;</span><span class="p">,</span>
+</span><span data-line="89">    <span class="p">)</span>
+</span><span data-line="90">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="91">        <span class="s2">&quot;--routes-schemathesis-schema-path&quot;</span><span class="p">,</span>
+</span><span data-line="92">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="93">        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;/openapi.json&quot;</span><span class="p">,</span>
+</span><span data-line="94">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to fetch OpenAPI schema from app (default: /openapi.json)&quot;</span><span class="p">,</span>
+</span><span data-line="95">    <span class="p">)</span>
+</span><span data-line="96">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="97">        <span class="s2">&quot;--routes-report&quot;</span><span class="p">,</span>
+</span><span data-line="98">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="99">        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="100">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate HTML report at specified path (e.g., report.html)&quot;</span><span class="p">,</span>
+</span><span data-line="101">    <span class="p">)</span>
+</span><span data-line="102">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="103">        <span class="s2">&quot;--routes-report-json&quot;</span><span class="p">,</span>
+</span><span data-line="104">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="105">        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="106">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate JSON report at specified path (e.g., report.json)&quot;</span><span class="p">,</span>
+</span><span data-line="107">    <span class="p">)</span>
+</span><span data-line="108">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="109">        <span class="s2">&quot;--routes-report-title&quot;</span><span class="p">,</span>
+</span><span data-line="110">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+</span><span data-line="111">        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;pytest-routes Test Report&quot;</span><span class="p">,</span>
+</span><span data-line="112">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Title for the HTML report&quot;</span><span class="p">,</span>
+</span><span data-line="113">    <span class="p">)</span>
+</span><span data-line="114">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="115">        <span class="s2">&quot;--routes-stateful&quot;</span><span class="p">,</span>
+</span><span data-line="116">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+</span><span data-line="117">        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="118">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable stateful API testing via state machines&quot;</span><span class="p">,</span>
+</span><span data-line="119">    <span class="p">)</span>
+</span><span data-line="120">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="121">        <span class="s2">&quot;--routes-stateful-step-count&quot;</span><span class="p">,</span>
+</span><span data-line="122">        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+</span><span data-line="123">        <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+</span><span data-line="124">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum number of steps per stateful test sequence (default: 50)&quot;</span><span class="p">,</span>
+</span><span data-line="125">    <span class="p">)</span>
+</span><span data-line="126">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="127">        <span class="s2">&quot;--routes-stateful-max-examples&quot;</span><span class="p">,</span>
+</span><span data-line="128">        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+</span><span data-line="129">        <span class="n">default</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+</span><span data-line="130">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum number of stateful test sequences to generate (default: 20)&quot;</span><span class="p">,</span>
+</span><span data-line="131">    <span class="p">)</span>
+</span><span data-line="132">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="133">        <span class="s2">&quot;--routes-stateful-seed&quot;</span><span class="p">,</span>
+</span><span data-line="134">        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+</span><span data-line="135">        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="136">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Random seed for stateful test reproducibility&quot;</span><span class="p">,</span>
+</span><span data-line="137">    <span class="p">)</span>
+</span><span data-line="138">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="139">        <span class="s2">&quot;--routes-websocket&quot;</span><span class="p">,</span>
+</span><span data-line="140">        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+</span><span data-line="141">        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="142">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable WebSocket route testing&quot;</span><span class="p">,</span>
+</span><span data-line="143">    <span class="p">)</span>
+</span><span data-line="144">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="145">        <span class="s2">&quot;--routes-ws-max-messages&quot;</span><span class="p">,</span>
+</span><span data-line="146">        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+</span><span data-line="147">        <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span><span data-line="148">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum messages per WebSocket test sequence (default: 10)&quot;</span><span class="p">,</span>
+</span><span data-line="149">    <span class="p">)</span>
+</span><span data-line="150">    <span class="n">group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+</span><span data-line="151">        <span class="s2">&quot;--routes-ws-timeout&quot;</span><span class="p">,</span>
+</span><span data-line="152">        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+</span><span data-line="153">        <span class="n">default</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
+</span><span data-line="154">        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;WebSocket connection timeout in seconds (default: 30.0)&quot;</span><span class="p">,</span>
+</span><span data-line="155">    <span class="p">)</span>
+</span><span data-line="156">
+</span><span data-line="157">
+</span><span data-line="158"><span class="k">def</span><span class="w"> </span><span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="159"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Register plugin markers and discover routes if enabled.&quot;&quot;&quot;</span>
+</span><span data-line="160">    <span class="k">global</span> <span class="n">_discovered_routes</span><span class="p">,</span> <span class="n">_all_routes</span><span class="p">,</span> <span class="n">_route_runner</span><span class="p">,</span> <span class="n">_routes_enabled</span>
+</span><span data-line="161">    <span class="k">global</span> <span class="n">_route_config</span><span class="p">,</span> <span class="n">_test_metrics</span><span class="p">,</span> <span class="n">_coverage_metrics</span>
+</span><span data-line="162">
+</span><span data-line="163">    <span class="n">config</span><span class="o">.</span><span class="n">addinivalue_line</span><span class="p">(</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span> <span class="s2">&quot;routes: mark test as route smoke test&quot;</span><span class="p">)</span>
+</span><span data-line="164">    <span class="n">config</span><span class="o">.</span><span class="n">addinivalue_line</span><span class="p">(</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span> <span class="s2">&quot;routes_app(app): specify ASGI app for route testing&quot;</span><span class="p">)</span>
+</span><span data-line="165">    <span class="n">config</span><span class="o">.</span><span class="n">addinivalue_line</span><span class="p">(</span>
+</span><span data-line="166">        <span class="s2">&quot;markers&quot;</span><span class="p">,</span>
+</span><span data-line="167">        <span class="s2">&quot;routes_skip(reason=None): skip route smoke testing for this test or route pattern&quot;</span><span class="p">,</span>
+</span><span data-line="168">    <span class="p">)</span>
+</span><span data-line="169">    <span class="n">config</span><span class="o">.</span><span class="n">addinivalue_line</span><span class="p">(</span>
+</span><span data-line="170">        <span class="s2">&quot;markers&quot;</span><span class="p">,</span>
+</span><span data-line="171">        <span class="s2">&quot;routes_auth(provider): specify authentication provider for route testing&quot;</span><span class="p">,</span>
+</span><span data-line="172">    <span class="p">)</span>
+</span><span data-line="173">
+</span><span data-line="174">    <span class="c1"># Check if routes testing is enabled</span>
+</span><span data-line="175">    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span data-line="176">        <span class="k">return</span>
+</span><span data-line="177">
+</span><span data-line="178">    <span class="n">_routes_enabled</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="179">
+</span><span data-line="180">    <span class="c1"># Load configuration from pyproject.toml first</span>
+</span><span data-line="181">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="182">        <span class="c1"># Try to find pyproject.toml in the project root</span>
+</span><span data-line="183">        <span class="n">rootdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">rootpath</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;rootpath&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+</span><span data-line="184">        <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
+</span><span data-line="185">        <span class="n">file_config</span> <span class="o">=</span> <span class="n">load_config_from_pyproject</span><span class="p">(</span><span class="n">pyproject_path</span> <span class="k">if</span> <span class="n">pyproject_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+</span><span data-line="186">    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="187">        <span class="c1"># If we can&#39;t load from pyproject.toml, use defaults</span>
+</span><span data-line="188">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">pytest-routes: Warning - could not load pyproject.toml config: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="189">        <span class="n">file_config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">()</span>
+</span><span data-line="190">
+</span><span data-line="191">    <span class="c1"># Build CLI config</span>
+</span><span data-line="192">    <span class="n">cli_exclude_patterns</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="193">    <span class="k">if</span> <span class="n">exclude_str</span> <span class="o">:=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-exclude&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span data-line="194">        <span class="n">cli_exclude_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">exclude_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+</span><span data-line="195">
+</span><span data-line="196">    <span class="n">cli_include_patterns</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="197">    <span class="k">if</span> <span class="n">include_str</span> <span class="o">:=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-include&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span data-line="198">        <span class="n">cli_include_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">include_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+</span><span data-line="199">
+</span><span data-line="200">    <span class="n">cli_methods_str</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-methods&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;GET,POST,PUT,PATCH,DELETE&quot;</span><span class="p">)</span>
+</span><span data-line="201">    <span class="n">cli_methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">cli_methods_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+</span><span data-line="202">
+</span><span data-line="203">    <span class="c1"># Build schemathesis config from CLI</span>
+</span><span data-line="204">    <span class="n">schemathesis_enabled</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-schemathesis&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="205">    <span class="n">schemathesis_config</span> <span class="o">=</span> <span class="n">SchemathesisConfig</span><span class="p">(</span>
+</span><span data-line="206">        <span class="n">enabled</span><span class="o">=</span><span class="n">schemathesis_enabled</span><span class="p">,</span>
+</span><span data-line="207">        <span class="n">schema_path</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-schemathesis-schema-path&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;/openapi.json&quot;</span><span class="p">),</span>
+</span><span data-line="208">    <span class="p">)</span>
+</span><span data-line="209">
+</span><span data-line="210">    <span class="c1"># Build report config from CLI</span>
+</span><span data-line="211">    <span class="n">report_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-report&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span data-line="212">    <span class="n">report_config</span> <span class="o">=</span> <span class="n">ReportConfig</span><span class="p">(</span>
+</span><span data-line="213">        <span class="n">enabled</span><span class="o">=</span><span class="n">report_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="214">        <span class="n">output_path</span><span class="o">=</span><span class="n">report_path</span> <span class="ow">or</span> <span class="s2">&quot;pytest-routes-report.html&quot;</span><span class="p">,</span>
+</span><span data-line="215">        <span class="n">json_output</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-report-json&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+</span><span data-line="216">        <span class="n">title</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-report-title&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;pytest-routes Test Report&quot;</span><span class="p">),</span>
+</span><span data-line="217">    <span class="p">)</span>
+</span><span data-line="218">
+</span><span data-line="219">    <span class="c1"># Build stateful config from CLI</span>
+</span><span data-line="220">    <span class="n">stateful_enabled</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-stateful&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="221">    <span class="n">stateful_config</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="222">    <span class="k">if</span> <span class="n">stateful_enabled</span><span class="p">:</span>
+</span><span data-line="223">        <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.stateful.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTestConfig</span>
+</span><span data-line="224">
+</span><span data-line="225">        <span class="n">stateful_config</span> <span class="o">=</span> <span class="n">StatefulTestConfig</span><span class="p">(</span>
+</span><span data-line="226">            <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="227">            <span class="n">step_count</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-stateful-step-count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+</span><span data-line="228">            <span class="n">max_examples</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-stateful-max-examples&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+</span><span data-line="229">            <span class="n">seed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-stateful-seed&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+</span><span data-line="230">        <span class="p">)</span>
+</span><span data-line="231">
+</span><span data-line="232">    <span class="c1"># Build WebSocket config from CLI</span>
+</span><span data-line="233">    <span class="n">websocket_enabled</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-websocket&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="234">    <span class="n">websocket_config</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="235">    <span class="k">if</span> <span class="n">websocket_enabled</span><span class="p">:</span>
+</span><span data-line="236">        <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.websocket.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebSocketTestConfig</span>
+</span><span data-line="237">
+</span><span data-line="238">        <span class="n">websocket_config</span> <span class="o">=</span> <span class="n">WebSocketTestConfig</span><span class="p">(</span>
+</span><span data-line="239">            <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="240">            <span class="n">max_messages</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-ws-max-messages&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+</span><span data-line="241">            <span class="n">connection_timeout</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-ws-timeout&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">30.0</span><span class="p">),</span>
+</span><span data-line="242">        <span class="p">)</span>
+</span><span data-line="243">
+</span><span data-line="244">    <span class="c1"># Create CLI config (only with values that were explicitly set)</span>
+</span><span data-line="245">    <span class="n">cli_config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="246">        <span class="n">max_examples</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-max-examples&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+</span><span data-line="247">        <span class="n">exclude_patterns</span><span class="o">=</span><span class="n">cli_exclude_patterns</span><span class="p">,</span>
+</span><span data-line="248">        <span class="n">include_patterns</span><span class="o">=</span><span class="n">cli_include_patterns</span><span class="p">,</span>
+</span><span data-line="249">        <span class="n">methods</span><span class="o">=</span><span class="n">cli_methods</span><span class="p">,</span>
+</span><span data-line="250">        <span class="n">seed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-seed&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+</span><span data-line="251">        <span class="n">verbose</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-verbose&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span data-line="252">        <span class="n">schemathesis</span><span class="o">=</span><span class="n">schemathesis_config</span><span class="p">,</span>
+</span><span data-line="253">        <span class="n">report</span><span class="o">=</span><span class="n">report_config</span><span class="p">,</span>
+</span><span data-line="254">        <span class="n">stateful</span><span class="o">=</span><span class="n">stateful_config</span><span class="p">,</span>
+</span><span data-line="255">        <span class="n">websocket</span><span class="o">=</span><span class="n">websocket_config</span><span class="p">,</span>
+</span><span data-line="256">    <span class="p">)</span>
+</span><span data-line="257">
+</span><span data-line="258">    <span class="c1"># Merge configs: CLI &gt; pyproject.toml &gt; defaults</span>
+</span><span data-line="259">    <span class="n">route_config</span> <span class="o">=</span> <span class="n">merge_configs</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">file_config</span><span class="p">)</span>
+</span><span data-line="260">
+</span><span data-line="261">    <span class="c1"># If exclude/include patterns are empty after merge, use sensible defaults</span>
+</span><span data-line="262">    <span class="k">if</span> <span class="ow">not</span> <span class="n">route_config</span><span class="o">.</span><span class="n">exclude_patterns</span><span class="p">:</span>
+</span><span data-line="263">        <span class="n">route_config</span><span class="o">.</span><span class="n">exclude_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;/metrics&quot;</span><span class="p">,</span> <span class="s2">&quot;/docs&quot;</span><span class="p">,</span> <span class="s2">&quot;/schema*&quot;</span><span class="p">,</span> <span class="s2">&quot;/openapi*&quot;</span><span class="p">]</span>
+</span><span data-line="264">
+</span><span data-line="265">    <span class="c1"># Load the app (check CLI first, then pyproject.toml)</span>
+</span><span data-line="266">    <span class="n">app_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-app&quot;</span><span class="p">)</span>
+</span><span data-line="267">    <span class="k">if</span> <span class="ow">not</span> <span class="n">app_path</span><span class="p">:</span>
+</span><span data-line="268">        <span class="c1"># Try to get from pyproject.toml</span>
+</span><span data-line="269">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="270">            <span class="n">rootdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">rootpath</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;rootpath&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+</span><span data-line="271">            <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
+</span><span data-line="272">            <span class="k">if</span> <span class="n">pyproject_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+</span><span data-line="273">                <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span data-line="274">
+</span><span data-line="275">                <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+</span><span data-line="276">                    <span class="kn">import</span><span class="w"> </span><span class="nn">tomllib</span>
+</span><span data-line="277">                <span class="k">else</span><span class="p">:</span>
+</span><span data-line="278">                    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="279">                        <span class="kn">import</span><span class="w"> </span><span class="nn">tomli</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tomllib</span>  <span class="c1"># type: ignore[import-untyped]</span>
+</span><span data-line="280">                    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span data-line="281">                        <span class="n">tomllib</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+</span><span data-line="282">
+</span><span data-line="283">                <span class="k">if</span> <span class="n">tomllib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="284">                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span data-line="285">                        <span class="n">data</span> <span class="o">=</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span><span data-line="286">                    <span class="n">app_path</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tool&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pytest-routes&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">)</span>
+</span><span data-line="287">        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span data-line="288">            <span class="k">pass</span>
+</span><span data-line="289">
+</span><span data-line="290">    <span class="k">if</span> <span class="ow">not</span> <span class="n">app_path</span><span class="p">:</span>
+</span><span data-line="291">        <span class="k">return</span>
+</span><span data-line="292">
+</span><span data-line="293">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="294">        <span class="n">module_path</span><span class="p">,</span> <span class="n">attr</span> <span class="o">=</span> <span class="n">app_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span data-line="295">        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span>
+</span><span data-line="296">        <span class="n">app</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+</span><span data-line="297">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="298">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">pytest-routes: Failed to load app &#39;</span><span class="si">{</span><span class="n">app_path</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="299">        <span class="k">return</span>
+</span><span data-line="300">
+</span><span data-line="301">    <span class="c1"># Discover routes</span>
+</span><span data-line="302">    <span class="n">extractor</span> <span class="o">=</span> <span class="n">get_extractor</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span data-line="303">    <span class="n">routes</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">extract_routes</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span data-line="304">    <span class="n">_all_routes</span> <span class="o">=</span> <span class="n">routes</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span><span data-line="305">
+</span><span data-line="306">    <span class="c1"># Filter routes</span>
+</span><span data-line="307">    <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">routes</span><span class="p">:</span>
+</span><span data-line="308">        <span class="c1"># Check method filter</span>
+</span><span data-line="309">        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">m</span> <span class="ow">in</span> <span class="n">route_config</span><span class="o">.</span><span class="n">methods</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">):</span>
+</span><span data-line="310">            <span class="k">continue</span>
+</span><span data-line="311">
+</span><span data-line="312">        <span class="c1"># Check exclude patterns</span>
+</span><span data-line="313">        <span class="n">excluded</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="314">        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">route_config</span><span class="o">.</span><span class="n">exclude_patterns</span><span class="p">:</span>
+</span><span data-line="315">            <span class="k">if</span> <span class="n">_matches_pattern</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span><span data-line="316">                <span class="n">excluded</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="317">                <span class="k">break</span>
+</span><span data-line="318">        <span class="k">if</span> <span class="n">excluded</span><span class="p">:</span>
+</span><span data-line="319">            <span class="k">continue</span>
+</span><span data-line="320">
+</span><span data-line="321">        <span class="c1"># Check include patterns (if specified)</span>
+</span><span data-line="322">        <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">include_patterns</span><span class="p">:</span>
+</span><span data-line="323">            <span class="n">included</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="324">            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">route_config</span><span class="o">.</span><span class="n">include_patterns</span><span class="p">:</span>
+</span><span data-line="325">                <span class="k">if</span> <span class="n">_matches_pattern</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span><span data-line="326">                    <span class="n">included</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="327">                    <span class="k">break</span>
+</span><span data-line="328">            <span class="k">if</span> <span class="ow">not</span> <span class="n">included</span><span class="p">:</span>
+</span><span data-line="329">                <span class="k">continue</span>
+</span><span data-line="330">
+</span><span data-line="331">        <span class="n">_discovered_routes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="332">
+</span><span data-line="333">    <span class="c1"># Create runner</span>
+</span><span data-line="334">    <span class="n">_route_runner</span> <span class="o">=</span> <span class="n">RouteTestRunner</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">route_config</span><span class="p">)</span>
+</span><span data-line="335">
+</span><span data-line="336">    <span class="c1"># Store config for later use</span>
+</span><span data-line="337">    <span class="n">_route_config</span> <span class="o">=</span> <span class="n">route_config</span>
+</span><span data-line="338">
+</span><span data-line="339">    <span class="c1"># Initialize metrics if reporting is enabled</span>
+</span><span data-line="340">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+</span><span data-line="341">        <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunMetrics</span>
+</span><span data-line="342">        <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting.route_coverage</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoverageMetrics</span>
+</span><span data-line="343">
+</span><span data-line="344">        <span class="n">_test_metrics</span> <span class="o">=</span> <span class="n">RunMetrics</span><span class="p">()</span>
+</span><span data-line="345">        <span class="n">_coverage_metrics</span> <span class="o">=</span> <span class="n">CoverageMetrics</span><span class="p">()</span>
+</span><span data-line="346">
+</span><span data-line="347">        <span class="c1"># Add all routes to coverage tracking</span>
+</span><span data-line="348">        <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">_all_routes</span><span class="p">:</span>
+</span><span data-line="349">            <span class="n">_coverage_metrics</span><span class="o">.</span><span class="n">add_route</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="350">
+</span><span data-line="351">    <span class="c1"># Print discovered routes</span>
+</span><span data-line="352">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="353">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pytest-routes: Route Discovery&quot;</span><span class="p">)</span>
+</span><span data-line="354">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="355">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;App: </span><span class="si">{</span><span class="n">app_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="356">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total routes found: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">routes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="357">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Routes after filtering: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">_discovered_routes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="358">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max examples: </span><span class="si">{</span><span class="n">route_config</span><span class="o">.</span><span class="n">max_examples</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="359">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Methods: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">route_config</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="360">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">exclude_patterns</span><span class="p">:</span>
+</span><span data-line="361">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exclude patterns: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">route_config</span><span class="o">.</span><span class="n">exclude_patterns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="362">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">include_patterns</span><span class="p">:</span>
+</span><span data-line="363">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Include patterns: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">route_config</span><span class="o">.</span><span class="n">include_patterns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="364">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="365">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Random seed: </span><span class="si">{</span><span class="n">route_config</span><span class="o">.</span><span class="n">seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="366">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">schemathesis</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+</span><span data-line="367">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Schemathesis: enabled (schema: </span><span class="si">{</span><span class="n">route_config</span><span class="o">.</span><span class="n">schemathesis</span><span class="o">.</span><span class="n">schema_path</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span data-line="368">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">stateful</span> <span class="ow">and</span> <span class="n">route_config</span><span class="o">.</span><span class="n">stateful</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+</span><span data-line="369">        <span class="n">steps</span> <span class="o">=</span> <span class="n">route_config</span><span class="o">.</span><span class="n">stateful</span><span class="o">.</span><span class="n">step_count</span>
+</span><span data-line="370">        <span class="n">examples</span> <span class="o">=</span> <span class="n">route_config</span><span class="o">.</span><span class="n">stateful</span><span class="o">.</span><span class="n">max_examples</span>
+</span><span data-line="371">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stateful testing: enabled (steps: </span><span class="si">{</span><span class="n">steps</span><span class="si">}</span><span class="s2">, examples: </span><span class="si">{</span><span class="n">examples</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span data-line="372">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">websocket</span> <span class="ow">and</span> <span class="n">route_config</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+</span><span data-line="373">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WebSocket testing: enabled (max messages: </span><span class="si">{</span><span class="n">route_config</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">max_messages</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</span><span data-line="374">    <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+</span><span data-line="375">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Report: </span><span class="si">{</span><span class="n">route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">output_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="376">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Routes to test:&quot;</span><span class="p">)</span>
+</span><span data-line="377">    <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">_discovered_routes</span><span class="p">:</span>
+</span><span data-line="378">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span><span class="si">:</span><span class="s2">20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="379">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="380">
+</span><span data-line="381">
+<div class="viewcode-block" id="route_config">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.route_config">[docs]</a>
+</span><span data-line="382"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+</span><span data-line="383"><span class="k">def</span><span class="w"> </span><span class="nf">route_config</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RouteTestConfig</span><span class="p">:</span>
+</span><span data-line="384"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Build configuration from CLI options and pyproject.toml.</span>
+</span><span data-line="385">
+</span><span data-line="386"><span class="sd">    Configuration priority (highest to lowest):</span>
+</span><span data-line="387"><span class="sd">    1. CLI options</span>
+</span><span data-line="388"><span class="sd">    2. pyproject.toml [tool.pytest-routes]</span>
+</span><span data-line="389"><span class="sd">    3. Built-in defaults</span>
+</span><span data-line="390"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="391">    <span class="n">config</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span>
+</span><span data-line="392">
+</span><span data-line="393">    <span class="c1"># Load from pyproject.toml first</span>
+</span><span data-line="394">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="395">        <span class="n">rootdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">rootpath</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;rootpath&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+</span><span data-line="396">        <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
+</span><span data-line="397">        <span class="n">file_config</span> <span class="o">=</span> <span class="n">load_config_from_pyproject</span><span class="p">(</span><span class="n">pyproject_path</span> <span class="k">if</span> <span class="n">pyproject_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+</span><span data-line="398">    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+</span><span data-line="399">        <span class="n">file_config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">()</span>
+</span><span data-line="400">
+</span><span data-line="401">    <span class="c1"># Build CLI config</span>
+</span><span data-line="402">    <span class="n">cli_exclude_patterns</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="403">    <span class="k">if</span> <span class="n">exclude_str</span> <span class="o">:=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-exclude&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span data-line="404">        <span class="n">cli_exclude_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">exclude_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+</span><span data-line="405">
+</span><span data-line="406">    <span class="n">cli_include_patterns</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="407">    <span class="k">if</span> <span class="n">include_str</span> <span class="o">:=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-include&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span data-line="408">        <span class="n">cli_include_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">include_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+</span><span data-line="409">
+</span><span data-line="410">    <span class="n">cli_methods_str</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-methods&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;GET,POST,PUT,PATCH,DELETE&quot;</span><span class="p">)</span>
+</span><span data-line="411">    <span class="n">cli_methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">cli_methods_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+</span><span data-line="412">
+</span><span data-line="413">    <span class="n">cli_config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="414">        <span class="n">max_examples</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-max-examples&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+</span><span data-line="415">        <span class="n">exclude_patterns</span><span class="o">=</span><span class="n">cli_exclude_patterns</span><span class="p">,</span>
+</span><span data-line="416">        <span class="n">include_patterns</span><span class="o">=</span><span class="n">cli_include_patterns</span><span class="p">,</span>
+</span><span data-line="417">        <span class="n">methods</span><span class="o">=</span><span class="n">cli_methods</span><span class="p">,</span>
+</span><span data-line="418">        <span class="n">seed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-seed&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+</span><span data-line="419">    <span class="p">)</span>
+</span><span data-line="420">
+</span><span data-line="421">    <span class="c1"># Merge configs: CLI &gt; pyproject.toml &gt; defaults</span>
+</span><span data-line="422">    <span class="n">merged</span> <span class="o">=</span> <span class="n">merge_configs</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">file_config</span><span class="p">)</span>
+</span><span data-line="423">
+</span><span data-line="424">    <span class="c1"># If exclude patterns are empty, use sensible defaults</span>
+</span><span data-line="425">    <span class="k">if</span> <span class="ow">not</span> <span class="n">merged</span><span class="o">.</span><span class="n">exclude_patterns</span><span class="p">:</span>
+</span><span data-line="426">        <span class="n">merged</span><span class="o">.</span><span class="n">exclude_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;/metrics&quot;</span><span class="p">,</span> <span class="s2">&quot;/docs&quot;</span><span class="p">,</span> <span class="s2">&quot;/schema*&quot;</span><span class="p">,</span> <span class="s2">&quot;/openapi*&quot;</span><span class="p">]</span>
+</span><span data-line="427">
+</span><span data-line="428">    <span class="k">return</span> <span class="n">merged</span></div>
+
+</span><span data-line="429">
+</span><span data-line="430">
+<div class="viewcode-block" id="asgi_app">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.asgi_app">[docs]</a>
+</span><span data-line="431"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+</span><span data-line="432"><span class="k">def</span><span class="w"> </span><span class="nf">asgi_app</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+</span><span data-line="433"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the ASGI application.&quot;&quot;&quot;</span>
+</span><span data-line="434">    <span class="n">app_path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--routes-app&quot;</span><span class="p">)</span>
+</span><span data-line="435">
+</span><span data-line="436">    <span class="k">if</span> <span class="n">app_path</span><span class="p">:</span>
+</span><span data-line="437">        <span class="n">module_path</span><span class="p">,</span> <span class="n">attr</span> <span class="o">=</span> <span class="n">app_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span data-line="438">        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span>
+</span><span data-line="439">        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+</span><span data-line="440">
+</span><span data-line="441">    <span class="c1"># Try to find from conftest or pytest fixture</span>
+</span><span data-line="442">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="443">        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">getfixturevalue</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">)</span>
+</span><span data-line="444">    <span class="k">except</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureLookupError</span><span class="p">:</span>
+</span><span data-line="445">        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;No ASGI app provided. Use --routes-app or define an &#39;app&#39; fixture.&quot;</span><span class="p">)</span>
+</span><span data-line="446">        <span class="k">return</span> <span class="kc">None</span></div>
+
+</span><span data-line="447">
+</span><span data-line="448">
+<div class="viewcode-block" id="discovered_routes">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.discovered_routes">[docs]</a>
+</span><span data-line="449"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+</span><span data-line="450"><span class="k">def</span><span class="w"> </span><span class="nf">discovered_routes</span><span class="p">(</span><span class="n">asgi_app</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">route_config</span><span class="p">:</span> <span class="n">RouteTestConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RouteInfo</span><span class="p">]:</span>
+</span><span data-line="451"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Discover routes from the ASGI application.&quot;&quot;&quot;</span>
+</span><span data-line="452">    <span class="n">extractor</span> <span class="o">=</span> <span class="n">get_extractor</span><span class="p">(</span><span class="n">asgi_app</span><span class="p">)</span>
+</span><span data-line="453">    <span class="n">routes</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">extract_routes</span><span class="p">(</span><span class="n">asgi_app</span><span class="p">)</span>
+</span><span data-line="454">
+</span><span data-line="455">    <span class="c1"># Filter routes based on config</span>
+</span><span data-line="456">    <span class="n">filtered</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="457">    <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">routes</span><span class="p">:</span>
+</span><span data-line="458">        <span class="c1"># Check method filter</span>
+</span><span data-line="459">        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">m</span> <span class="ow">in</span> <span class="n">route_config</span><span class="o">.</span><span class="n">methods</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">):</span>
+</span><span data-line="460">            <span class="k">continue</span>
+</span><span data-line="461">
+</span><span data-line="462">        <span class="c1"># Check exclude patterns</span>
+</span><span data-line="463">        <span class="n">excluded</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="464">        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">route_config</span><span class="o">.</span><span class="n">exclude_patterns</span><span class="p">:</span>
+</span><span data-line="465">            <span class="k">if</span> <span class="n">_matches_pattern</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span><span data-line="466">                <span class="n">excluded</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="467">                <span class="k">break</span>
+</span><span data-line="468">        <span class="k">if</span> <span class="n">excluded</span><span class="p">:</span>
+</span><span data-line="469">            <span class="k">continue</span>
+</span><span data-line="470">
+</span><span data-line="471">        <span class="c1"># Check include patterns (if specified)</span>
+</span><span data-line="472">        <span class="k">if</span> <span class="n">route_config</span><span class="o">.</span><span class="n">include_patterns</span><span class="p">:</span>
+</span><span data-line="473">            <span class="n">included</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="474">            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">route_config</span><span class="o">.</span><span class="n">include_patterns</span><span class="p">:</span>
+</span><span data-line="475">                <span class="k">if</span> <span class="n">_matches_pattern</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span><span data-line="476">                    <span class="n">included</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="477">                    <span class="k">break</span>
+</span><span data-line="478">            <span class="k">if</span> <span class="ow">not</span> <span class="n">included</span><span class="p">:</span>
+</span><span data-line="479">                <span class="k">continue</span>
+</span><span data-line="480">
+</span><span data-line="481">        <span class="n">filtered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="482">
+</span><span data-line="483">    <span class="k">return</span> <span class="n">filtered</span></div>
+
+</span><span data-line="484">
+</span><span data-line="485">
+<div class="viewcode-block" id="route_runner">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.route_runner">[docs]</a>
+</span><span data-line="486"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span data-line="487"><span class="k">def</span><span class="w"> </span><span class="nf">route_runner</span><span class="p">(</span><span class="n">asgi_app</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">route_config</span><span class="p">:</span> <span class="n">RouteTestConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RouteTestRunner</span><span class="p">:</span>
+</span><span data-line="488"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide configured test runner.&quot;&quot;&quot;</span>
+</span><span data-line="489">    <span class="k">return</span> <span class="n">RouteTestRunner</span><span class="p">(</span><span class="n">asgi_app</span><span class="p">,</span> <span class="n">route_config</span><span class="p">)</span></div>
+
+</span><span data-line="490">
+</span><span data-line="491">
+</span><span data-line="492"><span class="k">def</span><span class="w"> </span><span class="nf">_matches_pattern</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span data-line="493"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if path matches a glob-like pattern.&quot;&quot;&quot;</span>
+</span><span data-line="494">    <span class="kn">import</span><span class="w"> </span><span class="nn">fnmatch</span>
+</span><span data-line="495">
+</span><span data-line="496">    <span class="k">return</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+</span><span data-line="497">
+</span><span data-line="498">
+<div class="viewcode-block" id="RouteTestItem">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestItem">[docs]</a>
+</span><span data-line="499"><span class="k">class</span><span class="w"> </span><span class="nc">RouteTestItem</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">):</span>
+</span><span data-line="500"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom pytest Item for individual route smoke tests.</span>
+</span><span data-line="501">
+</span><span data-line="502"><span class="sd">    This class represents a single test case for a discovered route. Each RouteTestItem</span>
+</span><span data-line="503"><span class="sd">    executes property-based tests against one route using Hypothesis to generate test data.</span>
+</span><span data-line="504"><span class="sd">    The item is created during pytest&#39;s collection phase and executed during the test phase.</span>
+</span><span data-line="505">
+</span><span data-line="506"><span class="sd">    Attributes:</span>
+</span><span data-line="507"><span class="sd">        route: The RouteInfo object containing route metadata (path, methods, parameters).</span>
+</span><span data-line="508"><span class="sd">        runner: The RouteTestRunner instance used to execute the route test.</span>
+</span><span data-line="509"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="510">
+<div class="viewcode-block" id="RouteTestItem.__init__">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestItem.__init__">[docs]</a>
+</span><span data-line="511">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Collector</span><span class="p">,</span> <span class="n">route</span><span class="p">:</span> <span class="n">RouteInfo</span><span class="p">,</span> <span class="n">runner</span><span class="p">:</span> <span class="n">RouteTestRunner</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="512"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a RouteTestItem.</span>
+</span><span data-line="513">
+</span><span data-line="514"><span class="sd">        Args:</span>
+</span><span data-line="515"><span class="sd">            name: The test item name (e.g., &quot;test_GET_users_id&quot;).</span>
+</span><span data-line="516"><span class="sd">            parent: The parent pytest Collector that owns this item.</span>
+</span><span data-line="517"><span class="sd">            route: The RouteInfo object describing the route to test.</span>
+</span><span data-line="518"><span class="sd">            runner: The RouteTestRunner instance for executing route tests.</span>
+</span><span data-line="519"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="520">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+</span><span data-line="521">        <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="n">route</span>
+</span><span data-line="522">        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">runner</span></div>
+
+</span><span data-line="523">
+<div class="viewcode-block" id="RouteTestItem.runtest">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestItem.runtest">[docs]</a>
+</span><span data-line="524">    <span class="k">def</span><span class="w"> </span><span class="nf">runtest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="525"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the route smoke test.</span>
+</span><span data-line="526">
+</span><span data-line="527"><span class="sd">        This pytest hook runs the actual test logic for this item. It executes</span>
+</span><span data-line="528"><span class="sd">        the async route test using the RouteTestRunner, handling the async/sync</span>
+</span><span data-line="529"><span class="sd">        boundary with asyncio. The test uses Hypothesis to generate multiple</span>
+</span><span data-line="530"><span class="sd">        examples of valid requests and validates the route&#39;s responses.</span>
+</span><span data-line="531">
+</span><span data-line="532"><span class="sd">        Raises:</span>
+</span><span data-line="533"><span class="sd">            RouteTestError: If the route test fails (e.g., unexpected status code,</span>
+</span><span data-line="534"><span class="sd">                validation error, or exception during test execution).</span>
+</span><span data-line="535"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="536">        <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="537">
+</span><span data-line="538">        <span class="c1"># Run the test</span>
+</span><span data-line="539">        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="540">            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">test_route_async</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="541">
+</span><span data-line="542">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="543">            <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_running_loop</span><span class="p">()</span>
+</span><span data-line="544">            <span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
+</span><span data-line="545">
+</span><span data-line="546">            <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+</span><span data-line="547">                <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">run_test</span><span class="p">())</span>
+</span><span data-line="548">                <span class="n">result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+</span><span data-line="549">        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+</span><span data-line="550">            <span class="n">result</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_test</span><span class="p">())</span>
+</span><span data-line="551">
+</span><span data-line="552">        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]:</span>
+</span><span data-line="553">            <span class="k">raise</span> <span class="n">RouteTestError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;Unknown error&quot;</span><span class="p">))</span></div>
+
+</span><span data-line="554">
+<div class="viewcode-block" id="RouteTestItem.repr_failure">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestItem.repr_failure">[docs]</a>
+</span><span data-line="555">    <span class="k">def</span><span class="w"> </span><span class="nf">repr_failure</span><span class="p">(</span>
+</span><span data-line="556">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="557">        <span class="n">excinfo</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ExceptionInfo</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">],</span>
+</span><span data-line="558">        <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="559">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="560"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Represent a test failure for reporting.</span>
+</span><span data-line="561">
+</span><span data-line="562"><span class="sd">        This pytest hook formats the failure output shown to users when a test fails.</span>
+</span><span data-line="563"><span class="sd">        For RouteTestError exceptions, it provides a custom formatted message with</span>
+</span><span data-line="564"><span class="sd">        route details and error information. For other exceptions, it delegates to</span>
+</span><span data-line="565"><span class="sd">        the default pytest failure representation.</span>
+</span><span data-line="566">
+</span><span data-line="567"><span class="sd">        Args:</span>
+</span><span data-line="568"><span class="sd">            excinfo: Exception information captured by pytest.</span>
+</span><span data-line="569"><span class="sd">            style: Optional formatting style for the failure representation.</span>
+</span><span data-line="570">
+</span><span data-line="571"><span class="sd">        Returns:</span>
+</span><span data-line="572"><span class="sd">            A formatted string representation of the test failure.</span>
+</span><span data-line="573"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="574">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">excinfo</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">RouteTestError</span><span class="p">):</span>
+</span><span data-line="575">            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">excinfo</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span data-line="576">        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">repr_failure</span><span class="p">(</span><span class="n">excinfo</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span data-line="577">        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+</span><span data-line="578">
+<div class="viewcode-block" id="RouteTestItem.reportinfo">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestItem.reportinfo">[docs]</a>
+</span><span data-line="579">    <span class="k">def</span><span class="w"> </span><span class="nf">reportinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="580"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Report test information for pytest&#39;s output.</span>
+</span><span data-line="581">
+</span><span data-line="582"><span class="sd">        This pytest hook provides metadata about the test for reporting purposes,</span>
+</span><span data-line="583"><span class="sd">        including the file path, line number (if applicable), and a human-readable</span>
+</span><span data-line="584"><span class="sd">        description of what&#39;s being tested.</span>
+</span><span data-line="585">
+</span><span data-line="586"><span class="sd">        Returns:</span>
+</span><span data-line="587"><span class="sd">            A tuple of (file_path, line_number, description) where:</span>
+</span><span data-line="588"><span class="sd">                - file_path: Path to the test file (str)</span>
+</span><span data-line="589"><span class="sd">                - line_number: Line number in the file (None for synthetic tests)</span>
+</span><span data-line="590"><span class="sd">                - description: Human-readable test description (e.g., &quot;GET, POST /users/{id}&quot;)</span>
+</span><span data-line="591"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="592">        <span class="k">return</span> <span class="p">(</span>
+</span><span data-line="593">            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span>
+</span><span data-line="594">            <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="595">            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span data-line="596">        <span class="p">)</span></div>
+</div>
+
+</span><span data-line="597">
+</span><span data-line="598">
+<div class="viewcode-block" id="RouteTestError">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestError">[docs]</a>
+</span><span data-line="599"><span class="k">class</span><span class="w"> </span><span class="nc">RouteTestError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+</span><span data-line="600"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when a route smoke test fails.</span>
+</span><span data-line="601">
+</span><span data-line="602"><span class="sd">    This exception is raised by RouteTestItem.runtest() when a route test does not</span>
+</span><span data-line="603"><span class="sd">    pass. It contains the route information and error details for reporting.</span>
+</span><span data-line="604">
+</span><span data-line="605"><span class="sd">    Attributes:</span>
+</span><span data-line="606"><span class="sd">        route: The RouteInfo object for the route that failed testing.</span>
+</span><span data-line="607"><span class="sd">        error: A string describing what went wrong during the test.</span>
+</span><span data-line="608"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="609">
+<div class="viewcode-block" id="RouteTestError.__init__">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestError.__init__">[docs]</a>
+</span><span data-line="610">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="p">:</span> <span class="n">RouteInfo</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="611"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a RouteTestError.</span>
+</span><span data-line="612">
+</span><span data-line="613"><span class="sd">        Args:</span>
+</span><span data-line="614"><span class="sd">            route: The RouteInfo object for the route that failed.</span>
+</span><span data-line="615"><span class="sd">            error: Description of the test failure (e.g., &quot;Expected 200, got 500&quot;).</span>
+</span><span data-line="616"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="617">        <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="n">route</span>
+</span><span data-line="618">        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
+</span><span data-line="619">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Route test failed: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+</span><span data-line="620">
+</span><span data-line="621">
+<div class="viewcode-block" id="StatefulTestItem">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.StatefulTestItem">[docs]</a>
+</span><span data-line="622"><span class="k">class</span><span class="w"> </span><span class="nc">StatefulTestItem</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">):</span>
+</span><span data-line="623"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom pytest Item for stateful API testing.</span>
+</span><span data-line="624">
+</span><span data-line="625"><span class="sd">    This item represents a stateful test execution using Hypothesis state machines</span>
+</span><span data-line="626"><span class="sd">    to test API workflows and sequences.</span>
+</span><span data-line="627">
+</span><span data-line="628"><span class="sd">    Attributes:</span>
+</span><span data-line="629"><span class="sd">        runner: The StatefulTestRunner instance for executing stateful tests.</span>
+</span><span data-line="630"><span class="sd">        config: The StatefulTestConfig with test parameters.</span>
+</span><span data-line="631"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="632">
+<div class="viewcode-block" id="StatefulTestItem.__init__">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.StatefulTestItem.__init__">[docs]</a>
+</span><span data-line="633">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="634">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="635">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="636">        <span class="n">parent</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Collector</span><span class="p">,</span>
+</span><span data-line="637">        <span class="n">runner</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+</span><span data-line="638">        <span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+</span><span data-line="639">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="640"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a StatefulTestItem.</span>
+</span><span data-line="641">
+</span><span data-line="642"><span class="sd">        Args:</span>
+</span><span data-line="643"><span class="sd">            name: The test item name.</span>
+</span><span data-line="644"><span class="sd">            parent: The parent pytest Collector.</span>
+</span><span data-line="645"><span class="sd">            runner: The StatefulTestRunner instance.</span>
+</span><span data-line="646"><span class="sd">            config: The StatefulTestConfig instance.</span>
+</span><span data-line="647"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="648">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+</span><span data-line="649">        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">runner</span>
+</span><span data-line="650">        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span></div>
+
+</span><span data-line="651">
+<div class="viewcode-block" id="StatefulTestItem.runtest">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.StatefulTestItem.runtest">[docs]</a>
+</span><span data-line="652">    <span class="k">def</span><span class="w"> </span><span class="nf">runtest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="653"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the stateful test.</span>
+</span><span data-line="654">
+</span><span data-line="655"><span class="sd">        Runs the state machine and collects results. Raises an exception</span>
+</span><span data-line="656"><span class="sd">        if any test sequences fail.</span>
+</span><span data-line="657">
+</span><span data-line="658"><span class="sd">        Raises:</span>
+</span><span data-line="659"><span class="sd">            StatefulTestError: If any stateful test sequences fail.</span>
+</span><span data-line="660"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="661">        <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="662">
+</span><span data-line="663">        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="664">            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">run_stateful_tests</span><span class="p">()</span>
+</span><span data-line="665">
+</span><span data-line="666">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="667">            <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_running_loop</span><span class="p">()</span>
+</span><span data-line="668">            <span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
+</span><span data-line="669">
+</span><span data-line="670">            <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+</span><span data-line="671">                <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">run_test</span><span class="p">())</span>
+</span><span data-line="672">                <span class="n">results</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+</span><span data-line="673">        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+</span><span data-line="674">            <span class="n">results</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_test</span><span class="p">())</span>
+</span><span data-line="675">
+</span><span data-line="676">        <span class="n">failures</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">passed</span><span class="p">]</span>
+</span><span data-line="677">        <span class="k">if</span> <span class="n">failures</span><span class="p">:</span>
+</span><span data-line="678">            <span class="n">error_messages</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="679">            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">failures</span><span class="p">:</span>
+</span><span data-line="680">                <span class="n">error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">test_name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+</span><span data-line="681">                <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span>
+</span><span data-line="682">                    <span class="n">error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="683">            <span class="k">raise</span> <span class="n">StatefulTestError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_messages</span><span class="p">))</span></div>
+
+</span><span data-line="684">
+<div class="viewcode-block" id="StatefulTestItem.repr_failure">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.StatefulTestItem.repr_failure">[docs]</a>
+</span><span data-line="685">    <span class="k">def</span><span class="w"> </span><span class="nf">repr_failure</span><span class="p">(</span>
+</span><span data-line="686">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="687">        <span class="n">excinfo</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ExceptionInfo</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">],</span>
+</span><span data-line="688">        <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="689">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="690"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Represent a test failure for reporting.</span>
+</span><span data-line="691">
+</span><span data-line="692"><span class="sd">        Args:</span>
+</span><span data-line="693"><span class="sd">            excinfo: Exception information captured by pytest.</span>
+</span><span data-line="694"><span class="sd">            style: Optional formatting style for the failure representation.</span>
+</span><span data-line="695">
+</span><span data-line="696"><span class="sd">        Returns:</span>
+</span><span data-line="697"><span class="sd">            A formatted string representation of the test failure.</span>
+</span><span data-line="698"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="699">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">excinfo</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">StatefulTestError</span><span class="p">):</span>
+</span><span data-line="700">            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">excinfo</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span data-line="701">        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">repr_failure</span><span class="p">(</span><span class="n">excinfo</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span data-line="702">        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+</span><span data-line="703">
+<div class="viewcode-block" id="StatefulTestItem.reportinfo">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.StatefulTestItem.reportinfo">[docs]</a>
+</span><span data-line="704">    <span class="k">def</span><span class="w"> </span><span class="nf">reportinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="705"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Report test information for pytest&#39;s output.</span>
+</span><span data-line="706">
+</span><span data-line="707"><span class="sd">        Returns:</span>
+</span><span data-line="708"><span class="sd">            A tuple of (file_path, line_number, description).</span>
+</span><span data-line="709"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="710">        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;stateful: API workflow testing&quot;</span></div>
+</div>
+
+</span><span data-line="711">
+</span><span data-line="712">
+<div class="viewcode-block" id="StatefulTestError">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.StatefulTestError">[docs]</a>
+</span><span data-line="713"><span class="k">class</span><span class="w"> </span><span class="nc">StatefulTestError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+</span><span data-line="714"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when stateful tests fail.&quot;&quot;&quot;</span></div>
+
+</span><span data-line="715">
+</span><span data-line="716">
+<div class="viewcode-block" id="WebSocketTestItem">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.WebSocketTestItem">[docs]</a>
+</span><span data-line="717"><span class="k">class</span><span class="w"> </span><span class="nc">WebSocketTestItem</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">):</span>
+</span><span data-line="718"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom pytest Item for WebSocket route testing.</span>
+</span><span data-line="719">
+</span><span data-line="720"><span class="sd">    This item represents a WebSocket test execution for a single route.</span>
+</span><span data-line="721">
+</span><span data-line="722"><span class="sd">    Attributes:</span>
+</span><span data-line="723"><span class="sd">        route: The RouteInfo for the WebSocket route.</span>
+</span><span data-line="724"><span class="sd">        runner: The WebSocketTestRunner instance.</span>
+</span><span data-line="725"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="726">
+<div class="viewcode-block" id="WebSocketTestItem.__init__">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.WebSocketTestItem.__init__">[docs]</a>
+</span><span data-line="727">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="728">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="729">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="730">        <span class="n">parent</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Collector</span><span class="p">,</span>
+</span><span data-line="731">        <span class="n">route</span><span class="p">:</span> <span class="n">RouteInfo</span><span class="p">,</span>
+</span><span data-line="732">        <span class="n">runner</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+</span><span data-line="733">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="734"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a WebSocketTestItem.</span>
+</span><span data-line="735">
+</span><span data-line="736"><span class="sd">        Args:</span>
+</span><span data-line="737"><span class="sd">            name: The test item name.</span>
+</span><span data-line="738"><span class="sd">            parent: The parent pytest Collector.</span>
+</span><span data-line="739"><span class="sd">            route: The RouteInfo for the WebSocket route.</span>
+</span><span data-line="740"><span class="sd">            runner: The WebSocketTestRunner instance.</span>
+</span><span data-line="741"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="742">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+</span><span data-line="743">        <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="n">route</span>
+</span><span data-line="744">        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">runner</span></div>
+
+</span><span data-line="745">
+<div class="viewcode-block" id="WebSocketTestItem.runtest">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.WebSocketTestItem.runtest">[docs]</a>
+</span><span data-line="746">    <span class="k">def</span><span class="w"> </span><span class="nf">runtest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="747"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the WebSocket test.</span>
+</span><span data-line="748">
+</span><span data-line="749"><span class="sd">        Runs property-based tests against the WebSocket route.</span>
+</span><span data-line="750">
+</span><span data-line="751"><span class="sd">        Raises:</span>
+</span><span data-line="752"><span class="sd">            WebSocketTestError: If the WebSocket test fails.</span>
+</span><span data-line="753"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="754">        <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="755">
+</span><span data-line="756">        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="757">            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">test_route_async</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="758">
+</span><span data-line="759">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="760">            <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_running_loop</span><span class="p">()</span>
+</span><span data-line="761">            <span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
+</span><span data-line="762">
+</span><span data-line="763">            <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+</span><span data-line="764">                <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">run_test</span><span class="p">())</span>
+</span><span data-line="765">                <span class="n">result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+</span><span data-line="766">        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+</span><span data-line="767">            <span class="n">result</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_test</span><span class="p">())</span>
+</span><span data-line="768">
+</span><span data-line="769">        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]:</span>
+</span><span data-line="770">            <span class="k">raise</span> <span class="n">WebSocketTestError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;Unknown error&quot;</span><span class="p">))</span></div>
+
+</span><span data-line="771">
+<div class="viewcode-block" id="WebSocketTestItem.repr_failure">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.WebSocketTestItem.repr_failure">[docs]</a>
+</span><span data-line="772">    <span class="k">def</span><span class="w"> </span><span class="nf">repr_failure</span><span class="p">(</span>
+</span><span data-line="773">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="774">        <span class="n">excinfo</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ExceptionInfo</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">],</span>
+</span><span data-line="775">        <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="776">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="777"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Represent a test failure for reporting.</span>
+</span><span data-line="778">
+</span><span data-line="779"><span class="sd">        Args:</span>
+</span><span data-line="780"><span class="sd">            excinfo: Exception information captured by pytest.</span>
+</span><span data-line="781"><span class="sd">            style: Optional formatting style for the failure representation.</span>
+</span><span data-line="782">
+</span><span data-line="783"><span class="sd">        Returns:</span>
+</span><span data-line="784"><span class="sd">            A formatted string representation of the test failure.</span>
+</span><span data-line="785"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="786">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">excinfo</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">WebSocketTestError</span><span class="p">):</span>
+</span><span data-line="787">            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">excinfo</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span data-line="788">        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">repr_failure</span><span class="p">(</span><span class="n">excinfo</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span data-line="789">        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+</span><span data-line="790">
+<div class="viewcode-block" id="WebSocketTestItem.reportinfo">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.WebSocketTestItem.reportinfo">[docs]</a>
+</span><span data-line="791">    <span class="k">def</span><span class="w"> </span><span class="nf">reportinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="792"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Report test information for pytest&#39;s output.</span>
+</span><span data-line="793">
+</span><span data-line="794"><span class="sd">        Returns:</span>
+</span><span data-line="795"><span class="sd">            A tuple of (file_path, line_number, description).</span>
+</span><span data-line="796"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="797">        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;websocket: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
+
+</span><span data-line="798">
+</span><span data-line="799">
+<div class="viewcode-block" id="WebSocketTestError">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.WebSocketTestError">[docs]</a>
+</span><span data-line="800"><span class="k">class</span><span class="w"> </span><span class="nc">WebSocketTestError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+</span><span data-line="801"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when a WebSocket test fails.</span>
+</span><span data-line="802">
+</span><span data-line="803"><span class="sd">    Attributes:</span>
+</span><span data-line="804"><span class="sd">        route: The RouteInfo for the route that failed.</span>
+</span><span data-line="805"><span class="sd">        error: Description of the test failure.</span>
+</span><span data-line="806"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="807">
+<div class="viewcode-block" id="WebSocketTestError.__init__">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.WebSocketTestError.__init__">[docs]</a>
+</span><span data-line="808">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route</span><span class="p">:</span> <span class="n">RouteInfo</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="809"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a WebSocketTestError.</span>
+</span><span data-line="810">
+</span><span data-line="811"><span class="sd">        Args:</span>
+</span><span data-line="812"><span class="sd">            route: The RouteInfo for the route that failed.</span>
+</span><span data-line="813"><span class="sd">            error: Description of the test failure.</span>
+</span><span data-line="814"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="815">        <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="n">route</span>
+</span><span data-line="816">        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
+</span><span data-line="817">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WebSocket test failed: </span><span class="si">{</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+</span><span data-line="818">
+</span><span data-line="819">
+<div class="viewcode-block" id="RouteTestCollector">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestCollector">[docs]</a>
+</span><span data-line="820"><span class="k">class</span><span class="w"> </span><span class="nc">RouteTestCollector</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">Collector</span><span class="p">):</span>
+</span><span data-line="821"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Pytest Collector for route smoke tests.</span>
+</span><span data-line="822">
+</span><span data-line="823"><span class="sd">    This collector is responsible for discovering and creating RouteTestItem instances</span>
+</span><span data-line="824"><span class="sd">    from the globally discovered routes. It&#39;s part of pytest&#39;s collection phase and</span>
+</span><span data-line="825"><span class="sd">    generates test items based on the routes found during plugin configuration.</span>
+</span><span data-line="826">
+</span><span data-line="827"><span class="sd">    Note:</span>
+</span><span data-line="828"><span class="sd">        This collector is currently not actively used in favor of the</span>
+</span><span data-line="829"><span class="sd">        pytest_collection_modifyitems hook, but is kept for potential future use</span>
+</span><span data-line="830"><span class="sd">        or alternative collection strategies.</span>
+</span><span data-line="831"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="832">
+<div class="viewcode-block" id="RouteTestCollector.__init__">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestCollector.__init__">[docs]</a>
+</span><span data-line="833">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Collector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="834">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span></div>
+
+</span><span data-line="835">
+<div class="viewcode-block" id="RouteTestCollector.collect">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.RouteTestCollector.collect">[docs]</a>
+</span><span data-line="836">    <span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RouteTestItem</span><span class="p">]:</span>
+</span><span data-line="837"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect route tests from discovered routes.</span>
+</span><span data-line="838">
+</span><span data-line="839"><span class="sd">        This pytest hook creates RouteTestItem instances for each discovered route.</span>
+</span><span data-line="840"><span class="sd">        It&#39;s called during pytest&#39;s collection phase to gather all tests to be run.</span>
+</span><span data-line="841">
+</span><span data-line="842"><span class="sd">        Returns:</span>
+</span><span data-line="843"><span class="sd">            A list of RouteTestItem instances, one for each discovered route.</span>
+</span><span data-line="844"><span class="sd">            Returns an empty list if route testing is disabled or no routes were</span>
+</span><span data-line="845"><span class="sd">            discovered.</span>
+</span><span data-line="846"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="847">        <span class="k">if</span> <span class="ow">not</span> <span class="n">_routes_enabled</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_discovered_routes</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_route_runner</span><span class="p">:</span>
+</span><span data-line="848">            <span class="k">return</span> <span class="p">[]</span>
+</span><span data-line="849">
+</span><span data-line="850">        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="851">        <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">_discovered_routes</span><span class="p">:</span>
+</span><span data-line="852">            <span class="n">method</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span data-line="853">            <span class="n">path_name</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;{&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+</span><span data-line="854">            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;test_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path_name</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;test_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">_root&quot;</span>
+</span><span data-line="855">            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RouteTestItem</span><span class="o">.</span><span class="n">from_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span> <span class="n">runner</span><span class="o">=</span><span class="n">_route_runner</span><span class="p">))</span>
+</span><span data-line="856">        <span class="k">return</span> <span class="n">items</span></div>
+</div>
+
+</span><span data-line="857">
+</span><span data-line="858">
+</span><span data-line="859"><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="860"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add route tests to the collection after standard test discovery.</span>
+</span><span data-line="861">
+</span><span data-line="862"><span class="sd">    This pytest hook modifies the collected test items by adding RouteTestItem instances</span>
+</span><span data-line="863"><span class="sd">    for each discovered route. It runs after pytest&#39;s normal collection phase and</span>
+</span><span data-line="864"><span class="sd">    dynamically injects route smoke tests into the test suite.</span>
+</span><span data-line="865">
+</span><span data-line="866"><span class="sd">    Args:</span>
+</span><span data-line="867"><span class="sd">        session: The pytest Session object.</span>
+</span><span data-line="868"><span class="sd">        config: The pytest Config object containing configuration and CLI options.</span>
+</span><span data-line="869"><span class="sd">        items: The list of collected test items to modify (route tests are appended).</span>
+</span><span data-line="870">
+</span><span data-line="871"><span class="sd">    Note:</span>
+</span><span data-line="872"><span class="sd">        This hook uses a guard flag (_routes_collected) to ensure route tests are</span>
+</span><span data-line="873"><span class="sd">        only added once, even if the hook is called multiple times.</span>
+</span><span data-line="874"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="875">    <span class="k">if</span> <span class="ow">not</span> <span class="n">_routes_enabled</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_route_config</span><span class="p">:</span>
+</span><span data-line="876">        <span class="k">return</span>
+</span><span data-line="877">
+</span><span data-line="878">    <span class="c1"># Check if we already added route tests</span>
+</span><span data-line="879">    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;_routes_collected&quot;</span><span class="p">):</span>
+</span><span data-line="880">        <span class="k">return</span>
+</span><span data-line="881">    <span class="n">config</span><span class="o">.</span><span class="n">_routes_collected</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># type: ignore[attr-defined]</span>
+</span><span data-line="882">
+</span><span data-line="883">    <span class="c1"># Create HTTP route test items</span>
+</span><span data-line="884">    <span class="k">if</span> <span class="n">_discovered_routes</span> <span class="ow">and</span> <span class="n">_route_runner</span><span class="p">:</span>
+</span><span data-line="885">        <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">_discovered_routes</span><span class="p">:</span>
+</span><span data-line="886">            <span class="n">method</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span data-line="887">            <span class="n">path_name</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;{&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+</span><span data-line="888">            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;test_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path_name</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;test_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">_root&quot;</span>
+</span><span data-line="889">
+</span><span data-line="890">            <span class="n">item</span> <span class="o">=</span> <span class="n">RouteTestItem</span><span class="o">.</span><span class="n">from_parent</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span> <span class="n">runner</span><span class="o">=</span><span class="n">_route_runner</span><span class="p">)</span>
+</span><span data-line="891">            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span data-line="892">
+</span><span data-line="893">    <span class="c1"># Create stateful test item if enabled</span>
+</span><span data-line="894">    <span class="k">if</span> <span class="n">_route_config</span><span class="o">.</span><span class="n">stateful</span> <span class="ow">and</span> <span class="n">_route_config</span><span class="o">.</span><span class="n">stateful</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+</span><span data-line="895">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="896">            <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.stateful.runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatefulTestRunner</span>
+</span><span data-line="897">
+</span><span data-line="898">            <span class="c1"># Get app from the route runner if available</span>
+</span><span data-line="899">            <span class="k">if</span> <span class="n">_route_runner</span><span class="p">:</span>
+</span><span data-line="900">                <span class="n">app</span> <span class="o">=</span> <span class="n">_route_runner</span><span class="o">.</span><span class="n">app</span>
+</span><span data-line="901">                <span class="n">stateful_runner</span> <span class="o">=</span> <span class="n">StatefulTestRunner</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">_route_config</span><span class="o">.</span><span class="n">stateful</span><span class="p">,</span> <span class="n">_route_config</span><span class="p">)</span>
+</span><span data-line="902">                <span class="n">stateful_item</span> <span class="o">=</span> <span class="n">StatefulTestItem</span><span class="o">.</span><span class="n">from_parent</span><span class="p">(</span>
+</span><span data-line="903">                    <span class="n">session</span><span class="p">,</span>
+</span><span data-line="904">                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;test_stateful_api_workflows&quot;</span><span class="p">,</span>
+</span><span data-line="905">                    <span class="n">runner</span><span class="o">=</span><span class="n">stateful_runner</span><span class="p">,</span>
+</span><span data-line="906">                    <span class="n">config</span><span class="o">=</span><span class="n">_route_config</span><span class="o">.</span><span class="n">stateful</span><span class="p">,</span>
+</span><span data-line="907">                <span class="p">)</span>
+</span><span data-line="908">                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stateful_item</span><span class="p">)</span>
+</span><span data-line="909">        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="910">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">pytest-routes: Warning - Stateful testing enabled but import failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="911">
+</span><span data-line="912">    <span class="c1"># Create WebSocket test items if enabled</span>
+</span><span data-line="913">    <span class="k">if</span> <span class="n">_route_config</span><span class="o">.</span><span class="n">websocket</span> <span class="ow">and</span> <span class="n">_route_config</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+</span><span data-line="914">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="915">            <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.websocket.runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebSocketTestRunner</span>
+</span><span data-line="916">
+</span><span data-line="917">            <span class="c1"># Filter for WebSocket routes</span>
+</span><span data-line="918">            <span class="n">ws_routes</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">_all_routes</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">is_websocket</span><span class="p">]</span>
+</span><span data-line="919">
+</span><span data-line="920">            <span class="k">if</span> <span class="n">ws_routes</span> <span class="ow">and</span> <span class="n">_route_runner</span><span class="p">:</span>
+</span><span data-line="921">                <span class="n">app</span> <span class="o">=</span> <span class="n">_route_runner</span><span class="o">.</span><span class="n">app</span>
+</span><span data-line="922">                <span class="n">ws_runner</span> <span class="o">=</span> <span class="n">WebSocketTestRunner</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">_route_config</span><span class="p">)</span>
+</span><span data-line="923">
+</span><span data-line="924">                <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">ws_routes</span><span class="p">:</span>
+</span><span data-line="925">                    <span class="n">path_name</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+</span><span data-line="926">                    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;test_ws_</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path_name</span> <span class="k">else</span> <span class="s2">&quot;test_ws_root&quot;</span>
+</span><span data-line="927">
+</span><span data-line="928">                    <span class="n">ws_item</span> <span class="o">=</span> <span class="n">WebSocketTestItem</span><span class="o">.</span><span class="n">from_parent</span><span class="p">(</span>
+</span><span data-line="929">                        <span class="n">session</span><span class="p">,</span>
+</span><span data-line="930">                        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+</span><span data-line="931">                        <span class="n">route</span><span class="o">=</span><span class="n">route</span><span class="p">,</span>
+</span><span data-line="932">                        <span class="n">runner</span><span class="o">=</span><span class="n">ws_runner</span><span class="p">,</span>
+</span><span data-line="933">                    <span class="p">)</span>
+</span><span data-line="934">                    <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ws_item</span><span class="p">)</span>
+</span><span data-line="935">
+</span><span data-line="936">                <span class="k">if</span> <span class="n">ws_routes</span><span class="p">:</span>
+</span><span data-line="937">                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">pytest-routes: Added </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ws_routes</span><span class="p">)</span><span class="si">}</span><span class="s2"> WebSocket test(s)&quot;</span><span class="p">)</span>
+</span><span data-line="938">        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="939">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">pytest-routes: Warning - WebSocket testing enabled but import failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="940">
+</span><span data-line="941">
+<div class="viewcode-block" id="pytest_unconfigure">
+<a class="viewcode-back" href="../../api/index.html#pytest_routes.plugin.pytest_unconfigure">[docs]</a>
+</span><span data-line="942"><span class="k">def</span><span class="w"> </span><span class="nf">pytest_unconfigure</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="943"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Clean up plugin state after test run.</span>
+</span><span data-line="944">
+</span><span data-line="945"><span class="sd">    This pytest hook resets the global state used by the plugin, ensuring that</span>
+</span><span data-line="946"><span class="sd">    subsequent test runs start with a clean slate. It&#39;s called when pytest is</span>
+</span><span data-line="947"><span class="sd">    shutting down or when a test session completes.</span>
+</span><span data-line="948">
+</span><span data-line="949"><span class="sd">    Args:</span>
+</span><span data-line="950"><span class="sd">        config: The pytest Config object.</span>
+</span><span data-line="951"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="952">    <span class="k">global</span> <span class="n">_discovered_routes</span><span class="p">,</span> <span class="n">_all_routes</span><span class="p">,</span> <span class="n">_route_runner</span><span class="p">,</span> <span class="n">_routes_enabled</span>
+</span><span data-line="953">    <span class="k">global</span> <span class="n">_route_config</span><span class="p">,</span> <span class="n">_test_metrics</span><span class="p">,</span> <span class="n">_coverage_metrics</span>
+</span><span data-line="954">
+</span><span data-line="955">    <span class="c1"># Generate report if enabled</span>
+</span><span data-line="956">    <span class="k">if</span> <span class="n">_route_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="n">_test_metrics</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="957">        <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting.html</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTMLReportGenerator</span>
+</span><span data-line="958">        <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting.html</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReportConfig</span> <span class="k">as</span> <span class="n">HTMLReportConfig</span>
+</span><span data-line="959">
+</span><span data-line="960">        <span class="n">_test_metrics</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+</span><span data-line="961">
+</span><span data-line="962">        <span class="n">report_config</span> <span class="o">=</span> <span class="n">HTMLReportConfig</span><span class="p">(</span>
+</span><span data-line="963">            <span class="n">output_path</span><span class="o">=</span><span class="n">_route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">output_path</span><span class="p">,</span>
+</span><span data-line="964">            <span class="n">title</span><span class="o">=</span><span class="n">_route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+</span><span data-line="965">            <span class="n">theme</span><span class="o">=</span><span class="n">_route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">theme</span><span class="p">,</span>
+</span><span data-line="966">        <span class="p">)</span>
+</span><span data-line="967">
+</span><span data-line="968">        <span class="n">generator</span> <span class="o">=</span> <span class="n">HTMLReportGenerator</span><span class="p">(</span><span class="n">report_config</span><span class="p">)</span>
+</span><span data-line="969">        <span class="n">report_path</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_test_metrics</span><span class="p">,</span> <span class="n">_coverage_metrics</span><span class="p">)</span>
+</span><span data-line="970">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">pytest-routes: Report generated at </span><span class="si">{</span><span class="n">report_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="971">
+</span><span data-line="972">        <span class="k">if</span> <span class="n">_route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">json_output</span><span class="p">:</span>
+</span><span data-line="973">            <span class="n">json_path</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span>
+</span><span data-line="974">                <span class="n">_test_metrics</span><span class="p">,</span>
+</span><span data-line="975">                <span class="n">_coverage_metrics</span><span class="p">,</span>
+</span><span data-line="976">                <span class="n">output_path</span><span class="o">=</span><span class="n">_route_config</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">json_output</span><span class="p">,</span>
+</span><span data-line="977">            <span class="p">)</span>
+</span><span data-line="978">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pytest-routes: JSON report generated at </span><span class="si">{</span><span class="n">json_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="979">
+</span><span data-line="980">    <span class="n">_discovered_routes</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="981">    <span class="n">_all_routes</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="982">    <span class="n">_route_runner</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="983">    <span class="n">_routes_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="984">    <span class="n">_route_config</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="985">    <span class="n">_test_metrics</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="986">    <span class="n">_coverage_metrics</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+</span></pre></div>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=30646c52"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

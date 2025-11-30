@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Reporting - pytest-routes</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Integrations" href="integrations.html" /><link rel="prev" title="Response Validation" href="validation.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Reporting"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html">Response Validation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#metrics-classes">Metrics Classes</a><ul>
+<li><a class="reference internal" href="#routemetrics">RouteMetrics</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics"><code class="docutils literal notranslate"><span class="pre">RouteMetrics</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.route_path"><code class="docutils literal notranslate">route_path</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.method"><code class="docutils literal notranslate">method</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.total_requests"><code class="docutils literal notranslate">total_requests</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.successful_requests"><code class="docutils literal notranslate">successful_requests</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.failed_requests"><code class="docutils literal notranslate">failed_requests</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.total_time_ms"><code class="docutils literal notranslate">total_time_ms</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.min_time_ms"><code class="docutils literal notranslate">min_time_ms</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.max_time_ms"><code class="docutils literal notranslate">max_time_ms</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.status_codes"><code class="docutils literal notranslate">status_codes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.errors"><code class="docutils literal notranslate">errors</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.avg_time_ms"><code class="docutils literal notranslate">avg_time_ms</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.success_rate"><code class="docutils literal notranslate">success_rate</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.passed"><code class="docutils literal notranslate">passed</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.record_request"><code class="docutils literal notranslate">record_request()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.to_dict"><code class="docutils literal notranslate">to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#runmetrics">RunMetrics</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics"><code class="docutils literal notranslate"><span class="pre">RunMetrics</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.start_time"><code class="docutils literal notranslate">start_time</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.end_time"><code class="docutils literal notranslate">end_time</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.routes"><code class="docutils literal notranslate">routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.skipped_routes"><code class="docutils literal notranslate">skipped_routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.total_routes"><code class="docutils literal notranslate">total_routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.passed_routes"><code class="docutils literal notranslate">passed_routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.failed_routes"><code class="docutils literal notranslate">failed_routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.total_requests"><code class="docutils literal notranslate">total_requests</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.total_time_ms"><code class="docutils literal notranslate">total_time_ms</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.duration_seconds"><code class="docutils literal notranslate">duration_seconds</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.pass_rate"><code class="docutils literal notranslate">pass_rate</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.get_or_create_route_metrics"><code class="docutils literal notranslate">get_or_create_route_metrics()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.finish"><code class="docutils literal notranslate">finish()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.to_dict"><code class="docutils literal notranslate">to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RunMetrics.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#metrics-functions">Metrics Functions</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.aggregate_metrics"><code class="docutils literal notranslate"><span class="pre">aggregate_metrics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coverage-classes">Coverage Classes</a><ul>
+<li><a class="reference internal" href="#routecoverage">RouteCoverage</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage"><code class="docutils literal notranslate"><span class="pre">RouteCoverage</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.route_path"><code class="docutils literal notranslate">route_path</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.method"><code class="docutils literal notranslate">method</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.tested"><code class="docutils literal notranslate">tested</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.test_count"><code class="docutils literal notranslate">test_count</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.status_codes_seen"><code class="docutils literal notranslate">status_codes_seen</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.parameters_tested"><code class="docutils literal notranslate">parameters_tested</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.body_tested"><code class="docutils literal notranslate">body_tested</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.coverage_score"><code class="docutils literal notranslate">coverage_score</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.mark_tested"><code class="docutils literal notranslate">mark_tested()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.to_dict"><code class="docutils literal notranslate">to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coveragemetrics">CoverageMetrics</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics"><code class="docutils literal notranslate"><span class="pre">CoverageMetrics</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.total_routes"><code class="docutils literal notranslate">total_routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.route_coverage"><code class="docutils literal notranslate">route_coverage</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.tested_routes"><code class="docutils literal notranslate">tested_routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.untested_routes"><code class="docutils literal notranslate">untested_routes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.coverage_percentage"><code class="docutils literal notranslate">coverage_percentage</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.average_coverage_score"><code class="docutils literal notranslate">average_coverage_score</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.add_route"><code class="docutils literal notranslate">add_route()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.get_route_coverage"><code class="docutils literal notranslate">get_route_coverage()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.to_dict"><code class="docutils literal notranslate">to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coverage-functions">Coverage Functions</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.calculate_coverage"><code class="docutils literal notranslate"><span class="pre">calculate_coverage()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#html-report-generation">HTML Report Generation</a><ul>
+<li><a class="reference internal" href="#htmlreportgenerator">HTMLReportGenerator</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.HTMLReportGenerator"><code class="docutils literal notranslate"><span class="pre">HTMLReportGenerator</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.HTMLReportGenerator.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.HTMLReportGenerator.generate"><code class="docutils literal notranslate">generate()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.HTMLReportGenerator.write"><code class="docutils literal notranslate">write()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.HTMLReportGenerator.to_json"><code class="docutils literal notranslate">to_json()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.HTMLReportGenerator.write_json"><code class="docutils literal notranslate">write_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reportconfig">ReportConfig</a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig"><code class="docutils literal notranslate"><span class="pre">ReportConfig</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig.output_path"><code class="docutils literal notranslate">output_path</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig.title"><code class="docutils literal notranslate">title</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig.include_charts"><code class="docutils literal notranslate">include_charts</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig.include_details"><code class="docutils literal notranslate">include_details</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig.theme"><code class="docutils literal notranslate">theme</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage-examples">Usage Examples</a><ul>
+<li><a class="reference internal" href="#collecting-metrics">Collecting Metrics</a></li>
+<li><a class="reference internal" href="#calculating-coverage">Calculating Coverage</a></li>
+<li><a class="reference internal" href="#generating-reports">Generating Reports</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Reporting</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="reporting">
+<span id="api-reporting"></span><h1>Reporting<a class="headerlink" href="#reporting" title="Link to this heading">¶</a></h1>
+<p>The reporting module provides HTML report generation and metrics collection for
+route smoke tests.</p>
+<section id="metrics-classes">
+<h2>Metrics Classes<a class="headerlink" href="#metrics-classes" title="Link to this heading">¶</a></h2>
+<section id="routemetrics">
+<h3>RouteMetrics<a class="headerlink" href="#routemetrics" title="Link to this heading">¶</a></h3>
+<p>Collects metrics for a single route during testing.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.</span></span><span class="sig-name descname"><span class="pre">RouteMetrics</span></span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#RouteMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Performance and test metrics for a single route.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_path</strong> – The route path.</p></li>
+<li><p><strong>method</strong> – HTTP method.</p></li>
+<li><p><strong>total_requests</strong> – Total number of requests made.</p></li>
+<li><p><strong>successful_requests</strong> – Number of successful requests (2xx-4xx).</p></li>
+<li><p><strong>failed_requests</strong> – Number of failed requests (5xx or unexpected).</p></li>
+<li><p><strong>total_time_ms</strong> – Total time spent testing this route in milliseconds.</p></li>
+<li><p><strong>min_time_ms</strong> – Minimum request time in milliseconds.</p></li>
+<li><p><strong>max_time_ms</strong> – Maximum request time in milliseconds.</p></li>
+<li><p><strong>avg_time_ms</strong> – Average request time in milliseconds.</p></li>
+<li><p><strong>status_codes</strong> – Distribution of status codes.</p></li>
+<li><p><strong>errors</strong> – List of error messages encountered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>route_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>total_requests</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>successful_requests</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>failed_requests</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>total_time_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>min_time_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>max_time_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>status_codes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>errors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.route_path">
+<span class="sig-name descname"><span class="pre">route_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.route_path" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.method">
+<span class="sig-name descname"><span class="pre">method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.method" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.total_requests">
+<span class="sig-name descname"><span class="pre">total_requests</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.total_requests" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.successful_requests">
+<span class="sig-name descname"><span class="pre">successful_requests</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.successful_requests" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.failed_requests">
+<span class="sig-name descname"><span class="pre">failed_requests</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.failed_requests" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.total_time_ms">
+<span class="sig-name descname"><span class="pre">total_time_ms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.total_time_ms" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.min_time_ms">
+<span class="sig-name descname"><span class="pre">min_time_ms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">inf</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.min_time_ms" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.max_time_ms">
+<span class="sig-name descname"><span class="pre">max_time_ms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.max_time_ms" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.status_codes">
+<span class="sig-name descname"><span class="pre">status_codes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.status_codes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.errors" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.avg_time_ms">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">avg_time_ms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.avg_time_ms" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate average request time.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.success_rate">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">success_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.success_rate" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate success rate as a percentage.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.passed">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">passed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.passed" title="Link to this definition">¶</a></dt>
+<dd><p>Check if all requests were successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.record_request">
+<span class="sig-name descname"><span class="pre">record_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elapsed_ms</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#RouteMetrics.record_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.record_request" title="Link to this definition">¶</a></dt>
+<dd><p>Record metrics for a single request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status_code</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – HTTP status code returned.</p></li>
+<li><p><strong>elapsed_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Time taken for the request in milliseconds.</p></li>
+<li><p><strong>success</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether the request was successful.</p></li>
+<li><p><strong>error</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Error message if the request failed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#RouteMetrics.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Convert metrics to dictionary for serialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteMetrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_requests=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">successful_requests=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failed_requests=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_time_ms=0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_time_ms=inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_time_ms=0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_codes=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.reporting.RouteMetrics.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>total_requests</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>successful_requests</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>failed_requests</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>total_time_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>min_time_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>max_time_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>status_codes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>errors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="runmetrics">
+<h3>RunMetrics<a class="headerlink" href="#runmetrics" title="Link to this heading">¶</a></h3>
+<p>Aggregates metrics across all routes for a test run.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.</span></span><span class="sig-name descname"><span class="pre">RunMetrics</span></span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#RunMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RunMetrics" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Aggregate test metrics across all routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_time</strong> – When testing started (Unix timestamp).</p></li>
+<li><p><strong>end_time</strong> – When testing ended (Unix timestamp).</p></li>
+<li><p><strong>routes</strong> – Metrics for individual routes.</p></li>
+<li><p><strong>total_routes</strong> – Total number of routes tested.</p></li>
+<li><p><strong>passed_routes</strong> – Number of routes that passed.</p></li>
+<li><p><strong>failed_routes</strong> – Number of routes that failed.</p></li>
+<li><p><strong>skipped_routes</strong> – Number of routes that were skipped.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>start_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>end_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#pytest_routes.reporting.RouteMetrics" title="pytest_routes.reporting.metrics.RouteMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteMetrics</span></code></a>]</span>)</p></li>
+<li><p><strong>skipped_routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.start_time" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.end_time" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.routes">
+<span class="sig-name descname"><span class="pre">routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference internal" href="#pytest_routes.reporting.RouteMetrics" title="pytest_routes.reporting.metrics.RouteMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteMetrics</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.routes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.skipped_routes">
+<span class="sig-name descname"><span class="pre">skipped_routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.skipped_routes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.total_routes">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.total_routes" title="Link to this definition">¶</a></dt>
+<dd><p>Total number of routes tested.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.passed_routes">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">passed_routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.passed_routes" title="Link to this definition">¶</a></dt>
+<dd><p>Number of routes that passed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.failed_routes">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">failed_routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.failed_routes" title="Link to this definition">¶</a></dt>
+<dd><p>Number of routes that failed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.total_requests">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_requests</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.total_requests" title="Link to this definition">¶</a></dt>
+<dd><p>Total requests across all routes.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.total_time_ms">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_time_ms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.total_time_ms" title="Link to this definition">¶</a></dt>
+<dd><p>Total time spent testing in milliseconds.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.duration_seconds">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.duration_seconds" title="Link to this definition">¶</a></dt>
+<dd><p>Total test duration in seconds.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.pass_rate">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pass_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.pass_rate" title="Link to this definition">¶</a></dt>
+<dd><p>Percentage of routes that passed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.get_or_create_route_metrics">
+<span class="sig-name descname"><span class="pre">get_or_create_route_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#RunMetrics.get_or_create_route_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.get_or_create_route_metrics" title="Link to this definition">¶</a></dt>
+<dd><p>Get or create metrics for a route.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route to get metrics for.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RouteMetrics" title="pytest_routes.reporting.metrics.RouteMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteMetrics</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RouteMetrics instance for the route.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.finish">
+<span class="sig-name descname"><span class="pre">finish</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#RunMetrics.finish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.finish" title="Link to this definition">¶</a></dt>
+<dd><p>Mark testing as finished.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#RunMetrics.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Convert metrics to dictionary for serialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RunMetrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routes=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipped_routes=0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.reporting.RunMetrics.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>end_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#pytest_routes.reporting.RouteMetrics" title="pytest_routes.reporting.metrics.RouteMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteMetrics</span></code></a>]</span>)</p></li>
+<li><p><strong>skipped_routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="metrics-functions">
+<h3>Metrics Functions<a class="headerlink" href="#metrics-functions" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.reporting.aggregate_metrics">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.</span></span><span class="sig-name descname"><span class="pre">aggregate_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route_metrics</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/metrics.html#aggregate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.aggregate_metrics" title="Link to this definition">¶</a></dt>
+<dd><p>Aggregate individual route metrics into test metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>route_metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="#pytest_routes.reporting.RouteMetrics" title="pytest_routes.reporting.metrics.RouteMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteMetrics</span></code></a>]</span>) – List of RouteMetrics to aggregate.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RunMetrics" title="pytest_routes.reporting.metrics.RunMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunMetrics</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Aggregated RunMetrics.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="coverage-classes">
+<h2>Coverage Classes<a class="headerlink" href="#coverage-classes" title="Link to this heading">¶</a></h2>
+<section id="routecoverage">
+<h3>RouteCoverage<a class="headerlink" href="#routecoverage" title="Link to this heading">¶</a></h3>
+<p>Tracks coverage for a single route.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.</span></span><span class="sig-name descname"><span class="pre">RouteCoverage</span></span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#RouteCoverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Coverage information for a single route.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_path</strong> – The route path.</p></li>
+<li><p><strong>method</strong> – HTTP method.</p></li>
+<li><p><strong>tested</strong> – Whether this route was tested.</p></li>
+<li><p><strong>test_count</strong> – Number of tests run against this route.</p></li>
+<li><p><strong>status_codes_seen</strong> – Status codes returned during testing.</p></li>
+<li><p><strong>parameters_tested</strong> – Parameter names that were tested.</p></li>
+<li><p><strong>body_tested</strong> – Whether request body was tested.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>route_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>tested</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>test_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>status_codes_seen</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>parameters_tested</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>body_tested</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.route_path">
+<span class="sig-name descname"><span class="pre">route_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.route_path" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.method">
+<span class="sig-name descname"><span class="pre">method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.method" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.tested">
+<span class="sig-name descname"><span class="pre">tested</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.tested" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.test_count">
+<span class="sig-name descname"><span class="pre">test_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.test_count" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.status_codes_seen">
+<span class="sig-name descname"><span class="pre">status_codes_seen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.status_codes_seen" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.parameters_tested">
+<span class="sig-name descname"><span class="pre">parameters_tested</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.parameters_tested" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.body_tested">
+<span class="sig-name descname"><span class="pre">body_tested</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.body_tested" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.coverage_score">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coverage_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.coverage_score" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate coverage score (0-100).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.mark_tested">
+<span class="sig-name descname"><span class="pre">mark_tested</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_body</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#RouteCoverage.mark_tested"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.mark_tested" title="Link to this definition">¶</a></dt>
+<dd><p>Mark this route as tested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status_code</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Status code returned.</p></li>
+<li><p><strong>parameters</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Parameters that were tested.</p></li>
+<li><p><strong>has_body</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether request body was included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#RouteCoverage.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Convert to dictionary for serialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.RouteCoverage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tested=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_count=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_codes_seen=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_tested=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body_tested=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.reporting.RouteCoverage.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>tested</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>test_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>status_codes_seen</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>parameters_tested</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>body_tested</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="coveragemetrics">
+<h3>CoverageMetrics<a class="headerlink" href="#coveragemetrics" title="Link to this heading">¶</a></h3>
+<p>Aggregates coverage across all routes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.</span></span><span class="sig-name descname"><span class="pre">CoverageMetrics</span></span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#CoverageMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Aggregate coverage metrics across all routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total_routes</strong> – Total number of routes in the application.</p></li>
+<li><p><strong>tested_routes</strong> – Number of routes that were tested.</p></li>
+<li><p><strong>untested_routes</strong> – List of routes that were not tested.</p></li>
+<li><p><strong>route_coverage</strong> – Coverage information per route.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>total_routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>route_coverage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#pytest_routes.reporting.RouteCoverage" title="pytest_routes.reporting.route_coverage.RouteCoverage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteCoverage</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.total_routes">
+<span class="sig-name descname"><span class="pre">total_routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.total_routes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.route_coverage">
+<span class="sig-name descname"><span class="pre">route_coverage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference internal" href="#pytest_routes.reporting.RouteCoverage" title="pytest_routes.reporting.route_coverage.RouteCoverage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteCoverage</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.route_coverage" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.tested_routes">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tested_routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.tested_routes" title="Link to this definition">¶</a></dt>
+<dd><p>Number of routes tested.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.untested_routes">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">untested_routes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.untested_routes" title="Link to this definition">¶</a></dt>
+<dd><p>List of routes that were not tested.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.coverage_percentage">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coverage_percentage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.coverage_percentage" title="Link to this definition">¶</a></dt>
+<dd><p>Overall route coverage as a percentage.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.average_coverage_score">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_coverage_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.average_coverage_score" title="Link to this definition">¶</a></dt>
+<dd><p>Average coverage score across all tested routes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.add_route">
+<span class="sig-name descname"><span class="pre">add_route</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#CoverageMetrics.add_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.add_route" title="Link to this definition">¶</a></dt>
+<dd><p>Add a route to track coverage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route to track.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage" title="pytest_routes.reporting.route_coverage.RouteCoverage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteCoverage</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RouteCoverage instance for the route.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.get_route_coverage">
+<span class="sig-name descname"><span class="pre">get_route_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#CoverageMetrics.get_route_coverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.get_route_coverage" title="Link to this definition">¶</a></dt>
+<dd><p>Get coverage for a specific route.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route to get coverage for.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RouteCoverage" title="pytest_routes.reporting.route_coverage.RouteCoverage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteCoverage</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RouteCoverage or None if not tracked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#CoverageMetrics.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Convert to dictionary for serialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.CoverageMetrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_routes=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route_coverage=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.reporting.CoverageMetrics.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total_routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>route_coverage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#pytest_routes.reporting.RouteCoverage" title="pytest_routes.reporting.route_coverage.RouteCoverage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteCoverage</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="coverage-functions">
+<h3>Coverage Functions<a class="headerlink" href="#coverage-functions" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.reporting.calculate_coverage">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.</span></span><span class="sig-name descname"><span class="pre">calculate_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_routes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tested_routes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/route_coverage.html#calculate_coverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.calculate_coverage" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate coverage metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a>]</span>) – All routes in the application.</p></li>
+<li><p><strong>tested_routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a>]</span>) – Routes that were actually tested.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics" title="pytest_routes.reporting.route_coverage.CoverageMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoverageMetrics</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CoverageMetrics with coverage information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="html-report-generation">
+<h2>HTML Report Generation<a class="headerlink" href="#html-report-generation" title="Link to this heading">¶</a></h2>
+<section id="htmlreportgenerator">
+<h3>HTMLReportGenerator<a class="headerlink" href="#htmlreportgenerator" title="Link to this heading">¶</a></h3>
+<p>Generates HTML and JSON reports from test metrics.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.reporting.HTMLReportGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.</span></span><span class="sig-name descname"><span class="pre">HTMLReportGenerator</span></span><a class="reference internal" href="../_modules/pytest_routes/reporting/html.html#HTMLReportGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.HTMLReportGenerator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Generate HTML reports for pytest-routes test results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig" title="pytest_routes.reporting.html.ReportConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReportConfig</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.HTMLReportGenerator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/html.html#HTMLReportGenerator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.HTMLReportGenerator.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the report generator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.html.ReportConfig" title="pytest_routes.reporting.html.ReportConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReportConfig</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Report configuration options.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.HTMLReportGenerator.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/html.html#HTMLReportGenerator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.HTMLReportGenerator.generate" title="Link to this definition">¶</a></dt>
+<dd><p>Generate HTML report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RunMetrics" title="pytest_routes.reporting.metrics.RunMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunMetrics</span></code></a></span>) – Test metrics to include.</p></li>
+<li><p><strong>coverage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics" title="pytest_routes.reporting.route_coverage.CoverageMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoverageMetrics</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Optional coverage metrics.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HTML content as a string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.HTMLReportGenerator.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/html.html#HTMLReportGenerator.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.HTMLReportGenerator.write" title="Link to this definition">¶</a></dt>
+<dd><p>Generate and write HTML report to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RunMetrics" title="pytest_routes.reporting.metrics.RunMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunMetrics</span></code></a></span>) – Test metrics to include.</p></li>
+<li><p><strong>coverage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics" title="pytest_routes.reporting.route_coverage.CoverageMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoverageMetrics</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Optional coverage metrics.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path to the written file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.HTMLReportGenerator.to_json">
+<span class="sig-name descname"><span class="pre">to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/html.html#HTMLReportGenerator.to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.HTMLReportGenerator.to_json" title="Link to this definition">¶</a></dt>
+<dd><p>Export metrics as JSON.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RunMetrics" title="pytest_routes.reporting.metrics.RunMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunMetrics</span></code></a></span>) – Test metrics to export.</p></li>
+<li><p><strong>coverage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics" title="pytest_routes.reporting.route_coverage.CoverageMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoverageMetrics</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Optional coverage metrics.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.HTMLReportGenerator.write_json">
+<span class="sig-name descname"><span class="pre">write_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/reporting/html.html#HTMLReportGenerator.write_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.HTMLReportGenerator.write_json" title="Link to this definition">¶</a></dt>
+<dd><p>Write metrics as JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.RunMetrics" title="pytest_routes.reporting.metrics.RunMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunMetrics</span></code></a></span>) – Test metrics to export.</p></li>
+<li><p><strong>coverage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.reporting.CoverageMetrics" title="pytest_routes.reporting.route_coverage.CoverageMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoverageMetrics</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Optional coverage metrics.</p></li>
+<li><p><strong>output_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Path to write to (defaults to report path with .json).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path to the written file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="reportconfig">
+<h3>ReportConfig<a class="headerlink" href="#reportconfig" title="Link to this heading">¶</a></h3>
+<p>Configuration for report generation.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.reporting.html.ReportConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.reporting.html.</span></span><span class="sig-name descname"><span class="pre">ReportConfig</span></span><a class="reference internal" href="../_modules/pytest_routes/reporting/html.html#ReportConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.reporting.html.ReportConfig" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for HTML report generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> – Path to write the HTML report.</p></li>
+<li><p><strong>title</strong> – Title for the report.</p></li>
+<li><p><strong>include_charts</strong> – Whether to include charts.</p></li>
+<li><p><strong>include_details</strong> – Whether to include detailed route info.</p></li>
+<li><p><strong>theme</strong> – Color theme (‘light’ or ‘dark’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>output_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>include_charts</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>include_details</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>theme</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.html.ReportConfig.output_path">
+<span class="sig-name descname"><span class="pre">output_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pytest-routes-report.html'</span></em><a class="headerlink" href="#pytest_routes.reporting.html.ReportConfig.output_path" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.html.ReportConfig.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pytest-routes</span> <span class="pre">Test</span> <span class="pre">Report'</span></em><a class="headerlink" href="#pytest_routes.reporting.html.ReportConfig.title" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.html.ReportConfig.include_charts">
+<span class="sig-name descname"><span class="pre">include_charts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pytest_routes.reporting.html.ReportConfig.include_charts" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.html.ReportConfig.include_details">
+<span class="sig-name descname"><span class="pre">include_details</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pytest_routes.reporting.html.ReportConfig.include_details" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.reporting.html.ReportConfig.theme">
+<span class="sig-name descname"><span class="pre">theme</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'light'</span></em><a class="headerlink" href="#pytest_routes.reporting.html.ReportConfig.theme" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.reporting.html.ReportConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pytest-routes-report.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pytest-routes</span> <span class="pre">Test</span> <span class="pre">Report'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_charts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_details</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'light'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.reporting.html.ReportConfig.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>include_charts</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>include_details</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>theme</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">¶</a></h2>
+<section id="collecting-metrics">
+<h3>Collecting Metrics<a class="headerlink" href="#collecting-metrics" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunMetrics</span><span class="p">,</span> <span class="n">RouteMetrics</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.discovery.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteInfo</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Create test metrics container</span>
+</span><span data-line="5"><span class="n">test_metrics</span> <span class="o">=</span> <span class="n">RunMetrics</span><span class="p">()</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Get or create metrics for a route</span>
+</span><span data-line="8"><span class="n">route</span> <span class="o">=</span> <span class="n">RouteInfo</span><span class="p">(</span>
+</span><span data-line="9">    <span class="n">path</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">],</span>
+</span><span data-line="11">    <span class="n">path_params</span><span class="o">=</span><span class="p">{},</span>
+</span><span data-line="12">    <span class="n">query_params</span><span class="o">=</span><span class="p">{},</span>
+</span><span data-line="13">    <span class="n">body_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="14"><span class="p">)</span>
+</span><span data-line="15"><span class="n">route_metrics</span> <span class="o">=</span> <span class="n">test_metrics</span><span class="o">.</span><span class="n">get_or_create_route_metrics</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="c1"># Record individual requests</span>
+</span><span data-line="18"><span class="n">route_metrics</span><span class="o">.</span><span class="n">record_request</span><span class="p">(</span>
+</span><span data-line="19">    <span class="n">status_code</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+</span><span data-line="20">    <span class="n">time_ms</span><span class="o">=</span><span class="mf">12.5</span><span class="p">,</span>
+</span><span data-line="21">    <span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="22"><span class="p">)</span>
+</span><span data-line="23"><span class="n">route_metrics</span><span class="o">.</span><span class="n">record_request</span><span class="p">(</span>
+</span><span data-line="24">    <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+</span><span data-line="25">    <span class="n">time_ms</span><span class="o">=</span><span class="mf">45.0</span><span class="p">,</span>
+</span><span data-line="26">    <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="27">    <span class="n">error</span><span class="o">=</span><span class="s2">&quot;Internal server error&quot;</span><span class="p">,</span>
+</span><span data-line="28"><span class="p">)</span>
+</span><span data-line="29">
+</span><span data-line="30"><span class="c1"># Finish collecting metrics</span>
+</span><span data-line="31"><span class="n">test_metrics</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+</span><span data-line="32">
+</span><span data-line="33"><span class="c1"># Access aggregate statistics</span>
+</span><span data-line="34"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total routes: </span><span class="si">{</span><span class="n">test_metrics</span><span class="o">.</span><span class="n">total_routes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="35"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pass rate: </span><span class="si">{</span><span class="n">test_metrics</span><span class="o">.</span><span class="n">pass_rate</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span data-line="36"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duration: </span><span class="si">{</span><span class="n">test_metrics</span><span class="o">.</span><span class="n">duration_seconds</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="calculating-coverage">
+<h3>Calculating Coverage<a class="headerlink" href="#calculating-coverage" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_coverage</span><span class="p">,</span> <span class="n">CoverageMetrics</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.discovery.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteInfo</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># All routes in the application</span>
+</span><span data-line="5"><span class="n">all_routes</span> <span class="o">=</span> <span class="p">[</span>
+</span><span data-line="6">    <span class="n">RouteInfo</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">],</span> <span class="o">...</span><span class="p">),</span>
+</span><span data-line="7">    <span class="n">RouteInfo</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">],</span> <span class="o">...</span><span class="p">),</span>
+</span><span data-line="8">    <span class="n">RouteInfo</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/orders&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">],</span> <span class="o">...</span><span class="p">),</span>
+</span><span data-line="9"><span class="p">]</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Routes that were actually tested</span>
+</span><span data-line="12"><span class="n">tested_routes</span> <span class="o">=</span> <span class="p">[</span>
+</span><span data-line="13">    <span class="n">RouteInfo</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">],</span> <span class="o">...</span><span class="p">),</span>
+</span><span data-line="14">    <span class="n">RouteInfo</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">],</span> <span class="o">...</span><span class="p">),</span>
+</span><span data-line="15"><span class="p">]</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="c1"># Calculate coverage</span>
+</span><span data-line="18"><span class="n">coverage</span> <span class="o">=</span> <span class="n">calculate_coverage</span><span class="p">(</span><span class="n">all_routes</span><span class="p">,</span> <span class="n">tested_routes</span><span class="p">)</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Coverage: </span><span class="si">{</span><span class="n">coverage</span><span class="o">.</span><span class="n">coverage_percentage</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span data-line="21"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Untested routes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">coverage</span><span class="o">.</span><span class="n">untested_routes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="generating-reports">
+<h3>Generating Reports<a class="headerlink" href="#generating-reports" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTMLReportGenerator</span><span class="p">,</span> <span class="n">RunMetrics</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting.html</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReportConfig</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Configure the report</span>
+</span><span data-line="5"><span class="n">config</span> <span class="o">=</span> <span class="n">ReportConfig</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;API Smoke Test Report&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">include_coverage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">include_timing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">theme</span><span class="o">=</span><span class="s2">&quot;dark&quot;</span><span class="p">,</span>
+</span><span data-line="10"><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Create generator</span>
+</span><span data-line="13"><span class="n">generator</span> <span class="o">=</span> <span class="n">HTMLReportGenerator</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="c1"># Generate HTML</span>
+</span><span data-line="16"><span class="n">html</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">test_metrics</span><span class="p">,</span> <span class="n">coverage_metrics</span><span class="p">)</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="c1"># Write HTML report</span>
+</span><span data-line="19"><span class="n">generator</span><span class="o">.</span><span class="n">write_report</span><span class="p">(</span><span class="s2">&quot;report.html&quot;</span><span class="p">,</span> <span class="n">test_metrics</span><span class="p">,</span> <span class="n">coverage_metrics</span><span class="p">)</span>
+</span><span data-line="20">
+</span><span data-line="21"><span class="c1"># Write JSON report</span>
+</span><span data-line="22"><span class="n">generator</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="s2">&quot;results.json&quot;</span><span class="p">,</span> <span class="n">test_metrics</span><span class="p">,</span> <span class="n">coverage_metrics</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../usage/reports.html"><span class="doc">Reports and Metrics</span></a> - User guide for reports and metrics</p></li>
+<li><p><a class="reference internal" href="../usage/cli-options.html"><span class="doc">CLI Options Reference</span></a> - CLI options for report generation</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="validation.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Response Validation</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="integrations.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Integrations</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

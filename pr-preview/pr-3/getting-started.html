@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Getting Started - pytest-routes</title><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Usage Guide" href="usage/index.html" /><link rel="prev" title="pytest-routes" href="index.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Getting Started"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#base-package">Base Package</a></li>
+<li><a class="reference internal" href="#with-framework-extras">With Framework Extras</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verify-installation">Verify Installation</a></li>
+<li><a class="reference internal" href="#your-first-smoke-test">Your First Smoke Test</a><ul>
+<li><a class="reference internal" href="#option-1-cli-app-path">Option 1: CLI App Path</a></li>
+<li><a class="reference internal" href="#option-2-pytest-fixture">Option 2: Pytest Fixture</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#understanding-the-output">Understanding the Output</a><ul>
+<li><a class="reference internal" href="#when-tests-fail">When Tests Fail</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#command-line-options">Command Line Options</a></li>
+<li><a class="reference internal" href="#pyproject-toml">pyproject.toml</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Getting Started</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h1>
+<p class="lead">Get up and running with pytest-routes in a few minutes.</p>
+<p>This guide walks you through installing pytest-routes and running your first smoke test.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Requirement</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><p>3.10 or higher</p></td>
+</tr>
+<tr class="row-odd"><td><p>pytest</p></td>
+<td><p>7.0 or higher</p></td>
+</tr>
+<tr class="row-even"><td><p>ASGI Application</p></td>
+<td><p>Litestar, FastAPI, or Starlette</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<section id="base-package">
+<h3>Base Package<a class="headerlink" href="#base-package" title="Link to this heading">¶</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+uv (recommended)</label><div class="sd-tab-content docutils">
+<p><a class="reference external" href="https://docs.astral.sh/uv/">uv</a> is the recommended package manager for Python projects:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv<span class="w"> </span>add<span class="w"> </span>pytest-routes
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+pip</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pip<span class="w"> </span>install<span class="w"> </span>pytest-routes
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="with-framework-extras">
+<h3>With Framework Extras<a class="headerlink" href="#with-framework-extras" title="Link to this heading">¶</a></h3>
+<p>Install with your framework of choice for optimal type extraction:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Litestar</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># uv (recommended)</span>
+</span><span data-line="2">uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;pytest-routes[litestar]&quot;</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># pip</span>
+</span><span data-line="5">pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pytest-routes[litestar]&quot;</span>
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+FastAPI</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># uv (recommended)</span>
+</span><span data-line="2">uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;pytest-routes[fastapi]&quot;</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># pip</span>
+</span><span data-line="5">pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pytest-routes[fastapi]&quot;</span>
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+Starlette</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># uv (recommended)</span>
+</span><span data-line="2">uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;pytest-routes[starlette]&quot;</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># pip</span>
+</span><span data-line="5">pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pytest-routes[starlette]&quot;</span>
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+All Extras</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># uv (recommended)</span>
+</span><span data-line="2">uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;pytest-routes[all]&quot;</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># pip</span>
+</span><span data-line="5">pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pytest-routes[all]&quot;</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="verify-installation">
+<h2>Verify Installation<a class="headerlink" href="#verify-installation" title="Link to this heading">¶</a></h2>
+<p>After installation, verify that pytest-routes is installed correctly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--help<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>routes
+</span></pre></div>
+</div>
+<p>You should see the pytest-routes CLI options listed:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">--routes              Enable route smoke testing
+</span><span data-line="2">--routes-app          Import path to ASGI app (e.g., myapp:app)
+</span><span data-line="3">--routes-max-examples Maximum Hypothesis examples per route
+</span><span data-line="4">...
+</span></pre></div>
+</div>
+</section>
+<section id="your-first-smoke-test">
+<h2>Your First Smoke Test<a class="headerlink" href="#your-first-smoke-test" title="Link to this heading">¶</a></h2>
+<section id="option-1-cli-app-path">
+<h3>Option 1: CLI App Path<a class="headerlink" href="#option-1-cli-app-path" title="Link to this heading">¶</a></h3>
+<p>The simplest way to run smoke tests is to specify your app directly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app
+</span></pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">myapp:app</span></code> is the import path to your ASGI application:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">myapp</span></code> is the module name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app</span></code> is the application variable name</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># myapp.py</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">get</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span data-line="5"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span data-line="6">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello, World!&quot;</span><span class="p">}</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/users/{user_id:int}&quot;</span><span class="p">)</span>
+</span><span data-line="9"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+</span><span data-line="10">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">}</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">([</span><span class="n">hello</span><span class="p">,</span> <span class="n">get_user</span><span class="p">])</span>
+</span></pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app
+</span></pre></div>
+</div>
+</section>
+<section id="option-2-pytest-fixture">
+<h3>Option 2: Pytest Fixture<a class="headerlink" href="#option-2-pytest-fixture" title="Link to this heading">¶</a></h3>
+<p>For more complex applications that require setup (database connections, configuration, etc.),
+define your app as a pytest fixture:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># conftest.py</span>
+</span><span data-line="2"><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">myapp</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_app</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+</span><span data-line="6"><span class="k">def</span><span class="w"> </span><span class="nf">app</span><span class="p">():</span>
+</span><span data-line="7"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create and configure the application for testing.&quot;&quot;&quot;</span>
+</span><span data-line="8">    <span class="k">return</span> <span class="n">create_app</span><span class="p">(</span><span class="n">testing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes
+</span></pre></div>
+</div>
+<p>This approach is useful when your app needs:</p>
+<ul class="simple">
+<li><p>Database setup and teardown</p></li>
+<li><p>Environment-specific configuration</p></li>
+<li><p>Dependency injection setup</p></li>
+<li><p>Custom middleware for testing</p></li>
+</ul>
+</section>
+</section>
+<section id="understanding-the-output">
+<h2>Understanding the Output<a class="headerlink" href="#understanding-the-output" title="Link to this heading">¶</a></h2>
+<p>When you run pytest-routes, each discovered route becomes a separate test item:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">$ pytest --routes --routes-app myapp:app -v
+</span><span data-line="2">
+</span><span data-line="3">collecting ... collected 6 items
+</span><span data-line="4">
+</span><span data-line="5">test_route[GET /] PASSED
+</span><span data-line="6">test_route[GET /users] PASSED
+</span><span data-line="7">test_route[POST /users] PASSED
+</span><span data-line="8">test_route[GET /users/{user_id}] PASSED
+</span><span data-line="9">test_route[PUT /users/{user_id}] PASSED
+</span><span data-line="10">test_route[DELETE /users/{user_id}] PASSED
+</span><span data-line="11">
+</span><span data-line="12">========================= 6 passed in 2.34s =========================
+</span></pre></div>
+</div>
+<p>Each test runs multiple iterations with randomized inputs generated by Hypothesis.</p>
+<section id="when-tests-fail">
+<h3>When Tests Fail<a class="headerlink" href="#when-tests-fail" title="Link to this heading">¶</a></h3>
+<p>If a route returns a 5xx error, pytest-routes reports the failure with a minimal
+reproducing example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">FAILED test_route[POST /users]
+</span><span data-line="2">
+</span><span data-line="3">RouteTestFailure: Route POST /users failed with status 500
+</span><span data-line="4">
+</span><span data-line="5">Request:
+</span><span data-line="6">  Method: POST
+</span><span data-line="7">  Path: /users
+</span><span data-line="8">  Body: {&quot;name&quot;: &quot;&quot;, &quot;email&quot;: &quot;invalid&quot;}
+</span><span data-line="9">
+</span><span data-line="10">Response:
+</span><span data-line="11">  Status: 500 Internal Server Error
+</span><span data-line="12">  Body: {&quot;detail&quot;: &quot;Internal server error&quot;}
+</span><span data-line="13">
+</span><span data-line="14">Shrunk example (minimal failing case):
+</span><span data-line="15">  body={&quot;name&quot;: &quot;&quot;, &quot;email&quot;: &quot;x&quot;}
+</span></pre></div>
+</div>
+<p>Hypothesis automatically shrinks the failing input to the smallest example that
+still causes the failure, making debugging much easier.</p>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<section id="command-line-options">
+<h3>Command Line Options<a class="headerlink" href="#command-line-options" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes</span></code></p></td>
+<td><p>Enable route smoke testing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-app</span></code></p></td>
+<td><p>Import path to ASGI app (e.g., <code class="docutils literal notranslate"><span class="pre">myapp:app</span></code>)</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-max-examples</span></code></p></td>
+<td><p>Maximum Hypothesis examples per route</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">100</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-exclude</span></code></p></td>
+<td><p>Comma-separated patterns to exclude</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/health,/metrics,...</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-include</span></code></p></td>
+<td><p>Comma-separated patterns to include (only test these)</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-methods</span></code></p></td>
+<td><p>HTTP methods to test</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET,POST,PUT,PATCH,DELETE</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-seed</span></code></p></td>
+<td><p>Random seed for reproducibility</p></td>
+<td><p>-</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="pyproject-toml">
+<h3>pyproject.toml<a class="headerlink" href="#pyproject-toml" title="Link to this heading">¶</a></h3>
+<p>You can also configure pytest-routes in your <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes]</span>
+</span><span data-line="2"><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;myapp:app&quot;</span>
+</span><span data-line="3"><span class="n">max_examples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+</span><span data-line="4"><span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/metrics&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/docs&quot;</span><span class="p">]</span>
+</span><span data-line="5"><span class="n">methods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<p>See the <a class="reference internal" href="usage/configuration.html"><span class="std std-doc">Configuration Guide</span></a> for all options.</p>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">¶</a></h2>
+<p>Now that you have pytest-routes installed and running, explore these resources to get the most out of it:</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-3 sd-g-xs-3 sd-g-sm-3 sd-g-md-3 sd-g-lg-3 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-0 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Usage Guide</div>
+<p class="sd-card-text">Learn about filtering routes, custom strategies, response validation, and CI/CD integration.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="usage/index.html"><span class="doc">Usage Guide</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-0 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-terminal" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM7.25 8a.749.749 0 0 1-.22.53l-2.25 2.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L5.44 8 3.72 6.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.25 2.25c.141.14.22.331.22.53Zm1.5 1.5h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5Z"></path></svg> CLI Reference</div>
+<p class="sd-card-text">Complete documentation for all command-line options and their usage.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="usage/cli-options.html"><span class="doc">CLI Options Reference</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-0 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-server" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v4c0 .372-.116.717-.314 1 .198.283.314.628.314 1v4a1.75 1.75 0 0 1-1.75 1.75H1.75A1.75 1.75 0 0 1 0 12.75v-4c0-.358.109-.707.314-1a1.739 1.739 0 0 1-.314-1v-4C0 1.784.784 1 1.75 1ZM1.5 2.75v4c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-4a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Zm.25 5.75a.25.25 0 0 0-.25.25v4c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-4a.25.25 0 0 0-.25-.25ZM7 4.75A.75.75 0 0 1 7.75 4h4.5a.75.75 0 0 1 0 1.5h-4.5A.75.75 0 0 1 7 4.75ZM7.75 10h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM3 4.75A.75.75 0 0 1 3.75 4h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 3 4.75ZM3.75 10h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5Z"></path></svg> Framework Support</div>
+<p class="sd-card-text">Framework-specific features, tips, and best practices for Litestar, FastAPI, and Starlette.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="usage/frameworks/index.html"><span class="doc">Framework Support</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-0 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-code" viewBox="0 0 16 16" aria-hidden="true"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path></svg> API Reference</div>
+<p class="sd-card-text">Full API documentation for extending pytest-routes with custom strategies and validators.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="api/index.html"><span class="doc">API Reference</span></a></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="index.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Home</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="usage/index.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Usage Guide</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=30646c52"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script src="_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

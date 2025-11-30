@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Changelog - pytest-routes</title><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Integrations" href="api/integrations.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Changelog"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#all-notable-changes-to-this-project-will-be-documented-in-this-file">All notable changes to this project will be documented in this file.</a></li>
+<li><a class="reference internal" href="#id1">0.3.4 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#miscellaneous-chores">Miscellaneous Chores</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">0.3.3 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#bug-fixes">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id3">Documentation</a></li>
+<li><a class="reference internal" href="#id4">Miscellaneous Chores</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">0.3.2 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#id6">Documentation</a></li>
+<li><a class="reference internal" href="#id7">Miscellaneous Chores</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">0.3.0 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#id9">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id10">Documentation</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#id11">Miscellaneous Chores</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id12">0.2.3 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#id13">Bug Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id14">0.2.2 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#id15">Bug Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id16">0.2.1 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#id17">Bug Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id18">0.2.0 - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#id19">Documentation</a></li>
+<li><a class="reference internal" href="#id20">Features</a></li>
+<li><a class="reference internal" href="#id21">Miscellaneous Chores</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id22">[0.1.0] - 2025-11-30</a><ul>
+<li><a class="reference internal" href="#id23">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id24">Features</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Changelog</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
+<section id="all-notable-changes-to-this-project-will-be-documented-in-this-file">
+<h2>All notable changes to this project will be documented in this file.<a class="headerlink" href="#all-notable-changes-to-this-project-will-be-documented-in-this-file" title="Link to this heading">¶</a></h2>
+</section>
+<section id="id1">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.3.3..v0.3.4">0.3.4</a> - 2025-11-30<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<section id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>regenerate changelog for v0.3.3 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/14345048f6c977aaadb95ac57abae49633adaf40">1434504</a>) - github-actions[bot]</p></li>
+<li><p>remove redundant TOCs from API reference pages - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/a2834ee0cae550a6b5cce4cb25e8966d06abdea1">a2834ee</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="miscellaneous-chores">
+<h3>Miscellaneous Chores<a class="headerlink" href="#miscellaneous-chores" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>bump version to 0.3.4 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/b0c1c066a41e557fad320351ad4c3ab059dc90c3">b0c1c06</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.3.2..v0.3.3">0.3.3</a> - 2025-11-30<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<section id="bug-fixes">
+<h3>Bug Fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>(docs)</strong> resolve nested tab-set syntax issue - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/c0a493937dcfa201ea349b3573c188f3ea6b3241">c0a4939</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Documentation<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>regenerate changelog for v0.3.2 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/d19c111c14167e4d7ce36c101fb3f0c3c2a5c27d">d19c111</a>) - github-actions[bot]</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Miscellaneous Chores<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>bump version to 0.3.3 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/b95b7a878386d714adbf2345e58a1193bef687df">b95b7a8</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.3.0..v0.3.2">0.3.2</a> - 2025-11-30<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<section id="id6">
+<h3>Documentation<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>regenerate changelog for v0.3.0 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/d7bde2662261af89d7c7158b57fd5b1d9668ea95">d7bde26</a>) - github-actions[bot]</p></li>
+<li><p>add v0.3.0 documentation for schemathesis and reports - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/012248b7470921a8de770d7d379fb01e0c0ff6e6">012248b</a>) - Jacob Coffee</p></li>
+<li><p>convert install commands to sphinx-tabs, remove redundant TOCs - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/bcf97c81e32798d5a3b0aa65700d943190b7e297">bcf97c8</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>Miscellaneous Chores<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>bump version to 0.3.1 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/833453032264334e6498259c9b53a9963a475f08">8334530</a>) - Jacob Coffee</p></li>
+<li><p>bump version to 0.3.2 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/c82c366e4032400292b85d7f34ff1d17e60a1424">c82c366</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.2.3..v0.3.0">0.3.0</a> - 2025-11-30<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<section id="id9">
+<h3>Bug Fixes<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>(ci)</strong> configure PAT for changelog push - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/819cbaafcbacbbb912c891f488a3b4b195cfe612">819cbaa</a>) - Jacob Coffee</p></li>
+<li><p>address PR review comments from Copilot - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/cebfe0e38cff2f5fc295857ed767efc8fe98571a">cebfe0e</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="id10">
+<h3>Documentation<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>regenerate changelog for v0.2.3 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/6d2efc9864fcb55d03d310f4d6f61ac7aa774214">6d2efc9</a>) - github-actions[bot]</p></li>
+<li><p>update <a class="reference external" href="http://PLAN.md">PLAN.md</a> with v0.2.0 completion status - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/70eab238dcde03d5ed4934343e55ffdd4cedb64b">70eab23</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="features">
+<h3>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>add schemathesis integration and HTML reports (#2) - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/38896a34f895c9999fe9cb09149c8819ff4ed5f9">38896a3</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Miscellaneous Chores<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>bump version to 0.3.0 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/9e04089cc4dca30b1766f4dd8de7e258ecd5193f">9e04089</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id12">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.2.2..v0.2.3">0.2.3</a> - 2025-11-30<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
+<section id="id13">
+<h3>Bug Fixes<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>remove debug script causing lint failures - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/c190ff0a847cdb929e14bfbe98eca37138830a94">c190ff0</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id14">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.2.1..v0.2.2">0.2.2</a> - 2025-11-30<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h2>
+<section id="id15">
+<h3>Bug Fixes<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>(ci)</strong> update ruff-action SHA to v3.5.1 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/22a13b0eacd3d75a17cbda940ea1b18a774dfec9">22a13b0</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id16">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.2.0..v0.2.1">0.2.1</a> - 2025-11-30<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h2>
+<section id="id17">
+<h3>Bug Fixes<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>remove broken auth API docs link - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/2a030e01d91567036619e6101fd88f3bc1b8c7b3">2a030e0</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id18">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/compare/v0.1.0..v0.2.0">0.2.0</a> - 2025-11-30<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h2>
+<section id="id19">
+<h3>Documentation<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>update <a class="reference external" href="http://PLAN.md">PLAN.md</a> with v0.1.0 release status and roadmap - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/68d2ed489364838ca950137969ad79304bfb64df">68d2ed4</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="id20">
+<h3>Features<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>v0.2.0 authentication and advanced features - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/220e95960fbb0b219eecb8c868ad5d9eb63604be">220e959</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="id21">
+<h3>Miscellaneous Chores<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>align .github/ with litestar-storages patterns - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/06fe572e929d4943999bd7f6e583bde921469cb1">06fe572</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id22">
+<h2>[0.1.0] - 2025-11-30<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h2>
+<section id="id23">
+<h3>Bug Fixes<a class="headerlink" href="#id23" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>CI workflow fixes for release - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/ee6ee55cb822bc6bb29b54ea266f3f4d279828e9">ee6ee55</a>) - Jacob Coffee</p></li>
+<li><p>correct git-cliff-action SHA to v4.6.0 - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/a30648c2871ef59e05533a32b3e4e0be51316027">a30648c</a>) - Jacob Coffee</p></li>
+</ul>
+</section>
+<section id="id24">
+<h3>Features<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>initial pytest-routes implementation - (<a class="reference external" href="https://github.com/JacobCoffee/pytest-routes/commit/5edc33438be5b2d9a1538f1a96cfa4ddb43e5d9c">5edc334</a>) - Jacob Coffee</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">pytest-routes</span></code> Changelog</p>
+</section>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="api/integrations.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Integrations</div></div>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=30646c52"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script src="_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

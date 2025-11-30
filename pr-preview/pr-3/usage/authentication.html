@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Authentication - pytest-routes</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Schemathesis Integration" href="schemathesis.html" /><link rel="prev" title="Configuration" href="configuration.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Authentication"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Usage Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#quick-start">Quick Start</a><ul>
+<li><a class="reference internal" href="#bearer-token-most-common">Bearer Token (Most Common)</a></li>
+<li><a class="reference internal" href="#api-key">API Key</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#authentication-providers">Authentication Providers</a><ul>
+<li><a class="reference internal" href="#bearertokenauth">BearerTokenAuth</a></li>
+<li><a class="reference internal" href="#apikeyauth">APIKeyAuth</a></li>
+<li><a class="reference internal" href="#compositeauth">CompositeAuth</a></li>
+<li><a class="reference internal" href="#noauth">NoAuth</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li><a class="reference internal" href="#per-route-overrides">Per-Route Overrides</a><ul>
+<li><a class="reference internal" href="#override-priority">Override Priority</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pytest-markers">Pytest Markers</a><ul>
+<li><a class="reference internal" href="#pytest-mark-routes-skip">@pytest.mark.routes_skip</a></li>
+<li><a class="reference internal" href="#pytest-mark-routes-auth">@pytest.mark.routes_auth</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-testing-an-authenticated-api">Example: Testing an Authenticated API</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#unauthorized-errors">401 Unauthorized Errors</a></li>
+<li><a class="reference internal" href="#environment-variable-not-found">Environment Variable Not Found</a></li>
+<li><a class="reference internal" href="#wrong-auth-for-route">Wrong Auth for Route</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Usage Guide</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Authentication</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="authentication">
+<h1>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">¶</a></h1>
+<p>pytest-routes provides flexible authentication support for testing protected API endpoints.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Many APIs require authentication. pytest-routes supports:</p>
+<ul class="simple">
+<li><p><strong>Bearer Token Authentication</strong> - JWT tokens, OAuth2 access tokens</p></li>
+<li><p><strong>API Key Authentication</strong> - Header or query parameter-based keys</p></li>
+<li><p><strong>Composite Authentication</strong> - Multiple auth methods combined</p></li>
+<li><p><strong>Per-Route Overrides</strong> - Different auth for different routes</p></li>
+</ul>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<section id="bearer-token-most-common">
+<h3>Bearer Token (Most Common)<a class="headerlink" href="#bearer-token-most-common" title="Link to this heading">¶</a></h3>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># pyproject.toml</span>
+</span><span data-line="2"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="3"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$API_TOKEN&quot;</span><span class="w">  </span><span class="c1"># Read from environment variable</span>
+</span></pre></div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+uv (recommended)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nv">API_TOKEN</span><span class="o">=</span>your-secret-token<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+pip</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nv">API_TOKEN</span><span class="o">=</span>your-secret-token<span class="w"> </span>pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="api-key">
+<h3>API Key<a class="headerlink" href="#api-key" title="Link to this heading">¶</a></h3>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># pyproject.toml</span>
+</span><span data-line="2"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="3"><span class="n">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$API_KEY&quot;</span>
+</span><span data-line="4"><span class="n">header_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;X-API-Key&quot;</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="authentication-providers">
+<h2>Authentication Providers<a class="headerlink" href="#authentication-providers" title="Link to this heading">¶</a></h2>
+<section id="bearertokenauth">
+<h3>BearerTokenAuth<a class="headerlink" href="#bearertokenauth" title="Link to this heading">¶</a></h3>
+<p>Adds an <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;token&gt;</span></code> header to all requests.</p>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="2"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;your-token&quot;</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Or from environment variable (recommended)</span>
+</span><span data-line="5"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$API_TOKEN&quot;</span>
+</span></pre></div>
+</div>
+<p><strong>Programmatic Usage:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># conftest.py</span>
+</span><span data-line="2"><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestConfig</span><span class="p">,</span> <span class="n">BearerTokenAuth</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span data-line="6"><span class="k">def</span><span class="w"> </span><span class="nf">routes_config</span><span class="p">():</span>
+</span><span data-line="7">    <span class="k">return</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="8">        <span class="n">auth</span><span class="o">=</span><span class="n">BearerTokenAuth</span><span class="p">(</span><span class="s2">&quot;your-secret-token&quot;</span><span class="p">),</span>
+</span><span data-line="9">        <span class="n">max_examples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+</span><span data-line="10">    <span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="apikeyauth">
+<h3>APIKeyAuth<a class="headerlink" href="#apikeyauth" title="Link to this heading">¶</a></h3>
+<p>Sends an API key via header or query parameter.</p>
+<p><strong>Header-based (default):</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="2"><span class="n">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$API_KEY&quot;</span>
+</span><span data-line="3"><span class="n">header_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;X-API-Key&quot;</span><span class="w">  </span><span class="c1"># Optional, defaults to X-API-Key</span>
+</span></pre></div>
+</div>
+<p><strong>Query parameter-based:</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="2"><span class="n">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$API_KEY&quot;</span>
+</span><span data-line="3"><span class="n">query_param</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;api_key&quot;</span>
+</span></pre></div>
+</div>
+<p><strong>Programmatic Usage:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestConfig</span><span class="p">,</span> <span class="n">APIKeyAuth</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Header-based</span>
+</span><span data-line="4"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">auth</span><span class="o">=</span><span class="n">APIKeyAuth</span><span class="p">(</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">,</span> <span class="n">header_name</span><span class="o">=</span><span class="s2">&quot;X-API-Key&quot;</span><span class="p">),</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Query parameter-based</span>
+</span><span data-line="9"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="10">    <span class="n">auth</span><span class="o">=</span><span class="n">APIKeyAuth</span><span class="p">(</span><span class="s2">&quot;my-api-key&quot;</span><span class="p">,</span> <span class="n">query_param</span><span class="o">=</span><span class="s2">&quot;api_key&quot;</span><span class="p">),</span>
+</span><span data-line="11"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="compositeauth">
+<h3>CompositeAuth<a class="headerlink" href="#compositeauth" title="Link to this heading">¶</a></h3>
+<p>Combine multiple authentication methods (e.g., Bearer token + tenant ID).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># conftest.py</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestConfig</span><span class="p">,</span> <span class="n">BearerTokenAuth</span><span class="p">,</span> <span class="n">APIKeyAuth</span><span class="p">,</span> <span class="n">CompositeAuth</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span data-line="5"><span class="k">def</span><span class="w"> </span><span class="nf">routes_config</span><span class="p">():</span>
+</span><span data-line="6">    <span class="k">return</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="7">        <span class="n">auth</span><span class="o">=</span><span class="n">CompositeAuth</span><span class="p">([</span>
+</span><span data-line="8">            <span class="n">BearerTokenAuth</span><span class="p">(</span><span class="s2">&quot;$JWT_TOKEN&quot;</span><span class="p">),</span>
+</span><span data-line="9">            <span class="n">APIKeyAuth</span><span class="p">(</span><span class="s2">&quot;tenant-123&quot;</span><span class="p">,</span> <span class="n">header_name</span><span class="o">=</span><span class="s2">&quot;X-Tenant-ID&quot;</span><span class="p">),</span>
+</span><span data-line="10">        <span class="p">]),</span>
+</span><span data-line="11">    <span class="p">)</span>
+</span></pre></div>
+</div>
+<p>This sends both:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;token&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X-Tenant-ID:</span> <span class="pre">tenant-123</span></code></p></li>
+</ul>
+</section>
+<section id="noauth">
+<h3>NoAuth<a class="headerlink" href="#noauth" title="Link to this heading">¶</a></h3>
+<p>Explicitly disable authentication (useful for overrides).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestConfig</span><span class="p">,</span> <span class="n">NoAuth</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span><span class="n">auth</span><span class="o">=</span><span class="n">NoAuth</span><span class="p">())</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading">¶</a></h2>
+<p>Authentication tokens should <strong>never</strong> be hardcoded. Use environment variables:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="2"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$API_TOKEN&quot;</span><span class="w">  </span><span class="c1"># Reads from API_TOKEN env var</span>
+</span></pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">$</span></code> prefix tells pytest-routes to read from the environment.</p>
+<p><strong>Example workflow:</strong></p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Local Development</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">export</span><span class="w"> </span><span class="nv">API_TOKEN</span><span class="o">=</span><span class="k">$(</span>vault<span class="w"> </span><span class="nb">read</span><span class="w"> </span>-field<span class="o">=</span>token<span class="w"> </span>secret/api<span class="k">)</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+GitHub Actions</label><div class="sd-tab-content docutils">
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># .github/workflows/test.yml</span>
+</span><span data-line="2"><span class="nt">env</span><span class="p">:</span>
+</span><span data-line="3"><span class="w">  </span><span class="nt">API_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.API_TOKEN }}</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="nt">steps</span><span class="p">:</span>
+</span><span data-line="6"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest --routes --routes-app myapp:app</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="per-route-overrides">
+<h2>Per-Route Overrides<a class="headerlink" href="#per-route-overrides" title="Link to this heading">¶</a></h2>
+<p>Different routes may require different authentication. Use route overrides:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># pyproject.toml</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Default auth for most routes</span>
+</span><span data-line="4"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="5"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$USER_TOKEN&quot;</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Admin routes need admin credentials</span>
+</span><span data-line="8"><span class="k">[[tool.pytest-routes.routes]]</span>
+</span><span data-line="9"><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/admin/*&quot;</span>
+</span><span data-line="10"><span class="k">[tool.pytest-routes.routes.auth]</span>
+</span><span data-line="11"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$ADMIN_TOKEN&quot;</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># Public routes - skip auth</span>
+</span><span data-line="14"><span class="k">[[tool.pytest-routes.routes]]</span>
+</span><span data-line="15"><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/public/*&quot;</span>
+</span><span data-line="16"><span class="c1"># No auth section = no authentication</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="c1"># Internal routes - skip testing entirely</span>
+</span><span data-line="19"><span class="k">[[tool.pytest-routes.routes]]</span>
+</span><span data-line="20"><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/internal/*&quot;</span>
+</span><span data-line="21"><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span></pre></div>
+</div>
+<section id="override-priority">
+<h3>Override Priority<a class="headerlink" href="#override-priority" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Route-specific override (if pattern matches)</p></li>
+<li><p>Global <code class="docutils literal notranslate"><span class="pre">[tool.pytest-routes.auth]</span></code></p></li>
+<li><p>No authentication</p></li>
+</ol>
+</section>
+</section>
+<section id="pytest-markers">
+<h2>Pytest Markers<a class="headerlink" href="#pytest-markers" title="Link to this heading">¶</a></h2>
+<p>Use markers for test-level authentication control:</p>
+<section id="pytest-mark-routes-skip">
+<h3>&#64;pytest.mark.routes_skip<a class="headerlink" href="#pytest-mark-routes-skip" title="Link to this heading">¶</a></h3>
+<p>Skip route smoke testing for specific tests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">routes_skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Requires external service&quot;</span><span class="p">)</span>
+</span><span data-line="4"><span class="k">def</span><span class="w"> </span><span class="nf">test_external_integration</span><span class="p">():</span>
+</span><span data-line="5">    <span class="o">...</span>
+</span></pre></div>
+</div>
+</section>
+<section id="pytest-mark-routes-auth">
+<h3>&#64;pytest.mark.routes_auth<a class="headerlink" href="#pytest-mark-routes-auth" title="Link to this heading">¶</a></h3>
+<p>Specify authentication for specific tests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">BearerTokenAuth</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">routes_auth</span><span class="p">(</span><span class="n">BearerTokenAuth</span><span class="p">(</span><span class="s2">&quot;special-token&quot;</span><span class="p">))</span>
+</span><span data-line="5"><span class="k">def</span><span class="w"> </span><span class="nf">test_special_endpoint</span><span class="p">():</span>
+</span><span data-line="6">    <span class="o">...</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="example-testing-an-authenticated-api">
+<h2>Example: Testing an Authenticated API<a class="headerlink" href="#example-testing-an-authenticated-api" title="Link to this heading">¶</a></h2>
+<p>Here’s a complete example of testing a Litestar API with authentication:</p>
+<p><strong>Application (<code class="docutils literal notranslate"><span class="pre">app.py</span></code>):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">get</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthenticationMiddleware</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/public&quot;</span><span class="p">)</span>
+</span><span data-line="5"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">public_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="6">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Public data&quot;</span><span class="p">}</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/protected&quot;</span><span class="p">,</span> <span class="n">guards</span><span class="o">=</span><span class="p">[</span><span class="n">require_auth</span><span class="p">])</span>
+</span><span data-line="9"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">protected_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="10">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Protected data&quot;</span><span class="p">}</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/admin&quot;</span><span class="p">,</span> <span class="n">guards</span><span class="o">=</span><span class="p">[</span><span class="n">require_admin</span><span class="p">])</span>
+</span><span data-line="13"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">admin_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="14">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Admin data&quot;</span><span class="p">}</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="17">    <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">public_endpoint</span><span class="p">,</span> <span class="n">protected_endpoint</span><span class="p">,</span> <span class="n">admin_endpoint</span><span class="p">],</span>
+</span><span data-line="18">    <span class="n">middleware</span><span class="o">=</span><span class="p">[</span><span class="n">AuthenticationMiddleware</span><span class="p">],</span>
+</span><span data-line="19"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Configuration (<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>):</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes]</span>
+</span><span data-line="2"><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;app:app&quot;</span>
+</span><span data-line="3"><span class="n">max_examples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+</span><span data-line="4"><span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/docs&quot;</span><span class="p">]</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Default auth for protected routes</span>
+</span><span data-line="7"><span class="k">[tool.pytest-routes.auth]</span>
+</span><span data-line="8"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$USER_TOKEN&quot;</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Admin routes need elevated privileges</span>
+</span><span data-line="11"><span class="k">[[tool.pytest-routes.routes]]</span>
+</span><span data-line="12"><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/admin*&quot;</span>
+</span><span data-line="13"><span class="k">[tool.pytest-routes.routes.auth]</span>
+</span><span data-line="14"><span class="n">bearer_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;$ADMIN_TOKEN&quot;</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="c1"># Public routes - no auth needed</span>
+</span><span data-line="17"><span class="k">[[tool.pytest-routes.routes]]</span>
+</span><span data-line="18"><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/public*&quot;</span>
+</span><span data-line="19"><span class="c1"># Omit auth = no authentication sent</span>
+</span></pre></div>
+</div>
+<p><strong>Running Tests:</strong></p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+uv (recommended)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">export</span><span class="w"> </span><span class="nv">USER_TOKEN</span><span class="o">=</span>user-jwt-token
+</span><span data-line="2"><span class="nb">export</span><span class="w"> </span><span class="nv">ADMIN_TOKEN</span><span class="o">=</span>admin-jwt-token
+</span><span data-line="3">uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--routes<span class="w"> </span>-v
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+pip</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">export</span><span class="w"> </span><span class="nv">USER_TOKEN</span><span class="o">=</span>user-jwt-token
+</span><span data-line="2"><span class="nb">export</span><span class="w"> </span><span class="nv">ADMIN_TOKEN</span><span class="o">=</span>admin-jwt-token
+</span><span data-line="3">pytest<span class="w"> </span>--routes<span class="w"> </span>-v
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<section id="unauthorized-errors">
+<h3>401 Unauthorized Errors<a class="headerlink" href="#unauthorized-errors" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>Check token is set:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">echo</span><span class="w"> </span><span class="nv">$API_TOKEN</span><span class="w">  </span><span class="c1"># Should not be empty</span>
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>Verify auth header is sent:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-verbose
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>Check route pattern matching:</strong>
+Route overrides use glob patterns - ensure your pattern matches.</p></li>
+</ol>
+</section>
+<section id="environment-variable-not-found">
+<h3>Environment Variable Not Found<a class="headerlink" href="#environment-variable-not-found" title="Link to this heading">¶</a></h3>
+<p>If you see <code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">Environment</span> <span class="pre">variable</span> <span class="pre">'X'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">set</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Ensure the variable is exported: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">API_TOKEN=...</span></code></p></li>
+<li><p>Check for typos in the variable name</p></li>
+<li><p>In CI, verify secrets are configured</p></li>
+</ol>
+</section>
+<section id="wrong-auth-for-route">
+<h3>Wrong Auth for Route<a class="headerlink" href="#wrong-auth-for-route" title="Link to this heading">¶</a></h3>
+<p>Check route override patterns:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Patterns are matched in order - first match wins</span>
+</span><span data-line="2"><span class="k">[[tool.pytest-routes.routes]]</span>
+</span><span data-line="3"><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/api/v1/*&quot;</span><span class="w">  </span><span class="c1"># Matches /api/v1/users</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="k">[[tool.pytest-routes.routes]]</span>
+</span><span data-line="6"><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/api/*&quot;</span><span class="w">     </span><span class="c1"># Would NOT match /api/v1/users if above matches first</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<p>The authentication module provides:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AuthProvider</span></code> - Base class for custom providers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BearerTokenAuth</span></code> - Bearer token implementation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">APIKeyAuth</span></code> - API key implementation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CompositeAuth</span></code> - Combine multiple providers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NoAuth</span></code> - Explicit no-auth provider</p></li>
+</ul>
+<p>All classes are exported from <code class="docutils literal notranslate"><span class="pre">pytest_routes</span></code> and <code class="docutils literal notranslate"><span class="pre">pytest_routes.auth</span></code>.</p>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="configuration.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Configuration</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="schemathesis.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Schemathesis Integration</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

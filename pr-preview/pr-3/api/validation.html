@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Response Validation - pytest-routes</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Reporting" href="reporting.html" /><link rel="prev" title="Test Execution" href="execution.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Response Validation"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="execution.html">Test Execution</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#validator-hierarchy">Validator Hierarchy</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a><ul>
+<li><a class="reference internal" href="#core-types">Core Types</a><ul>
+<li><a class="reference internal" href="#validationresult">ValidationResult</a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult"><code class="docutils literal notranslate"><span class="pre">ValidationResult</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult.valid"><code class="docutils literal notranslate">valid</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult.errors"><code class="docutils literal notranslate">errors</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult.warnings"><code class="docutils literal notranslate">warnings</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#responsevalidator-protocol">ResponseValidator Protocol</a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ResponseValidator"><code class="docutils literal notranslate"><span class="pre">ResponseValidator</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ResponseValidator.validate"><code class="docutils literal notranslate">validate()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ResponseValidator.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validators">Validators</a><ul>
+<li><a class="reference internal" href="#statuscodevalidator">StatusCodeValidator</a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.StatusCodeValidator"><code class="docutils literal notranslate"><span class="pre">StatusCodeValidator</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.StatusCodeValidator.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.StatusCodeValidator.validate"><code class="docutils literal notranslate">validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contenttypevalidator">ContentTypeValidator</a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ContentTypeValidator"><code class="docutils literal notranslate"><span class="pre">ContentTypeValidator</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ContentTypeValidator.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.ContentTypeValidator.validate"><code class="docutils literal notranslate">validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#jsonschemavalidator">JsonSchemaValidator</a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.JsonSchemaValidator"><code class="docutils literal notranslate"><span class="pre">JsonSchemaValidator</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.JsonSchemaValidator.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.JsonSchemaValidator.validate"><code class="docutils literal notranslate">validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#openapiresponsevalidator">OpenAPIResponseValidator</a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.OpenAPIResponseValidator"><code class="docutils literal notranslate"><span class="pre">OpenAPIResponseValidator</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.OpenAPIResponseValidator.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.OpenAPIResponseValidator.validate"><code class="docutils literal notranslate">validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compositevalidator">CompositeValidator</a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.CompositeValidator"><code class="docutils literal notranslate"><span class="pre">CompositeValidator</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.validation.response.CompositeValidator.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.validation.response.CompositeValidator.validate"><code class="docutils literal notranslate">validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#enabling-validation">Enabling Validation</a></li>
+<li><a class="reference internal" href="#custom-validators">Custom Validators</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Response Validation</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="response-validation">
+<span id="api-validation"></span><h1>Response Validation<a class="headerlink" href="#response-validation" title="Link to this heading">¶</a></h1>
+<p>The validation module provides validators for checking HTTP responses against
+expected schemas, status codes, content types, and other criteria.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Response validation ensures your API responses conform to expectations:</p>
+<ul class="simple">
+<li><p><strong>Status Code Validation</strong> - Check response status codes</p></li>
+<li><p><strong>Content Type Validation</strong> - Verify Content-Type headers</p></li>
+<li><p><strong>JSON Schema Validation</strong> - Validate response bodies against schemas</p></li>
+<li><p><strong>OpenAPI Validation</strong> - Validate against OpenAPI specifications</p></li>
+<li><p><strong>Composite Validation</strong> - Combine multiple validators</p></li>
+</ul>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<p>Basic status code validation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusCodeValidator</span><span class="p">,</span> <span class="n">ValidationResult</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">validator</span> <span class="o">=</span> <span class="n">StatusCodeValidator</span><span class="p">(</span><span class="n">allowed_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">204</span><span class="p">])</span>
+</span><span data-line="4"><span class="n">result</span><span class="p">:</span> <span class="n">ValidationResult</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+</span><span data-line="7">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Response is valid!&quot;</span><span class="p">)</span>
+</span><span data-line="8"><span class="k">else</span><span class="p">:</span>
+</span><span data-line="9">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Errors: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Combine multiple validators:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="2">    <span class="n">CompositeValidator</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">StatusCodeValidator</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">ContentTypeValidator</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">JsonSchemaValidator</span><span class="p">,</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="n">validator</span> <span class="o">=</span> <span class="n">CompositeValidator</span><span class="p">([</span>
+</span><span data-line="9">    <span class="n">StatusCodeValidator</span><span class="p">([</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">]),</span>
+</span><span data-line="10">    <span class="n">ContentTypeValidator</span><span class="p">([</span><span class="s2">&quot;application/json&quot;</span><span class="p">]),</span>
+</span><span data-line="11">    <span class="n">JsonSchemaValidator</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">}),</span>
+</span><span data-line="12"><span class="p">])</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="validator-hierarchy">
+<h2>Validator Hierarchy<a class="headerlink" href="#validator-hierarchy" title="Link to this heading">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">ResponseValidator (Protocol)
+</span><span data-line="2">        |
+</span><span data-line="3">        +-- StatusCodeValidator
+</span><span data-line="4">        |
+</span><span data-line="5">        +-- ContentTypeValidator
+</span><span data-line="6">        |
+</span><span data-line="7">        +-- JsonSchemaValidator
+</span><span data-line="8">        |
+</span><span data-line="9">        +-- OpenAPIResponseValidator
+</span><span data-line="10">        |
+</span><span data-line="11">        +-- CompositeValidator (combines others)
+</span></pre></div>
+</div>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<section id="core-types">
+<h3>Core Types<a class="headerlink" href="#core-types" title="Link to this heading">¶</a></h3>
+<section id="validationresult">
+<h4>ValidationResult<a class="headerlink" href="#validationresult" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ValidationResult">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.validation.response.</span></span><span class="sig-name descname"><span class="pre">ValidationResult</span></span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#ValidationResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.ValidationResult" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Result of response validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>valid</strong> – Whether the validation passed.</p></li>
+<li><p><strong>errors</strong> – List of validation error messages.</p></li>
+<li><p><strong>warnings</strong> – List of validation warning messages.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>valid</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>errors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>warnings</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<p>The result of a validation operation.</p>
+<p class="rubric">Attributes</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">valid</span></code></dt><dd><p>Boolean indicating if validation passed</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">errors</span></code></dt><dd><p>List of error messages (empty if valid)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">warnings</span></code></dt><dd><p>List of warning messages (non-fatal issues)</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">result</span> <span class="o">=</span> <span class="n">ValidationResult</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">errors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Status code 500 not in allowed codes&quot;</span><span class="p">],</span>
+</span><span data-line="4">    <span class="n">warnings</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Response time exceeded 1s&quot;</span><span class="p">],</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+</span><span data-line="8">    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span>
+</span><span data-line="9">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ValidationResult.valid">
+<span class="sig-name descname"><span class="pre">valid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#pytest_routes.validation.response.ValidationResult.valid" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ValidationResult.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.validation.response.ValidationResult.errors" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ValidationResult.warnings">
+<span class="sig-name descname"><span class="pre">warnings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.validation.response.ValidationResult.warnings" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ValidationResult.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warnings=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.validation.response.ValidationResult.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>valid</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>errors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>warnings</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="responsevalidator-protocol">
+<h4>ResponseValidator Protocol<a class="headerlink" href="#responsevalidator-protocol" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ResponseValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.validation.response.</span></span><span class="sig-name descname"><span class="pre">ResponseValidator</span></span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#ResponseValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.ResponseValidator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
+<p>Protocol for response validation.</p>
+<p>Response validators check that HTTP responses conform to expected
+schemas, status codes, content types, and other criteria.</p>
+<p>Protocol that all validators must implement.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ResponseValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#ResponseValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.ResponseValidator.validate" title="Link to this definition">¶</a></dt>
+<dd><p>Validate a response against expected schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The HTTP response object (typically httpx.Response).</p></li>
+<li><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route information for context.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult" title="pytest_routes.validation.response.ValidationResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationResult</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValidationResult indicating success or failure with details.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ResponseValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.validation.response.ResponseValidator.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="validators">
+<h3>Validators<a class="headerlink" href="#validators" title="Link to this heading">¶</a></h3>
+<section id="statuscodevalidator">
+<h4>StatusCodeValidator<a class="headerlink" href="#statuscodevalidator" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.StatusCodeValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.validation.response.</span></span><span class="sig-name descname"><span class="pre">StatusCodeValidator</span></span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#StatusCodeValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.StatusCodeValidator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Validate response status codes.</p>
+<p>Checks that the response status code is within the allowed set.
+This is the most basic form of response validation.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">validator</span> <span class="o">=</span> <span class="n">StatusCodeValidator</span><span class="p">(</span><span class="n">allowed_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">204</span><span class="p">])</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>allowed_codes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p>
+</dd>
+</dl>
+<p>Validates that response status codes are within an allowed set.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusCodeValidator</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Allow success and client error codes</span>
+</span><span data-line="4"><span class="n">validator</span> <span class="o">=</span> <span class="n">StatusCodeValidator</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">allowed_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">204</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">401</span><span class="p">,</span> <span class="mi">403</span><span class="p">,</span> <span class="mi">404</span><span class="p">,</span> <span class="mi">422</span><span class="p">]</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Default: all 2xx-4xx codes (200-499)</span>
+</span><span data-line="9"><span class="n">default_validator</span> <span class="o">=</span> <span class="n">StatusCodeValidator</span><span class="p">()</span>
+</span></pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.StatusCodeValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allowed_codes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#StatusCodeValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.StatusCodeValidator.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize status code validator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>allowed_codes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – List of allowed HTTP status codes.
+Defaults to all 2xx-4xx codes (200-499).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.StatusCodeValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#StatusCodeValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.StatusCodeValidator.validate" title="Link to this definition">¶</a></dt>
+<dd><p>Validate response status code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The HTTP response object.</p></li>
+<li><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult" title="pytest_routes.validation.response.ValidationResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationResult</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValidationResult with status code validation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="contenttypevalidator">
+<h4>ContentTypeValidator<a class="headerlink" href="#contenttypevalidator" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ContentTypeValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.validation.response.</span></span><span class="sig-name descname"><span class="pre">ContentTypeValidator</span></span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#ContentTypeValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.ContentTypeValidator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Validate response content type.</p>
+<p>Checks that the response Content-Type header matches expected types.
+Useful for ensuring APIs return the correct media type.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">validator</span> <span class="o">=</span> <span class="n">ContentTypeValidator</span><span class="p">(</span><span class="n">expected_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;application/json&quot;</span><span class="p">])</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>expected_types</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p>
+</dd>
+</dl>
+<p>Validates the Content-Type header of responses.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContentTypeValidator</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># JSON APIs</span>
+</span><span data-line="4"><span class="n">json_validator</span> <span class="o">=</span> <span class="n">ContentTypeValidator</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">expected_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;application/json&quot;</span><span class="p">]</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Multiple content types</span>
+</span><span data-line="9"><span class="n">multi_validator</span> <span class="o">=</span> <span class="n">ContentTypeValidator</span><span class="p">(</span>
+</span><span data-line="10">    <span class="n">expected_types</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="11">        <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+</span><span data-line="12">        <span class="s2">&quot;application/xml&quot;</span><span class="p">,</span>
+</span><span data-line="13">        <span class="s2">&quot;text/html&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="p">]</span>
+</span><span data-line="15"><span class="p">)</span>
+</span></pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ContentTypeValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#ContentTypeValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.ContentTypeValidator.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize content type validator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>expected_types</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – List of expected content types (e.g., [“application/json”]).
+Defaults to [“application/json”].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.ContentTypeValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#ContentTypeValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.ContentTypeValidator.validate" title="Link to this definition">¶</a></dt>
+<dd><p>Validate response content type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The HTTP response object.</p></li>
+<li><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult" title="pytest_routes.validation.response.ValidationResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationResult</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValidationResult with content type validation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="jsonschemavalidator">
+<h4>JsonSchemaValidator<a class="headerlink" href="#jsonschemavalidator" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.JsonSchemaValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.validation.response.</span></span><span class="sig-name descname"><span class="pre">JsonSchemaValidator</span></span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#JsonSchemaValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.JsonSchemaValidator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Validate response body against JSON schema.</p>
+<p>Uses jsonschema library (if available) to validate response bodies
+against a provided JSON Schema. Falls back to basic JSON validation
+if jsonschema is not installed.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">}}}</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">validator</span> <span class="o">=</span> <span class="n">JsonSchemaValidator</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">)</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="4"><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schema</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>strict</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Validates response bodies against a JSON Schema.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires the <code class="docutils literal notranslate"><span class="pre">jsonschema</span></code> package for full schema validation.
+Install with: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">jsonschema</span></code></p>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">JsonSchemaValidator</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="4">    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">],</span>
+</span><span data-line="6">    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="7">        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">},</span>
+</span><span data-line="8">        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;minLength&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+</span><span data-line="9">        <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;email&quot;</span><span class="p">},</span>
+</span><span data-line="10">    <span class="p">},</span>
+</span><span data-line="11"><span class="p">}</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="n">validator</span> <span class="o">=</span> <span class="n">JsonSchemaValidator</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="14"><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+</span><span data-line="17">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Schema errors: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.JsonSchemaValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#JsonSchemaValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.JsonSchemaValidator.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize JSON schema validator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schema</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – JSON Schema dictionary. If None, only validates JSON parsing.</p></li>
+<li><p><strong>strict</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, require jsonschema library. If False, degrade gracefully.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.JsonSchemaValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#JsonSchemaValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.JsonSchemaValidator.validate" title="Link to this definition">¶</a></dt>
+<dd><p>Validate response body against JSON schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The HTTP response object.</p></li>
+<li><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult" title="pytest_routes.validation.response.ValidationResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationResult</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValidationResult with JSON schema validation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="openapiresponsevalidator">
+<h4>OpenAPIResponseValidator<a class="headerlink" href="#openapiresponsevalidator" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.OpenAPIResponseValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.validation.response.</span></span><span class="sig-name descname"><span class="pre">OpenAPIResponseValidator</span></span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#OpenAPIResponseValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.OpenAPIResponseValidator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Validate response against OpenAPI schema.</p>
+<p>Extracts expected response schemas from an OpenAPI specification
+and validates responses against them. This is the most comprehensive
+form of validation for OpenAPI-based APIs.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">validator</span> <span class="o">=</span> <span class="n">OpenAPIResponseValidator</span><span class="p">(</span><span class="n">openapi_schema</span><span class="o">=</span><span class="n">openapi_spec</span><span class="p">)</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>openapi_schema</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p>
+</dd>
+</dl>
+<p>Validates responses against an OpenAPI specification.</p>
+<p>This validator automatically:</p>
+<ul class="simple">
+<li><p>Finds the matching path in the OpenAPI spec</p></li>
+<li><p>Looks up the expected response schema for the status code</p></li>
+<li><p>Validates the response body against that schema</p></li>
+</ul>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAPIResponseValidator</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">openapi_spec</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="4">    <span class="s2">&quot;openapi&quot;</span><span class="p">:</span> <span class="s2">&quot;3.0.0&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="s2">&quot;paths&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="6">        <span class="s2">&quot;/users/</span><span class="si">{user_id}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="7">            <span class="s2">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="8">                <span class="s2">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="9">                    <span class="s2">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="10">                        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="11">                            <span class="s2">&quot;application/json&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="12">                                <span class="s2">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="13">                                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+</span><span data-line="14">                                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="15">                                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">},</span>
+</span><span data-line="16">                                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+</span><span data-line="17">                                    <span class="p">},</span>
+</span><span data-line="18">                                <span class="p">}</span>
+</span><span data-line="19">                            <span class="p">}</span>
+</span><span data-line="20">                        <span class="p">}</span>
+</span><span data-line="21">                    <span class="p">}</span>
+</span><span data-line="22">                <span class="p">}</span>
+</span><span data-line="23">            <span class="p">}</span>
+</span><span data-line="24">        <span class="p">}</span>
+</span><span data-line="25">    <span class="p">}</span>
+</span><span data-line="26"><span class="p">}</span>
+</span><span data-line="27">
+</span><span data-line="28"><span class="n">validator</span> <span class="o">=</span> <span class="n">OpenAPIResponseValidator</span><span class="p">(</span><span class="n">openapi_schema</span><span class="o">=</span><span class="n">openapi_spec</span><span class="p">)</span>
+</span><span data-line="29"><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.OpenAPIResponseValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">openapi_schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#OpenAPIResponseValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.OpenAPIResponseValidator.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize OpenAPI response validator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>openapi_schema</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Full OpenAPI specification dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.OpenAPIResponseValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#OpenAPIResponseValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.OpenAPIResponseValidator.validate" title="Link to this definition">¶</a></dt>
+<dd><p>Validate response against OpenAPI schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The HTTP response object.</p></li>
+<li><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult" title="pytest_routes.validation.response.ValidationResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationResult</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValidationResult with OpenAPI validation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="compositevalidator">
+<h4>CompositeValidator<a class="headerlink" href="#compositevalidator" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.CompositeValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.validation.response.</span></span><span class="sig-name descname"><span class="pre">CompositeValidator</span></span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#CompositeValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.CompositeValidator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Run multiple validators in sequence.</p>
+<p>Combines multiple validators into a single validator that runs all
+of them and aggregates their results. Useful for applying multiple
+validation rules to a single response.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">validators</span> <span class="o">=</span> <span class="p">[</span>
+</span><span data-line="2"><span class="gp">... </span>    <span class="n">StatusCodeValidator</span><span class="p">([</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">]),</span>
+</span><span data-line="3"><span class="gp">... </span>    <span class="n">ContentTypeValidator</span><span class="p">([</span><span class="s2">&quot;application/json&quot;</span><span class="p">]),</span>
+</span><span data-line="4"><span class="gp">... </span>    <span class="n">JsonSchemaValidator</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="n">my_schema</span><span class="p">),</span>
+</span><span data-line="5"><span class="gp">... </span><span class="p">]</span>
+</span><span data-line="6"><span class="gp">&gt;&gt;&gt; </span><span class="n">composite</span> <span class="o">=</span> <span class="n">CompositeValidator</span><span class="p">(</span><span class="n">validators</span><span class="p">)</span>
+</span><span data-line="7"><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">composite</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="8"><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>validators</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="#pytest_routes.validation.response.ResponseValidator" title="pytest_routes.validation.response.ResponseValidator"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseValidator</span></code></a>]</span>)</p>
+</dd>
+</dl>
+<p>Combines multiple validators into one.</p>
+<p>All validators are run in sequence, and their results are aggregated.
+The composite is valid only if all child validators pass.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="2">    <span class="n">CompositeValidator</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">StatusCodeValidator</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">ContentTypeValidator</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">JsonSchemaValidator</span><span class="p">,</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Build a comprehensive validator</span>
+</span><span data-line="9"><span class="n">validator</span> <span class="o">=</span> <span class="n">CompositeValidator</span><span class="p">([</span>
+</span><span data-line="10">    <span class="n">StatusCodeValidator</span><span class="p">([</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">]),</span>
+</span><span data-line="11">    <span class="n">ContentTypeValidator</span><span class="p">([</span><span class="s2">&quot;application/json&quot;</span><span class="p">]),</span>
+</span><span data-line="12">    <span class="n">JsonSchemaValidator</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="13">        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+</span><span data-line="14">        <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+</span><span data-line="15">    <span class="p">}),</span>
+</span><span data-line="16"><span class="p">])</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="n">result</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="c1"># Result contains all errors from all validators</span>
+</span><span data-line="21"><span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+</span><span data-line="22">    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span>
+</span><span data-line="23">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation error: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="24">
+</span><span data-line="25"><span class="c1"># Warnings are also aggregated</span>
+</span><span data-line="26"><span class="k">for</span> <span class="n">warning</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">warnings</span><span class="p">:</span>
+</span><span data-line="27">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: </span><span class="si">{</span><span class="n">warning</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.CompositeValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validators</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#CompositeValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.CompositeValidator.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize composite validator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>validators</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="#pytest_routes.validation.response.ResponseValidator" title="pytest_routes.validation.response.ResponseValidator"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseValidator</span></code></a>]</span>) – List of validators to run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.validation.response.CompositeValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/validation/response.html#CompositeValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.validation.response.CompositeValidator.validate" title="Link to this definition">¶</a></dt>
+<dd><p>Run all validators and aggregate results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The HTTP response object.</p></li>
+<li><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pytest_routes.validation.response.ValidationResult" title="pytest_routes.validation.response.ValidationResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationResult</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValidationResult with aggregated errors and warnings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+<section id="enabling-validation">
+<h2>Enabling Validation<a class="headerlink" href="#enabling-validation" title="Link to this heading">¶</a></h2>
+<p>Enable response validation in your configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestConfig</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="4">    <span class="n">validate_responses</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">response_validators</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;status_code&quot;</span><span class="p">,</span> <span class="s2">&quot;content_type&quot;</span><span class="p">],</span>
+</span><span data-line="6">    <span class="n">fail_on_validation_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Available validator names:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;status_code&quot;</span></code> - <code class="xref py py-class docutils literal notranslate"><span class="pre">StatusCodeValidator</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;content_type&quot;</span></code> - <code class="xref py py-class docutils literal notranslate"><span class="pre">ContentTypeValidator</span></code></p></li>
+</ul>
+</section>
+<section id="custom-validators">
+<h2>Custom Validators<a class="headerlink" href="#custom-validators" title="Link to this heading">¶</a></h2>
+<p>Create custom validators by implementing the <code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseValidator</span></code> protocol:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationResult</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.discovery.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteInfo</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="k">class</span><span class="w"> </span><span class="nc">ResponseTimeValidator</span><span class="p">:</span>
+</span><span data-line="6"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that responses are fast enough.&quot;&quot;&quot;</span>
+</span><span data-line="7">
+</span><span data-line="8">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+</span><span data-line="9">        <span class="bp">self</span><span class="o">.</span><span class="n">max_seconds</span> <span class="o">=</span> <span class="n">max_seconds</span>
+</span><span data-line="10">
+</span><span data-line="11">    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">route</span><span class="p">:</span> <span class="n">RouteInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValidationResult</span><span class="p">:</span>
+</span><span data-line="12">        <span class="c1"># Access response time if available</span>
+</span><span data-line="13">        <span class="n">elapsed</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s2">&quot;elapsed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15">        <span class="k">if</span> <span class="n">elapsed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="16">            <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span>
+</span><span data-line="17">                <span class="n">valid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="18">                <span class="n">warnings</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Response time not available&quot;</span><span class="p">]</span>
+</span><span data-line="19">            <span class="p">)</span>
+</span><span data-line="20">
+</span><span data-line="21">        <span class="k">if</span> <span class="n">elapsed</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_seconds</span><span class="p">:</span>
+</span><span data-line="22">            <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span>
+</span><span data-line="23">                <span class="n">valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="24">                <span class="n">errors</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="25">                    <span class="sa">f</span><span class="s2">&quot;Response took </span><span class="si">{</span><span class="n">elapsed</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s, &quot;</span>
+</span><span data-line="26">                    <span class="sa">f</span><span class="s2">&quot;max allowed is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_seconds</span><span class="si">}</span><span class="s2">s&quot;</span>
+</span><span data-line="27">                <span class="p">]</span>
+</span><span data-line="28">            <span class="p">)</span>
+</span><span data-line="29">
+</span><span data-line="30">        <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span><span class="n">valid</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="31">
+</span><span data-line="32">
+</span><span data-line="33"><span class="k">class</span><span class="w"> </span><span class="nc">DeprecationHeaderValidator</span><span class="p">:</span>
+</span><span data-line="34"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check for deprecation warnings in headers.&quot;&quot;&quot;</span>
+</span><span data-line="35">
+</span><span data-line="36">    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">route</span><span class="p">:</span> <span class="n">RouteInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValidationResult</span><span class="p">:</span>
+</span><span data-line="37">        <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="38">
+</span><span data-line="39">        <span class="k">if</span> <span class="s2">&quot;Deprecation&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+</span><span data-line="40">            <span class="n">warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span data-line="41">                <span class="sa">f</span><span class="s2">&quot;Route </span><span class="si">{</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> is deprecated: &quot;</span>
+</span><span data-line="42">                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Deprecation&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span data-line="43">            <span class="p">)</span>
+</span><span data-line="44">
+</span><span data-line="45">        <span class="k">if</span> <span class="s2">&quot;Sunset&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+</span><span data-line="46">            <span class="n">warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span data-line="47">                <span class="sa">f</span><span class="s2">&quot;Route </span><span class="si">{</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> will be removed: &quot;</span>
+</span><span data-line="48">                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Sunset&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span data-line="49">            <span class="p">)</span>
+</span><span data-line="50">
+</span><span data-line="51">        <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span><span class="n">valid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">warnings</span><span class="o">=</span><span class="n">warnings</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Use custom validators with <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeValidator</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeValidator</span><span class="p">,</span> <span class="n">StatusCodeValidator</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">validator</span> <span class="o">=</span> <span class="n">CompositeValidator</span><span class="p">([</span>
+</span><span data-line="4">    <span class="n">StatusCodeValidator</span><span class="p">([</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">]),</span>
+</span><span data-line="5">    <span class="n">ResponseTimeValidator</span><span class="p">(</span><span class="n">max_seconds</span><span class="o">=</span><span class="mf">2.0</span><span class="p">),</span>
+</span><span data-line="6">    <span class="n">DeprecationHeaderValidator</span><span class="p">(),</span>
+</span><span data-line="7"><span class="p">])</span>
+</span></pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="config.html"><span class="doc">Configuration</span></a> - Configuration options for validation</p></li>
+<li><p><a class="reference internal" href="execution.html"><span class="doc">Test Execution</span></a> - How validation fits into test execution</p></li>
+<li><p><a class="reference internal" href="index.html#api-reference"><span class="std std-ref">API Reference</span></a> - Complete API overview</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="execution.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Test Execution</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="reporting.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Reporting</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

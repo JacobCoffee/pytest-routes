@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>pytest_routes.reporting.html - pytest-routes</title><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="pytest_routes.reporting.html"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">Module code</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">pytest_routes.reporting.html</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <h1>Source code for pytest_routes.reporting.html</h1><div class="highlight"><pre>
+<span></span><span data-line="1"><span class="sd">&quot;&quot;&quot;HTML report generation for pytest-routes.&quot;&quot;&quot;</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="kn">import</span><span class="w"> </span><span class="nn">html</span>
+</span><span data-line="6"><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</span><span data-line="7"><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span data-line="8"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+</span><span data-line="9"><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+</span><span data-line="10"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+</span><span data-line="13">    <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunMetrics</span>
+</span><span data-line="14">    <span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.reporting.route_coverage</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoverageMetrics</span>
+</span><span data-line="15">
+</span><span data-line="16">
+</span><span data-line="17"><span class="k">def</span><span class="w"> </span><span class="nf">_jinja2_available</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span data-line="18"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if Jinja2 is available.&quot;&quot;&quot;</span>
+</span><span data-line="19">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="20">        <span class="kn">import</span><span class="w"> </span><span class="nn">jinja2</span>  <span class="c1"># noqa: F401</span>
+</span><span data-line="21">
+</span><span data-line="22">        <span class="k">return</span> <span class="kc">True</span>
+</span><span data-line="23">    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span data-line="24">        <span class="k">return</span> <span class="kc">False</span>
+</span><span data-line="25">
+</span><span data-line="26">
+<div class="viewcode-block" id="ReportConfig">
+<a class="viewcode-back" href="../../../api/reporting.html#pytest_routes.reporting.ReportConfig">[docs]</a>
+</span><span data-line="27"><span class="nd">@dataclass</span>
+</span><span data-line="28"><span class="k">class</span><span class="w"> </span><span class="nc">ReportConfig</span><span class="p">:</span>
+</span><span data-line="29"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for HTML report generation.</span>
+</span><span data-line="30">
+</span><span data-line="31"><span class="sd">    Attributes:</span>
+</span><span data-line="32"><span class="sd">        output_path: Path to write the HTML report.</span>
+</span><span data-line="33"><span class="sd">        title: Title for the report.</span>
+</span><span data-line="34"><span class="sd">        include_charts: Whether to include charts.</span>
+</span><span data-line="35"><span class="sd">        include_details: Whether to include detailed route info.</span>
+</span><span data-line="36"><span class="sd">        theme: Color theme (&#39;light&#39; or &#39;dark&#39;).</span>
+</span><span data-line="37"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="38">
+</span><span data-line="39">    <span class="n">output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pytest-routes-report.html&quot;</span>
+</span><span data-line="40">    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pytest-routes Test Report&quot;</span>
+</span><span data-line="41">    <span class="n">include_charts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="42">    <span class="n">include_details</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="43">    <span class="n">theme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
+</span><span data-line="44">
+</span><span data-line="45">    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="46">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+</span><span data-line="47">            <span class="bp">self</span><span class="o">.</span><span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span></div>
+
+</span><span data-line="48">
+</span><span data-line="49">
+</span><span data-line="50"><span class="n">_REPORT_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&lt;!DOCTYPE html&gt;</span>
+</span><span data-line="51"><span class="s2">&lt;html lang=&quot;en&quot; data-theme=&quot;{{ theme }}&quot;&gt;</span>
+</span><span data-line="52"><span class="s2">&lt;head&gt;</span>
+</span><span data-line="53"><span class="s2">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+</span><span data-line="54"><span class="s2">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span>
+</span><span data-line="55"><span class="s2">    &lt;title&gt;{{ title }}&lt;/title&gt;</span>
+</span><span data-line="56"><span class="s2">    &lt;style&gt;</span>
+</span><span data-line="57"><span class="s2">        :root {</span>
+</span><span data-line="58"><span class="s2">            --bg-color: #ffffff;</span>
+</span><span data-line="59"><span class="s2">            --text-color: #1a1a1a;</span>
+</span><span data-line="60"><span class="s2">            --card-bg: #f8f9fa;</span>
+</span><span data-line="61"><span class="s2">            --border-color: #dee2e6;</span>
+</span><span data-line="62"><span class="s2">            --success-color: #28a745;</span>
+</span><span data-line="63"><span class="s2">            --danger-color: #dc3545;</span>
+</span><span data-line="64"><span class="s2">            --warning-color: #ffc107;</span>
+</span><span data-line="65"><span class="s2">            --info-color: #17a2b8;</span>
+</span><span data-line="66"><span class="s2">            --primary-color: #dc2626;</span>
+</span><span data-line="67"><span class="s2">        }</span>
+</span><span data-line="68"><span class="s2">        [data-theme=&quot;dark&quot;] {</span>
+</span><span data-line="69"><span class="s2">            --bg-color: #1a1a1a;</span>
+</span><span data-line="70"><span class="s2">            --text-color: #f0f0f0;</span>
+</span><span data-line="71"><span class="s2">            --card-bg: #2d2d2d;</span>
+</span><span data-line="72"><span class="s2">            --border-color: #404040;</span>
+</span><span data-line="73"><span class="s2">        }</span>
+</span><span data-line="74"><span class="s2">        * { box-sizing: border-box; margin: 0; padding: 0; }</span>
+</span><span data-line="75"><span class="s2">        body {</span>
+</span><span data-line="76"><span class="s2">            font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, sans-serif;</span>
+</span><span data-line="77"><span class="s2">            background: var(--bg-color);</span>
+</span><span data-line="78"><span class="s2">            color: var(--text-color);</span>
+</span><span data-line="79"><span class="s2">            line-height: 1.6;</span>
+</span><span data-line="80"><span class="s2">            padding: 2rem;</span>
+</span><span data-line="81"><span class="s2">        }</span>
+</span><span data-line="82"><span class="s2">        .container { max-width: 1200px; margin: 0 auto; }</span>
+</span><span data-line="83"><span class="s2">        header {</span>
+</span><span data-line="84"><span class="s2">            text-align: center;</span>
+</span><span data-line="85"><span class="s2">            margin-bottom: 2rem;</span>
+</span><span data-line="86"><span class="s2">            padding-bottom: 1rem;</span>
+</span><span data-line="87"><span class="s2">            border-bottom: 2px solid var(--primary-color);</span>
+</span><span data-line="88"><span class="s2">        }</span>
+</span><span data-line="89"><span class="s2">        h1 { font-size: 2rem; color: var(--primary-color); }</span>
+</span><span data-line="90"><span class="s2">        .meta { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }</span>
+</span><span data-line="91"><span class="s2">        .summary {</span>
+</span><span data-line="92"><span class="s2">            display: grid;</span>
+</span><span data-line="93"><span class="s2">            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));</span>
+</span><span data-line="94"><span class="s2">            gap: 1rem;</span>
+</span><span data-line="95"><span class="s2">            margin-bottom: 2rem;</span>
+</span><span data-line="96"><span class="s2">        }</span>
+</span><span data-line="97"><span class="s2">        .card {</span>
+</span><span data-line="98"><span class="s2">            background: var(--card-bg);</span>
+</span><span data-line="99"><span class="s2">            border-radius: 8px;</span>
+</span><span data-line="100"><span class="s2">            padding: 1.5rem;</span>
+</span><span data-line="101"><span class="s2">            border: 1px solid var(--border-color);</span>
+</span><span data-line="102"><span class="s2">        }</span>
+</span><span data-line="103"><span class="s2">        .card h3 { font-size: 0.9rem; color: #666; text-transform: uppercase; }</span>
+</span><span data-line="104"><span class="s2">        .card .value {</span>
+</span><span data-line="105"><span class="s2">            font-size: 2rem;</span>
+</span><span data-line="106"><span class="s2">            font-weight: 700;</span>
+</span><span data-line="107"><span class="s2">            margin-top: 0.5rem;</span>
+</span><span data-line="108"><span class="s2">        }</span>
+</span><span data-line="109"><span class="s2">        .card.success .value { color: var(--success-color); }</span>
+</span><span data-line="110"><span class="s2">        .card.danger .value { color: var(--danger-color); }</span>
+</span><span data-line="111"><span class="s2">        .card.info .value { color: var(--info-color); }</span>
+</span><span data-line="112"><span class="s2">        .progress-bar {</span>
+</span><span data-line="113"><span class="s2">            height: 8px;</span>
+</span><span data-line="114"><span class="s2">            background: var(--border-color);</span>
+</span><span data-line="115"><span class="s2">            border-radius: 4px;</span>
+</span><span data-line="116"><span class="s2">            overflow: hidden;</span>
+</span><span data-line="117"><span class="s2">            margin-top: 1rem;</span>
+</span><span data-line="118"><span class="s2">        }</span>
+</span><span data-line="119"><span class="s2">        .progress-bar .fill {</span>
+</span><span data-line="120"><span class="s2">            height: 100%;</span>
+</span><span data-line="121"><span class="s2">            background: var(--primary-color);</span>
+</span><span data-line="122"><span class="s2">            transition: width 0.3s;</span>
+</span><span data-line="123"><span class="s2">        }</span>
+</span><span data-line="124"><span class="s2">        table {</span>
+</span><span data-line="125"><span class="s2">            width: 100%;</span>
+</span><span data-line="126"><span class="s2">            border-collapse: collapse;</span>
+</span><span data-line="127"><span class="s2">            margin-top: 1rem;</span>
+</span><span data-line="128"><span class="s2">        }</span>
+</span><span data-line="129"><span class="s2">        th, td {</span>
+</span><span data-line="130"><span class="s2">            padding: 0.75rem;</span>
+</span><span data-line="131"><span class="s2">            text-align: left;</span>
+</span><span data-line="132"><span class="s2">            border-bottom: 1px solid var(--border-color);</span>
+</span><span data-line="133"><span class="s2">        }</span>
+</span><span data-line="134"><span class="s2">        th { background: var(--card-bg); font-weight: 600; }</span>
+</span><span data-line="135"><span class="s2">        tr:hover { background: var(--card-bg); }</span>
+</span><span data-line="136"><span class="s2">        .status {</span>
+</span><span data-line="137"><span class="s2">            display: inline-block;</span>
+</span><span data-line="138"><span class="s2">            padding: 0.25rem 0.75rem;</span>
+</span><span data-line="139"><span class="s2">            border-radius: 4px;</span>
+</span><span data-line="140"><span class="s2">            font-size: 0.8rem;</span>
+</span><span data-line="141"><span class="s2">            font-weight: 600;</span>
+</span><span data-line="142"><span class="s2">        }</span>
+</span><span data-line="143"><span class="s2">        .status.passed { background: #d4edda; color: #155724; }</span>
+</span><span data-line="144"><span class="s2">        .status.failed { background: #f8d7da; color: #721c24; }</span>
+</span><span data-line="145"><span class="s2">        .status.skipped { background: #fff3cd; color: #856404; }</span>
+</span><span data-line="146"><span class="s2">        [data-theme=&quot;dark&quot;] .status.passed { background: #1e4620; color: #a3d9a5; }</span>
+</span><span data-line="147"><span class="s2">        [data-theme=&quot;dark&quot;] .status.failed { background: #4a1a1a; color: #f5a5a5; }</span>
+</span><span data-line="148"><span class="s2">        [data-theme=&quot;dark&quot;] .status.skipped { background: #4a3f1a; color: #f5d9a5; }</span>
+</span><span data-line="149"><span class="s2">        .method {</span>
+</span><span data-line="150"><span class="s2">            font-family: monospace;</span>
+</span><span data-line="151"><span class="s2">            font-weight: 600;</span>
+</span><span data-line="152"><span class="s2">            padding: 0.2rem 0.5rem;</span>
+</span><span data-line="153"><span class="s2">            border-radius: 3px;</span>
+</span><span data-line="154"><span class="s2">            font-size: 0.85rem;</span>
+</span><span data-line="155"><span class="s2">        }</span>
+</span><span data-line="156"><span class="s2">        .method.GET { background: #61affe; color: white; }</span>
+</span><span data-line="157"><span class="s2">        .method.POST { background: #49cc90; color: white; }</span>
+</span><span data-line="158"><span class="s2">        .method.PUT { background: #fca130; color: white; }</span>
+</span><span data-line="159"><span class="s2">        .method.DELETE { background: #f93e3e; color: white; }</span>
+</span><span data-line="160"><span class="s2">        .method.PATCH { background: #50e3c2; color: white; }</span>
+</span><span data-line="161"><span class="s2">        .path { font-family: monospace; }</span>
+</span><span data-line="162"><span class="s2">        .timing { font-family: monospace; color: #666; }</span>
+</span><span data-line="163"><span class="s2">        section { margin-bottom: 2rem; }</span>
+</span><span data-line="164"><span class="s2">        section h2 {</span>
+</span><span data-line="165"><span class="s2">            font-size: 1.25rem;</span>
+</span><span data-line="166"><span class="s2">            margin-bottom: 1rem;</span>
+</span><span data-line="167"><span class="s2">            padding-bottom: 0.5rem;</span>
+</span><span data-line="168"><span class="s2">            border-bottom: 1px solid var(--border-color);</span>
+</span><span data-line="169"><span class="s2">        }</span>
+</span><span data-line="170"><span class="s2">        .chart-container {</span>
+</span><span data-line="171"><span class="s2">            display: flex;</span>
+</span><span data-line="172"><span class="s2">            justify-content: center;</span>
+</span><span data-line="173"><span class="s2">            gap: 2rem;</span>
+</span><span data-line="174"><span class="s2">            margin: 1rem 0;</span>
+</span><span data-line="175"><span class="s2">        }</span>
+</span><span data-line="176"><span class="s2">        .pie-chart {</span>
+</span><span data-line="177"><span class="s2">            width: 150px;</span>
+</span><span data-line="178"><span class="s2">            height: 150px;</span>
+</span><span data-line="179"><span class="s2">            border-radius: 50%;</span>
+</span><span data-line="180"><span class="s2">            position: relative;</span>
+</span><span data-line="181"><span class="s2">        }</span>
+</span><span data-line="182"><span class="s2">        .pie-legend {</span>
+</span><span data-line="183"><span class="s2">            display: flex;</span>
+</span><span data-line="184"><span class="s2">            flex-direction: column;</span>
+</span><span data-line="185"><span class="s2">            justify-content: center;</span>
+</span><span data-line="186"><span class="s2">            gap: 0.5rem;</span>
+</span><span data-line="187"><span class="s2">        }</span>
+</span><span data-line="188"><span class="s2">        .pie-legend-item {</span>
+</span><span data-line="189"><span class="s2">            display: flex;</span>
+</span><span data-line="190"><span class="s2">            align-items: center;</span>
+</span><span data-line="191"><span class="s2">            gap: 0.5rem;</span>
+</span><span data-line="192"><span class="s2">        }</span>
+</span><span data-line="193"><span class="s2">        .pie-legend-color {</span>
+</span><span data-line="194"><span class="s2">            width: 12px;</span>
+</span><span data-line="195"><span class="s2">            height: 12px;</span>
+</span><span data-line="196"><span class="s2">            border-radius: 2px;</span>
+</span><span data-line="197"><span class="s2">        }</span>
+</span><span data-line="198"><span class="s2">        footer {</span>
+</span><span data-line="199"><span class="s2">            text-align: center;</span>
+</span><span data-line="200"><span class="s2">            margin-top: 2rem;</span>
+</span><span data-line="201"><span class="s2">            padding-top: 1rem;</span>
+</span><span data-line="202"><span class="s2">            border-top: 1px solid var(--border-color);</span>
+</span><span data-line="203"><span class="s2">            color: #666;</span>
+</span><span data-line="204"><span class="s2">            font-size: 0.85rem;</span>
+</span><span data-line="205"><span class="s2">        }</span>
+</span><span data-line="206"><span class="s2">        footer a { color: var(--primary-color); text-decoration: none; }</span>
+</span><span data-line="207"><span class="s2">        .collapsible { cursor: pointer; }</span>
+</span><span data-line="208"><span class="s2">        .collapsible:after { content: &#39; ▼&#39;; font-size: 0.7em; }</span>
+</span><span data-line="209"><span class="s2">        .collapsible.active:after { content: &#39; ▲&#39;; }</span>
+</span><span data-line="210"><span class="s2">        .details { display: none; padding: 1rem; background: var(--card-bg); }</span>
+</span><span data-line="211"><span class="s2">        .details.show { display: block; }</span>
+</span><span data-line="212"><span class="s2">        .errors { color: var(--danger-color); font-family: monospace; font-size: 0.85rem; }</span>
+</span><span data-line="213"><span class="s2">    &lt;/style&gt;</span>
+</span><span data-line="214"><span class="s2">&lt;/head&gt;</span>
+</span><span data-line="215"><span class="s2">&lt;body&gt;</span>
+</span><span data-line="216"><span class="s2">    &lt;div class=&quot;container&quot;&gt;</span>
+</span><span data-line="217"><span class="s2">        &lt;header&gt;</span>
+</span><span data-line="218"><span class="s2">            &lt;h1&gt;{{ title }}&lt;/h1&gt;</span>
+</span><span data-line="219"><span class="s2">            &lt;p class=&quot;meta&quot;&gt;Generated on {{ generated_at }} | Duration: {{ duration }}s&lt;/p&gt;</span>
+</span><span data-line="220"><span class="s2">        &lt;/header&gt;</span>
+</span><span data-line="221">
+</span><span data-line="222"><span class="s2">        &lt;section class=&quot;summary&quot;&gt;</span>
+</span><span data-line="223"><span class="s2">            &lt;div class=&quot;card {</span><span class="si">% i</span><span class="s2">f passed_routes == total_routes %}success{</span><span class="si">% e</span><span class="s2">lif failed_routes &gt; 0 %}danger{</span><span class="si">% e</span><span class="s2">lse %}info{</span><span class="si">% e</span><span class="s2">ndif %}&quot;&gt;</span>
+</span><span data-line="224"><span class="s2">                &lt;h3&gt;Pass Rate&lt;/h3&gt;</span>
+</span><span data-line="225"><span class="s2">                &lt;div class=&quot;value&quot;&gt;{{ pass_rate }}%&lt;/div&gt;</span>
+</span><span data-line="226"><span class="s2">                &lt;div class=&quot;progress-bar&quot;&gt;</span>
+</span><span data-line="227"><span class="s2">                    &lt;div class=&quot;fill&quot; style=&quot;width: {{ pass_rate }}%&quot;&gt;&lt;/div&gt;</span>
+</span><span data-line="228"><span class="s2">                &lt;/div&gt;</span>
+</span><span data-line="229"><span class="s2">            &lt;/div&gt;</span>
+</span><span data-line="230"><span class="s2">            &lt;div class=&quot;card success&quot;&gt;</span>
+</span><span data-line="231"><span class="s2">                &lt;h3&gt;Passed Routes&lt;/h3&gt;</span>
+</span><span data-line="232"><span class="s2">                &lt;div class=&quot;value&quot;&gt;{{ passed_routes }}&lt;/div&gt;</span>
+</span><span data-line="233"><span class="s2">            &lt;/div&gt;</span>
+</span><span data-line="234"><span class="s2">            &lt;div class=&quot;card {</span><span class="si">% i</span><span class="s2">f failed_routes &gt; 0 %}danger{</span><span class="si">% e</span><span class="s2">ndif %}&quot;&gt;</span>
+</span><span data-line="235"><span class="s2">                &lt;h3&gt;Failed Routes&lt;/h3&gt;</span>
+</span><span data-line="236"><span class="s2">                &lt;div class=&quot;value&quot;&gt;{{ failed_routes }}&lt;/div&gt;</span>
+</span><span data-line="237"><span class="s2">            &lt;/div&gt;</span>
+</span><span data-line="238"><span class="s2">            &lt;div class=&quot;card info&quot;&gt;</span>
+</span><span data-line="239"><span class="s2">                &lt;h3&gt;Total Requests&lt;/h3&gt;</span>
+</span><span data-line="240"><span class="s2">                &lt;div class=&quot;value&quot;&gt;{{ total_requests }}&lt;/div&gt;</span>
+</span><span data-line="241"><span class="s2">            &lt;/div&gt;</span>
+</span><span data-line="242"><span class="s2">        &lt;/section&gt;</span>
+</span><span data-line="243">
+</span><span data-line="244"><span class="s2">        {</span><span class="si">% i</span><span class="s2">f coverage %}</span>
+</span><span data-line="245"><span class="s2">        &lt;section&gt;</span>
+</span><span data-line="246"><span class="s2">            &lt;h2&gt;Coverage Metrics&lt;/h2&gt;</span>
+</span><span data-line="247"><span class="s2">            &lt;div class=&quot;summary&quot;&gt;</span>
+</span><span data-line="248"><span class="s2">                &lt;div class=&quot;card&quot;&gt;</span>
+</span><span data-line="249"><span class="s2">                    &lt;h3&gt;Route Coverage&lt;/h3&gt;</span>
+</span><span data-line="250"><span class="s2">                    &lt;div class=&quot;value&quot;&gt;{{ coverage.coverage_percentage }}%&lt;/div&gt;</span>
+</span><span data-line="251"><span class="s2">                    &lt;div class=&quot;progress-bar&quot;&gt;</span>
+</span><span data-line="252"><span class="s2">                        &lt;div class=&quot;fill&quot; style=&quot;width: {{ coverage.coverage_percentage }}%&quot;&gt;&lt;/div&gt;</span>
+</span><span data-line="253"><span class="s2">                    &lt;/div&gt;</span>
+</span><span data-line="254"><span class="s2">                &lt;/div&gt;</span>
+</span><span data-line="255"><span class="s2">                &lt;div class=&quot;card&quot;&gt;</span>
+</span><span data-line="256"><span class="s2">                    &lt;h3&gt;Tested Routes&lt;/h3&gt;</span>
+</span><span data-line="257"><span class="s2">                    &lt;div class=&quot;value&quot;&gt;{{ coverage.tested_routes }} / {{ coverage.total_routes }}&lt;/div&gt;</span>
+</span><span data-line="258"><span class="s2">                &lt;/div&gt;</span>
+</span><span data-line="259"><span class="s2">                &lt;div class=&quot;card&quot;&gt;</span>
+</span><span data-line="260"><span class="s2">                    &lt;h3&gt;Avg Coverage Score&lt;/h3&gt;</span>
+</span><span data-line="261"><span class="s2">                    &lt;div class=&quot;value&quot;&gt;{{ coverage.average_coverage_score }}&lt;/div&gt;</span>
+</span><span data-line="262"><span class="s2">                &lt;/div&gt;</span>
+</span><span data-line="263"><span class="s2">            &lt;/div&gt;</span>
+</span><span data-line="264"><span class="s2">            {</span><span class="si">% i</span><span class="s2">f coverage.untested_routes %}</span>
+</span><span data-line="265"><span class="s2">            &lt;details&gt;</span>
+</span><span data-line="266"><span class="s2">                &lt;summary style=&quot;cursor: pointer; color: var(--warning-color);&quot;&gt;</span>
+</span><span data-line="267"><span class="s2">                    {{ coverage.untested_routes|length }} untested routes</span>
+</span><span data-line="268"><span class="s2">                &lt;/summary&gt;</span>
+</span><span data-line="269"><span class="s2">                &lt;ul style=&quot;margin-top: 0.5rem; padding-left: 1.5rem;&quot;&gt;</span>
+</span><span data-line="270"><span class="s2">                {</span><span class="si">% f</span><span class="s2">or route in coverage.untested_routes %}</span>
+</span><span data-line="271"><span class="s2">                    &lt;li class=&quot;path&quot;&gt;{{ route }}&lt;/li&gt;</span>
+</span><span data-line="272"><span class="s2">                {</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+</span><span data-line="273"><span class="s2">                &lt;/ul&gt;</span>
+</span><span data-line="274"><span class="s2">            &lt;/details&gt;</span>
+</span><span data-line="275"><span class="s2">            {</span><span class="si">% e</span><span class="s2">ndif %}</span>
+</span><span data-line="276"><span class="s2">        &lt;/section&gt;</span>
+</span><span data-line="277"><span class="s2">        {</span><span class="si">% e</span><span class="s2">ndif %}</span>
+</span><span data-line="278">
+</span><span data-line="279"><span class="s2">        &lt;section&gt;</span>
+</span><span data-line="280"><span class="s2">            &lt;h2&gt;Route Results&lt;/h2&gt;</span>
+</span><span data-line="281"><span class="s2">            &lt;table&gt;</span>
+</span><span data-line="282"><span class="s2">                &lt;thead&gt;</span>
+</span><span data-line="283"><span class="s2">                    &lt;tr&gt;</span>
+</span><span data-line="284"><span class="s2">                        &lt;th&gt;Method&lt;/th&gt;</span>
+</span><span data-line="285"><span class="s2">                        &lt;th&gt;Path&lt;/th&gt;</span>
+</span><span data-line="286"><span class="s2">                        &lt;th&gt;Status&lt;/th&gt;</span>
+</span><span data-line="287"><span class="s2">                        &lt;th&gt;Requests&lt;/th&gt;</span>
+</span><span data-line="288"><span class="s2">                        &lt;th&gt;Avg Time&lt;/th&gt;</span>
+</span><span data-line="289"><span class="s2">                        &lt;th&gt;Success Rate&lt;/th&gt;</span>
+</span><span data-line="290"><span class="s2">                    &lt;/tr&gt;</span>
+</span><span data-line="291"><span class="s2">                &lt;/thead&gt;</span>
+</span><span data-line="292"><span class="s2">                &lt;tbody&gt;</span>
+</span><span data-line="293"><span class="s2">                {</span><span class="si">% f</span><span class="s2">or route in routes %}</span>
+</span><span data-line="294"><span class="s2">                    &lt;tr&gt;</span>
+</span><span data-line="295"><span class="s2">                        &lt;td&gt;&lt;span class=&quot;method {{ route.method }}&quot;&gt;{{ route.method }}&lt;/span&gt;&lt;/td&gt;</span>
+</span><span data-line="296"><span class="s2">                        &lt;td class=&quot;path&quot;&gt;{{ route.route_path }}&lt;/td&gt;</span>
+</span><span data-line="297"><span class="s2">                        &lt;td&gt;&lt;span class=&quot;status {</span><span class="si">% i</span><span class="s2">f route.passed %}passed{</span><span class="si">% e</span><span class="s2">lse %}failed{</span><span class="si">% e</span><span class="s2">ndif %}&quot;&gt;</span>
+</span><span data-line="298"><span class="s2">                            {</span><span class="si">% i</span><span class="s2">f route.passed %}PASSED{</span><span class="si">% e</span><span class="s2">lse %}FAILED{</span><span class="si">% e</span><span class="s2">ndif %}</span>
+</span><span data-line="299"><span class="s2">                        &lt;/span&gt;&lt;/td&gt;</span>
+</span><span data-line="300"><span class="s2">                        &lt;td&gt;{{ route.total_requests }}&lt;/td&gt;</span>
+</span><span data-line="301"><span class="s2">                        &lt;td class=&quot;timing&quot;&gt;{{ route.avg_time_ms }}ms&lt;/td&gt;</span>
+</span><span data-line="302"><span class="s2">                        &lt;td&gt;{{ route.success_rate }}%&lt;/td&gt;</span>
+</span><span data-line="303"><span class="s2">                    &lt;/tr&gt;</span>
+</span><span data-line="304"><span class="s2">                    {</span><span class="si">% i</span><span class="s2">f route.errors %}</span>
+</span><span data-line="305"><span class="s2">                    &lt;tr&gt;</span>
+</span><span data-line="306"><span class="s2">                        &lt;td colspan=&quot;6&quot; class=&quot;errors&quot;&gt;</span>
+</span><span data-line="307"><span class="s2">                            {</span><span class="si">% f</span><span class="s2">or error in route.errors[:3] %}</span>
+</span><span data-line="308"><span class="s2">                            &lt;div&gt;{{ error }}&lt;/div&gt;</span>
+</span><span data-line="309"><span class="s2">                            {</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+</span><span data-line="310"><span class="s2">                            {</span><span class="si">% i</span><span class="s2">f route.errors|length &gt; 3 %}</span>
+</span><span data-line="311"><span class="s2">                            &lt;div&gt;... and {{ route.errors|length - 3 }} more errors&lt;/div&gt;</span>
+</span><span data-line="312"><span class="s2">                            {</span><span class="si">% e</span><span class="s2">ndif %}</span>
+</span><span data-line="313"><span class="s2">                        &lt;/td&gt;</span>
+</span><span data-line="314"><span class="s2">                    &lt;/tr&gt;</span>
+</span><span data-line="315"><span class="s2">                    {</span><span class="si">% e</span><span class="s2">ndif %}</span>
+</span><span data-line="316"><span class="s2">                {</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+</span><span data-line="317"><span class="s2">                &lt;/tbody&gt;</span>
+</span><span data-line="318"><span class="s2">            &lt;/table&gt;</span>
+</span><span data-line="319"><span class="s2">        &lt;/section&gt;</span>
+</span><span data-line="320">
+</span><span data-line="321"><span class="s2">        &lt;footer&gt;</span>
+</span><span data-line="322"><span class="s2">            &lt;p&gt;Generated by &lt;a href=&quot;https://github.com/JacobCoffee/pytest-routes&quot;&gt;pytest-routes&lt;/a&gt;&lt;/p&gt;</span>
+</span><span data-line="323"><span class="s2">        &lt;/footer&gt;</span>
+</span><span data-line="324"><span class="s2">    &lt;/div&gt;</span>
+</span><span data-line="325"><span class="s2">&lt;/body&gt;</span>
+</span><span data-line="326"><span class="s2">&lt;/html&gt;</span>
+</span><span data-line="327"><span class="s2">&quot;&quot;&quot;</span>
+</span><span data-line="328">
+</span><span data-line="329"><span class="n">_SIMPLE_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&lt;!DOCTYPE html&gt;</span>
+</span><span data-line="330"><span class="s2">&lt;html lang=&quot;en&quot;&gt;</span>
+</span><span data-line="331"><span class="s2">&lt;head&gt;</span>
+</span><span data-line="332"><span class="s2">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+</span><span data-line="333"><span class="s2">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span>
+</span><span data-line="334"><span class="s2">    &lt;title&gt;</span><span class="si">{title}</span><span class="s2">&lt;/title&gt;</span>
+</span><span data-line="335"><span class="s2">    &lt;style&gt;</span>
+</span><span data-line="336"><span class="s2">        body {{ font-family: sans-serif; padding: 2rem; max-width: 1200px; margin: 0 auto; }}</span>
+</span><span data-line="337"><span class="s2">        h1 {{ color: #dc2626; }}</span>
+</span><span data-line="338"><span class="s2">        table {{ width: 100%; border-collapse: collapse; margin-top: 1rem; }}</span>
+</span><span data-line="339"><span class="s2">        th, td {{ padding: 0.5rem; text-align: left; border-bottom: 1px solid #ddd; }}</span>
+</span><span data-line="340"><span class="s2">        th {{ background: #f5f5f5; }}</span>
+</span><span data-line="341"><span class="s2">        .passed {{ color: green; }}</span>
+</span><span data-line="342"><span class="s2">        .failed {{ color: red; }}</span>
+</span><span data-line="343"><span class="s2">        .summary {{ display: flex; gap: 2rem; margin: 1rem 0; }}</span>
+</span><span data-line="344"><span class="s2">        .stat {{ padding: 1rem; background: #f5f5f5; border-radius: 8px; }}</span>
+</span><span data-line="345"><span class="s2">        .stat-value {{ font-size: 2rem; font-weight: bold; }}</span>
+</span><span data-line="346"><span class="s2">    &lt;/style&gt;</span>
+</span><span data-line="347"><span class="s2">&lt;/head&gt;</span>
+</span><span data-line="348"><span class="s2">&lt;body&gt;</span>
+</span><span data-line="349"><span class="s2">    &lt;h1&gt;</span><span class="si">{title}</span><span class="s2">&lt;/h1&gt;</span>
+</span><span data-line="350"><span class="s2">    &lt;p&gt;Generated on </span><span class="si">{generated_at}</span><span class="s2"> | Duration: </span><span class="si">{duration}</span><span class="s2">s&lt;/p&gt;</span>
+</span><span data-line="351"><span class="s2">    &lt;div class=&quot;summary&quot;&gt;</span>
+</span><span data-line="352"><span class="s2">        &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;stat-value&quot;&gt;</span><span class="si">{pass_rate}</span><span class="s2">%&lt;/div&gt;Pass Rate&lt;/div&gt;</span>
+</span><span data-line="353"><span class="s2">        &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;stat-value passed&quot;&gt;</span><span class="si">{passed_routes}</span><span class="s2">&lt;/div&gt;Passed&lt;/div&gt;</span>
+</span><span data-line="354"><span class="s2">        &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;stat-value failed&quot;&gt;</span><span class="si">{failed_routes}</span><span class="s2">&lt;/div&gt;Failed&lt;/div&gt;</span>
+</span><span data-line="355"><span class="s2">        &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;stat-value&quot;&gt;</span><span class="si">{total_requests}</span><span class="s2">&lt;/div&gt;Requests&lt;/div&gt;</span>
+</span><span data-line="356"><span class="s2">    &lt;/div&gt;</span>
+</span><span data-line="357"><span class="s2">    &lt;table&gt;</span>
+</span><span data-line="358"><span class="s2">        &lt;tr&gt;&lt;th&gt;Method&lt;/th&gt;&lt;th&gt;Path&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Requests&lt;/th&gt;&lt;th&gt;Avg Time&lt;/th&gt;&lt;/tr&gt;</span>
+</span><span data-line="359"><span class="s2">        </span><span class="si">{rows}</span>
+</span><span data-line="360"><span class="s2">    &lt;/table&gt;</span>
+</span><span data-line="361"><span class="s2">    &lt;p style=&quot;margin-top: 2rem; color: #666;&quot;&gt;</span>
+</span><span data-line="362"><span class="s2">        Generated by &lt;a href=&quot;https://github.com/JacobCoffee/pytest-routes&quot;&gt;pytest-routes&lt;/a&gt;</span>
+</span><span data-line="363"><span class="s2">    &lt;/p&gt;</span>
+</span><span data-line="364"><span class="s2">&lt;/body&gt;</span>
+</span><span data-line="365"><span class="s2">&lt;/html&gt;</span>
+</span><span data-line="366"><span class="s2">&quot;&quot;&quot;</span>
+</span><span data-line="367">
+</span><span data-line="368">
+<div class="viewcode-block" id="HTMLReportGenerator">
+<a class="viewcode-back" href="../../../api/reporting.html#pytest_routes.reporting.HTMLReportGenerator">[docs]</a>
+</span><span data-line="369"><span class="k">class</span><span class="w"> </span><span class="nc">HTMLReportGenerator</span><span class="p">:</span>
+</span><span data-line="370"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate HTML reports for pytest-routes test results.&quot;&quot;&quot;</span>
+</span><span data-line="371">
+<div class="viewcode-block" id="HTMLReportGenerator.__init__">
+<a class="viewcode-back" href="../../../api/reporting.html#pytest_routes.reporting.HTMLReportGenerator.__init__">[docs]</a>
+</span><span data-line="372">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ReportConfig</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="373"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the report generator.</span>
+</span><span data-line="374">
+</span><span data-line="375"><span class="sd">        Args:</span>
+</span><span data-line="376"><span class="sd">            config: Report configuration options.</span>
+</span><span data-line="377"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="378">        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">ReportConfig</span><span class="p">()</span>
+</span><span data-line="379">        <span class="bp">self</span><span class="o">.</span><span class="n">_use_jinja</span> <span class="o">=</span> <span class="n">_jinja2_available</span><span class="p">()</span></div>
+
+</span><span data-line="380">
+<div class="viewcode-block" id="HTMLReportGenerator.generate">
+<a class="viewcode-back" href="../../../api/reporting.html#pytest_routes.reporting.HTMLReportGenerator.generate">[docs]</a>
+</span><span data-line="381">    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+</span><span data-line="382">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="383">        <span class="n">metrics</span><span class="p">:</span> <span class="n">RunMetrics</span><span class="p">,</span>
+</span><span data-line="384">        <span class="n">coverage</span><span class="p">:</span> <span class="n">CoverageMetrics</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="385">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="386"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate HTML report.</span>
+</span><span data-line="387">
+</span><span data-line="388"><span class="sd">        Args:</span>
+</span><span data-line="389"><span class="sd">            metrics: Test metrics to include.</span>
+</span><span data-line="390"><span class="sd">            coverage: Optional coverage metrics.</span>
+</span><span data-line="391">
+</span><span data-line="392"><span class="sd">        Returns:</span>
+</span><span data-line="393"><span class="sd">            HTML content as a string.</span>
+</span><span data-line="394"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="395">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_jinja</span><span class="p">:</span>
+</span><span data-line="396">            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_with_jinja</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">coverage</span><span class="p">)</span>
+</span><span data-line="397">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_simple</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">coverage</span><span class="p">)</span></div>
+
+</span><span data-line="398">
+<div class="viewcode-block" id="HTMLReportGenerator.write">
+<a class="viewcode-back" href="../../../api/reporting.html#pytest_routes.reporting.HTMLReportGenerator.write">[docs]</a>
+</span><span data-line="399">    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
+</span><span data-line="400">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="401">        <span class="n">metrics</span><span class="p">:</span> <span class="n">RunMetrics</span><span class="p">,</span>
+</span><span data-line="402">        <span class="n">coverage</span><span class="p">:</span> <span class="n">CoverageMetrics</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="403">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+</span><span data-line="404"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate and write HTML report to file.</span>
+</span><span data-line="405">
+</span><span data-line="406"><span class="sd">        Args:</span>
+</span><span data-line="407"><span class="sd">            metrics: Test metrics to include.</span>
+</span><span data-line="408"><span class="sd">            coverage: Optional coverage metrics.</span>
+</span><span data-line="409">
+</span><span data-line="410"><span class="sd">        Returns:</span>
+</span><span data-line="411"><span class="sd">            Path to the written file.</span>
+</span><span data-line="412"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="413">        <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">coverage</span><span class="p">)</span>
+</span><span data-line="414">        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span>
+</span><span data-line="415">        <span class="n">output_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span data-line="416">        <span class="k">return</span> <span class="n">output_path</span></div>
+
+</span><span data-line="417">
+</span><span data-line="418">    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_with_jinja</span><span class="p">(</span>
+</span><span data-line="419">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="420">        <span class="n">metrics</span><span class="p">:</span> <span class="n">RunMetrics</span><span class="p">,</span>
+</span><span data-line="421">        <span class="n">coverage</span><span class="p">:</span> <span class="n">CoverageMetrics</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="422">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="423"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate report using Jinja2 templates.&quot;&quot;&quot;</span>
+</span><span data-line="424">        <span class="kn">from</span><span class="w"> </span><span class="nn">jinja2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Environment</span>
+</span><span data-line="425">
+</span><span data-line="426">        <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">autoescape</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="427">        <span class="n">template</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">_REPORT_TEMPLATE</span><span class="p">)</span>
+</span><span data-line="428">
+</span><span data-line="429">        <span class="n">routes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+</span><span data-line="430">            <span class="p">[</span><span class="n">rm</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">rm</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span>
+</span><span data-line="431">            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="ow">not</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;route_path&quot;</span><span class="p">]),</span>
+</span><span data-line="432">        <span class="p">)</span>
+</span><span data-line="433">
+</span><span data-line="434">        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="435">            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+</span><span data-line="436">            <span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">theme</span><span class="p">,</span>
+</span><span data-line="437">            <span class="s2">&quot;generated_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S UTC&quot;</span><span class="p">),</span>
+</span><span data-line="438">            <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">duration_seconds</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+</span><span data-line="439">            <span class="s2">&quot;pass_rate&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">pass_rate</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span data-line="440">            <span class="s2">&quot;passed_routes&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">passed_routes</span><span class="p">,</span>
+</span><span data-line="441">            <span class="s2">&quot;failed_routes&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">failed_routes</span><span class="p">,</span>
+</span><span data-line="442">            <span class="s2">&quot;total_routes&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">total_routes</span><span class="p">,</span>
+</span><span data-line="443">            <span class="s2">&quot;total_requests&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">total_requests</span><span class="p">,</span>
+</span><span data-line="444">            <span class="s2">&quot;routes&quot;</span><span class="p">:</span> <span class="n">routes</span><span class="p">,</span>
+</span><span data-line="445">            <span class="s2">&quot;coverage&quot;</span><span class="p">:</span> <span class="n">coverage</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">coverage</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="446">        <span class="p">}</span>
+</span><span data-line="447">
+</span><span data-line="448">        <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">)</span>
+</span><span data-line="449">
+</span><span data-line="450">    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_simple</span><span class="p">(</span>
+</span><span data-line="451">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="452">        <span class="n">metrics</span><span class="p">:</span> <span class="n">RunMetrics</span><span class="p">,</span>
+</span><span data-line="453">        <span class="n">coverage</span><span class="p">:</span> <span class="n">CoverageMetrics</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="454">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="455"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate simple HTML report without Jinja2.&quot;&quot;&quot;</span>
+</span><span data-line="456">        <span class="n">routes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+</span><span data-line="457">            <span class="n">metrics</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+</span><span data-line="458">            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">passed</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">route_path</span><span class="p">),</span>
+</span><span data-line="459">        <span class="p">)</span>
+</span><span data-line="460">
+</span><span data-line="461">        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="462">        <span class="k">for</span> <span class="n">rm</span> <span class="ow">in</span> <span class="n">routes</span><span class="p">:</span>
+</span><span data-line="463">            <span class="n">status_class</span> <span class="o">=</span> <span class="s2">&quot;passed&quot;</span> <span class="k">if</span> <span class="n">rm</span><span class="o">.</span><span class="n">passed</span> <span class="k">else</span> <span class="s2">&quot;failed&quot;</span>
+</span><span data-line="464">            <span class="n">status_text</span> <span class="o">=</span> <span class="s2">&quot;PASSED&quot;</span> <span class="k">if</span> <span class="n">rm</span><span class="o">.</span><span class="n">passed</span> <span class="k">else</span> <span class="s2">&quot;FAILED&quot;</span>
+</span><span data-line="465">            <span class="n">row</span> <span class="o">=</span> <span class="p">(</span>
+</span><span data-line="466">                <span class="sa">f</span><span class="s2">&quot;&lt;tr&gt;&lt;td&gt;</span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">rm</span><span class="o">.</span><span class="n">method</span><span class="p">)</span><span class="si">}</span><span class="s2">&lt;/td&gt;&quot;</span>
+</span><span data-line="467">                <span class="sa">f</span><span class="s2">&quot;&lt;td&gt;</span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">rm</span><span class="o">.</span><span class="n">route_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&lt;/td&gt;&quot;</span>
+</span><span data-line="468">                <span class="sa">f</span><span class="s1">&#39;&lt;td class=&quot;</span><span class="si">{</span><span class="n">status_class</span><span class="si">}</span><span class="s1">&quot;&gt;</span><span class="si">{</span><span class="n">status_text</span><span class="si">}</span><span class="s1">&lt;/td&gt;&#39;</span>
+</span><span data-line="469">                <span class="sa">f</span><span class="s2">&quot;&lt;td&gt;</span><span class="si">{</span><span class="n">rm</span><span class="o">.</span><span class="n">total_requests</span><span class="si">}</span><span class="s2">&lt;/td&gt;&quot;</span>
+</span><span data-line="470">                <span class="sa">f</span><span class="s2">&quot;&lt;td&gt;</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">rm</span><span class="o">.</span><span class="n">avg_time_ms</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">ms&lt;/td&gt;&lt;/tr&gt;&quot;</span>
+</span><span data-line="471">            <span class="p">)</span>
+</span><span data-line="472">            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span data-line="473">
+</span><span data-line="474">        <span class="k">return</span> <span class="n">_SIMPLE_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span data-line="475">            <span class="n">title</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">title</span><span class="p">),</span>
+</span><span data-line="476">            <span class="n">generated_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S UTC&quot;</span><span class="p">),</span>
+</span><span data-line="477">            <span class="n">duration</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">duration_seconds</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+</span><span data-line="478">            <span class="n">pass_rate</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">pass_rate</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span data-line="479">            <span class="n">passed_routes</span><span class="o">=</span><span class="n">metrics</span><span class="o">.</span><span class="n">passed_routes</span><span class="p">,</span>
+</span><span data-line="480">            <span class="n">failed_routes</span><span class="o">=</span><span class="n">metrics</span><span class="o">.</span><span class="n">failed_routes</span><span class="p">,</span>
+</span><span data-line="481">            <span class="n">total_requests</span><span class="o">=</span><span class="n">metrics</span><span class="o">.</span><span class="n">total_requests</span><span class="p">,</span>
+</span><span data-line="482">            <span class="n">rows</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span>
+</span><span data-line="483">        <span class="p">)</span>
+</span><span data-line="484">
+<div class="viewcode-block" id="HTMLReportGenerator.to_json">
+<a class="viewcode-back" href="../../../api/reporting.html#pytest_routes.reporting.HTMLReportGenerator.to_json">[docs]</a>
+</span><span data-line="485">    <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span>
+</span><span data-line="486">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="487">        <span class="n">metrics</span><span class="p">:</span> <span class="n">RunMetrics</span><span class="p">,</span>
+</span><span data-line="488">        <span class="n">coverage</span><span class="p">:</span> <span class="n">CoverageMetrics</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="489">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="490"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Export metrics as JSON.</span>
+</span><span data-line="491">
+</span><span data-line="492"><span class="sd">        Args:</span>
+</span><span data-line="493"><span class="sd">            metrics: Test metrics to export.</span>
+</span><span data-line="494"><span class="sd">            coverage: Optional coverage metrics.</span>
+</span><span data-line="495">
+</span><span data-line="496"><span class="sd">        Returns:</span>
+</span><span data-line="497"><span class="sd">            JSON string.</span>
+</span><span data-line="498"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="499">        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="500">            <span class="s2">&quot;generated_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+</span><span data-line="501">            <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+</span><span data-line="502">        <span class="p">}</span>
+</span><span data-line="503">        <span class="k">if</span> <span class="n">coverage</span><span class="p">:</span>
+</span><span data-line="504">            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;coverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</span><span data-line="505">        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+</span><span data-line="506">
+<div class="viewcode-block" id="HTMLReportGenerator.write_json">
+<a class="viewcode-back" href="../../../api/reporting.html#pytest_routes.reporting.HTMLReportGenerator.write_json">[docs]</a>
+</span><span data-line="507">    <span class="k">def</span><span class="w"> </span><span class="nf">write_json</span><span class="p">(</span>
+</span><span data-line="508">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="509">        <span class="n">metrics</span><span class="p">:</span> <span class="n">RunMetrics</span><span class="p">,</span>
+</span><span data-line="510">        <span class="n">coverage</span><span class="p">:</span> <span class="n">CoverageMetrics</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="511">        <span class="n">output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="512">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+</span><span data-line="513"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Write metrics as JSON file.</span>
+</span><span data-line="514">
+</span><span data-line="515"><span class="sd">        Args:</span>
+</span><span data-line="516"><span class="sd">            metrics: Test metrics to export.</span>
+</span><span data-line="517"><span class="sd">            coverage: Optional coverage metrics.</span>
+</span><span data-line="518"><span class="sd">            output_path: Path to write to (defaults to report path with .json).</span>
+</span><span data-line="519">
+</span><span data-line="520"><span class="sd">        Returns:</span>
+</span><span data-line="521"><span class="sd">            Path to the written file.</span>
+</span><span data-line="522"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="523">        <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="524">            <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+</span><span data-line="525">        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+</span><span data-line="526">            <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+</span><span data-line="527">
+</span><span data-line="528">        <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">coverage</span><span class="p">)</span>
+</span><span data-line="529">        <span class="n">output_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span data-line="530">        <span class="k">return</span> <span class="n">output_path</span></div>
+</div>
+
+</span></pre></div>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=30646c52"></script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

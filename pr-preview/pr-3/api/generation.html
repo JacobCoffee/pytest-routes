@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Strategy Generation - pytest-routes</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Test Execution" href="execution.html" /><link rel="prev" title="Route Discovery" href="discovery.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Strategy Generation"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discovery.html">Route Discovery</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#built-in-type-strategies">Built-in Type Strategies</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a><ul>
+<li><a class="reference internal" href="#type-strategies">Type Strategies</a><ul>
+<li><a class="reference internal" href="#strategy-registration-functions">Strategy Registration Functions</a><ul>
+<li><a class="reference internal" href="#pytest_routes.generation.strategies.register_strategy"><code class="docutils literal notranslate"><span class="pre">register_strategy()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.strategies.unregister_strategy"><code class="docutils literal notranslate"><span class="pre">unregister_strategy()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.strategies.register_strategies"><code class="docutils literal notranslate"><span class="pre">register_strategies()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.strategies.get_registered_types"><code class="docutils literal notranslate"><span class="pre">get_registered_types()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#strategy-helpers">Strategy Helpers</a><ul>
+<li><a class="reference internal" href="#pytest_routes.generation.strategies.strategy_for_type"><code class="docutils literal notranslate"><span class="pre">strategy_for_type()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.strategies.strategy_provider"><code class="docutils literal notranslate"><span class="pre">strategy_provider()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.strategies.temporary_strategy"><code class="docutils literal notranslate"><span class="pre">temporary_strategy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pytest_routes.generation.path">Path Parameters</a><ul>
+<li><a class="reference internal" href="#pytest_routes.generation.path.generate_path_params"><code class="docutils literal notranslate"><span class="pre">generate_path_params()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.path.format_path"><code class="docutils literal notranslate"><span class="pre">format_path()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pytest_routes.generation.body">Request Bodies</a><ul>
+<li><a class="reference internal" href="#pytest_routes.generation.body.generate_body"><code class="docutils literal notranslate"><span class="pre">generate_body()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pytest_routes.generation.headers">Header Generation</a><ul>
+<li><a class="reference internal" href="#pytest_routes.generation.headers.register_header_strategy"><code class="docutils literal notranslate"><span class="pre">register_header_strategy()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.headers.generate_headers"><code class="docutils literal notranslate"><span class="pre">generate_headers()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.generation.headers.generate_optional_headers"><code class="docutils literal notranslate"><span class="pre">generate_optional_headers()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-usage">Advanced Usage</a><ul>
+<li><a class="reference internal" href="#pydantic-model-strategies">Pydantic Model Strategies</a></li>
+<li><a class="reference internal" href="#dataclass-strategies">Dataclass Strategies</a></li>
+<li><a class="reference internal" href="#constrained-strategies">Constrained Strategies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Strategy Generation</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="strategy-generation">
+<span id="api-generation"></span><h1>Strategy Generation<a class="headerlink" href="#strategy-generation" title="Link to this heading">¶</a></h1>
+<p>The generation module creates Hypothesis strategies for generating test data.
+It provides type-to-strategy mapping, path parameter generation, request body
+generation, and header generation.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>pytest-routes uses <a class="reference external" href="https://hypothesis.readthedocs.io/">Hypothesis</a> for
+property-based testing. The generation module bridges your application’s
+type system with Hypothesis strategies:</p>
+<ol class="arabic simple">
+<li><p><strong>Type Strategies</strong> - Map Python types to Hypothesis strategies</p></li>
+<li><p><strong>Path Parameters</strong> - Generate valid path parameter values</p></li>
+<li><p><strong>Request Bodies</strong> - Generate request payloads from models</p></li>
+<li><p><strong>Headers</strong> - Generate HTTP headers for authentication, content-type, etc.</p></li>
+</ol>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<p>Get a strategy for any type:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategy_for_type</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">given</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Built-in types work automatically</span>
+</span><span data-line="5"><span class="n">int_strategy</span> <span class="o">=</span> <span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</span><span data-line="6"><span class="n">str_strategy</span> <span class="o">=</span> <span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Use in Hypothesis tests</span>
+</span><span data-line="9"><span class="nd">@given</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+</span><span data-line="10"><span class="k">def</span><span class="w"> </span><span class="nf">test_with_integers</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span data-line="11">    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Register custom types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_strategy</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">class</span><span class="w"> </span><span class="nc">UserId</span><span class="p">:</span>
+</span><span data-line="5">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span data-line="6">        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="n">register_strategy</span><span class="p">(</span>
+</span><span data-line="9">    <span class="n">UserId</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">UserId</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">1000000</span><span class="p">))</span>
+</span><span data-line="11"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="built-in-type-strategies">
+<h2>Built-in Type Strategies<a class="headerlink" href="#built-in-type-strategies" title="Link to this heading">¶</a></h2>
+<p>The following types have pre-registered strategies:</p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 80.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Strategy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.text(min_size=1,</span> <span class="pre">max_size=100)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.integers(min_value=-1000,</span> <span class="pre">max_value=1000)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.floats(allow_nan=False,</span> <span class="pre">allow_infinity=False)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.booleans()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uuid.UUID</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.uuids()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">datetime</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.datetimes()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">date</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.dates()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bytes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">st.binary(min_size=1,</span> <span class="pre">max_size=100)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Generic types are also supported:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategy_for_type</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Optional[str] -&gt; st.none() | st.text()</span>
+</span><span data-line="4"><span class="n">strategy_for_type</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># list[int] -&gt; st.lists(st.integers())</span>
+</span><span data-line="7"><span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="c1"># dict[str, int] -&gt; st.dictionaries(st.text(), st.integers())</span>
+</span><span data-line="10"><span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span>
+</span></pre></div>
+</div>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<section id="type-strategies">
+<h3>Type Strategies<a class="headerlink" href="#type-strategies" title="Link to this heading">¶</a></h3>
+<section id="strategy-registration-functions">
+<h4>Strategy Registration Functions<a class="headerlink" href="#strategy-registration-functions" title="Link to this heading">¶</a></h4>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.strategies.register_strategy">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.strategies.</span></span><span class="sig-name descname"><span class="pre">register_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/strategies.html#register_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.strategies.register_strategy" title="Link to this definition">¶</a></dt>
+<dd><p>Register a custom strategy for a type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>typ</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a></span>) – The Python type.</p></li>
+<li><p><strong>strategy</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – The Hypothesis strategy to use for this type.</p></li>
+<li><p><strong>override</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, allow overriding an existing strategy. If False (default),
+raise ValueError if a strategy is already registered for this type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If a strategy is already registered and override is False.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">register_strategy</span><span class="p">(</span><span class="n">MyType</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">MyType</span><span class="p">))</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">register_strategy</span><span class="p">(</span><span class="n">MyType</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">MyType</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;new&quot;</span><span class="p">),</span> <span class="n">override</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<p>Register a permanent strategy for a type.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_strategy</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Register for a custom type</span>
+</span><span data-line="5"><span class="n">register_strategy</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">MyType</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">MyType</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">min_size</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Override an existing strategy</span>
+</span><span data-line="11"><span class="n">register_strategy</span><span class="p">(</span>
+</span><span data-line="12">    <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">min_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+</span><span data-line="14">    <span class="n">override</span><span class="o">=</span><span class="kc">True</span>
+</span><span data-line="15"><span class="p">)</span>
+</span></pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.strategies.unregister_strategy">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.strategies.</span></span><span class="sig-name descname"><span class="pre">unregister_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typ</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/strategies.html#unregister_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.strategies.unregister_strategy" title="Link to this definition">¶</a></dt>
+<dd><p>Unregister a custom strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>typ</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a></span>) – The Python type to unregister.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the type was previously registered, False otherwise.</p>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">register_strategy</span><span class="p">(</span><span class="n">MyType</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">MyType</span><span class="p">))</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">unregister_strategy</span><span class="p">(</span><span class="n">MyType</span><span class="p">)</span>
+</span><span data-line="4"><span class="go">True</span>
+</span><span data-line="5"><span class="gp">&gt;&gt;&gt; </span><span class="n">unregister_strategy</span><span class="p">(</span><span class="n">MyType</span><span class="p">)</span>
+</span><span data-line="6"><span class="go">False</span>
+</span></pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.strategies.register_strategies">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.strategies.</span></span><span class="sig-name descname"><span class="pre">register_strategies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/strategies.html#register_strategies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.strategies.register_strategies" title="Link to this definition">¶</a></dt>
+<dd><p>Register multiple strategies at once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mapping</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>, <a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span>) – Dictionary mapping types to their strategies.</p></li>
+<li><p><strong>override</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, allow overriding existing strategies. If False (default),
+raise ValueError if any type already has a registered strategy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If any type is already registered and override is False.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">register_strategies</span><span class="p">(</span>
+</span><span data-line="3"><span class="gp">... </span>    <span class="p">{</span>
+</span><span data-line="4"><span class="gp">... </span>        <span class="n">MyType1</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">MyType1</span><span class="p">),</span>
+</span><span data-line="5"><span class="gp">... </span>        <span class="n">MyType2</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">MyType2</span><span class="p">),</span>
+</span><span data-line="6"><span class="gp">... </span>    <span class="p">}</span>
+</span><span data-line="7"><span class="gp">... </span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<p>Register multiple strategies at once.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_strategies</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">register_strategies</span><span class="p">({</span>
+</span><span data-line="5">    <span class="n">UserId</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">UserId</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)),</span>
+</span><span data-line="6">    <span class="n">Email</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">emails</span><span class="p">(),</span>
+</span><span data-line="7">    <span class="n">PhoneNumber</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">from_regex</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\+\d{10,15}&quot;</span><span class="p">),</span>
+</span><span data-line="8"><span class="p">})</span>
+</span></pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.strategies.get_registered_types">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.strategies.</span></span><span class="sig-name descname"><span class="pre">get_registered_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/strategies.html#get_registered_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.strategies.get_registered_types" title="Link to this definition">¶</a></dt>
+<dd><p>Get list of types with registered strategies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of types that have custom strategies registered.</p>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">types</span> <span class="o">=</span> <span class="n">get_registered_types</span><span class="p">()</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="ow">in</span> <span class="n">types</span>
+</span><span data-line="3"><span class="go">True</span>
+</span></pre></div>
+</div>
+</div>
+</dd></dl>
+
+</section>
+<section id="strategy-helpers">
+<h4>Strategy Helpers<a class="headerlink" href="#strategy-helpers" title="Link to this heading">¶</a></h4>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.strategies.strategy_for_type">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.strategies.</span></span><span class="sig-name descname"><span class="pre">strategy_for_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typ</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/strategies.html#strategy_for_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.strategies.strategy_for_type" title="Link to this definition">¶</a></dt>
+<dd><p>Get a Hypothesis strategy for a Python type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>typ</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a></span>) – The Python type to generate values for.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Hypothesis SearchStrategy for the type.</p>
+</dd>
+</dl>
+<p>The main function for getting a strategy for any type.</p>
+<p class="rubric">Type Resolution</p>
+<p>The function resolves types in this order:</p>
+<ol class="arabic simple">
+<li><p>Direct lookup in the registry</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Optional[X]</span></code> unwrapping</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list[X]</span></code> and <code class="docutils literal notranslate"><span class="pre">dict[K,</span> <span class="pre">V]</span></code> handling</p></li>
+<li><p>Dataclass/Pydantic model detection</p></li>
+<li><p>Hypothesis <code class="docutils literal notranslate"><span class="pre">from_type()</span></code> fallback</p></li>
+<li><p>Text fallback for unknown types</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.strategies.strategy_provider">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.strategies.</span></span><span class="sig-name descname"><span class="pre">strategy_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typ</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/strategies.html#strategy_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.strategies.strategy_provider" title="Link to this definition">¶</a></dt>
+<dd><p>Decorator to register a strategy provider function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>typ</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a></span>) – The Python type to register a strategy for.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a>[[], <a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]], <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a>[[], <a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Decorator function that registers the strategy when applied.</p>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="nd">@strategy_provider</span><span class="p">(</span><span class="n">MyType</span><span class="p">)</span>
+</span><span data-line="3"><span class="gp">... </span><span class="k">def</span><span class="w"> </span><span class="nf">my_custom_strategy</span><span class="p">():</span>
+</span><span data-line="4"><span class="gp">... </span>    <span class="k">return</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span><span class="n">MyType</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+</span></pre></div>
+</div>
+</div>
+<p>Decorator for registering strategy provider functions.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategy_provider</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@strategy_provider</span><span class="p">(</span><span class="n">MyComplexType</span><span class="p">)</span>
+</span><span data-line="5"><span class="k">def</span><span class="w"> </span><span class="nf">my_complex_strategy</span><span class="p">():</span>
+</span><span data-line="6">    <span class="k">return</span> <span class="n">st</span><span class="o">.</span><span class="n">builds</span><span class="p">(</span>
+</span><span data-line="7">        <span class="n">MyComplexType</span><span class="p">,</span>
+</span><span data-line="8">        <span class="n">field1</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span>
+</span><span data-line="9">        <span class="n">field2</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(),</span>
+</span><span data-line="10">    <span class="p">)</span>
+</span></pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.strategies.temporary_strategy">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.strategies.</span></span><span class="sig-name descname"><span class="pre">temporary_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/strategies.html#temporary_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.strategies.temporary_strategy" title="Link to this definition">¶</a></dt>
+<dd><p>Temporarily register a strategy for the duration of a context.</p>
+<p>The original strategy (if any) is restored when the context exits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>typ</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a></span>) – The Python type.</p></li>
+<li><p><strong>strategy</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – The temporary Hypothesis strategy to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Generator" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span></p>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">temporary_strategy</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">just</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">)):</span>
+</span><span data-line="3"><span class="gp">... </span>    <span class="c1"># str strategy is now st.just(&quot;test&quot;)</span>
+</span><span data-line="4"><span class="gp">... </span>    <span class="n">result</span> <span class="o">=</span> <span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+</span><span data-line="5"><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Original str strategy is restored</span>
+</span></pre></div>
+</div>
+</div>
+<p>Context manager for temporary strategy registration.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">temporary_strategy</span><span class="p">,</span> <span class="n">strategy_for_type</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Normal str strategy</span>
+</span><span data-line="5"><span class="n">normal</span> <span class="o">=</span> <span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="k">with</span> <span class="n">temporary_strategy</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">just</span><span class="p">(</span><span class="s2">&quot;fixed&quot;</span><span class="p">)):</span>
+</span><span data-line="8">    <span class="c1"># Inside context, str always generates &quot;fixed&quot;</span>
+</span><span data-line="9">    <span class="k">assert</span> <span class="n">strategy_for_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">example</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Original strategy restored</span>
+</span></pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="module-pytest_routes.generation.path">
+<span id="path-parameters"></span><h3>Path Parameters<a class="headerlink" href="#module-pytest_routes.generation.path" title="Link to this heading">¶</a></h3>
+<p>Path parameter generation.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.path.generate_path_params">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.path.</span></span><span class="sig-name descname"><span class="pre">generate_path_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/path.html#generate_path_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.path.generate_path_params" title="Link to this definition">¶</a></dt>
+<dd><p>Generate valid path parameter combinations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>]</span>) – Mapping of parameter names to their types.</p></li>
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The route path pattern (reserved for future context-aware generation).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Hypothesis strategy that generates dictionaries of path parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.path.format_path">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.path.</span></span><span class="sig-name descname"><span class="pre">format_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/path.html#format_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.path.format_path" title="Link to this definition">¶</a></dt>
+<dd><p>Format a path pattern with parameter values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The path pattern with {param} placeholders.</p></li>
+<li><p><strong>params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Dictionary of parameter values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The formatted path with parameters substituted.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Path parameter generation handles URL path variables:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.generation.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_path_params</span><span class="p">,</span> <span class="n">format_path</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Generate values for path parameters</span>
+</span><span data-line="4"><span class="n">path_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;post_id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">}</span>
+</span><span data-line="5"><span class="n">strategy</span> <span class="o">=</span> <span class="n">generate_path_params</span><span class="p">(</span><span class="n">path_params</span><span class="p">,</span> <span class="s2">&quot;/users/</span><span class="si">{user_id}</span><span class="s2">/posts/</span><span class="si">{post_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Format a path with generated values</span>
+</span><span data-line="8"><span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s2">&quot;post_id&quot;</span><span class="p">:</span> <span class="mi">123</span><span class="p">}</span>
+</span><span data-line="9"><span class="n">url</span> <span class="o">=</span> <span class="n">format_path</span><span class="p">(</span><span class="s2">&quot;/users/</span><span class="si">{user_id}</span><span class="s2">/posts/</span><span class="si">{post_id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+</span><span data-line="10"><span class="c1"># Result: &quot;/users/42/posts/123&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<section id="module-pytest_routes.generation.body">
+<span id="request-bodies"></span><h3>Request Bodies<a class="headerlink" href="#module-pytest_routes.generation.body" title="Link to this heading">¶</a></h3>
+<p>Request body generation.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.body.generate_body">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.body.</span></span><span class="sig-name descname"><span class="pre">generate_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/body.html#generate_body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.body.generate_body" title="Link to this definition">¶</a></dt>
+<dd><p>Generate request body based on type annotation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>body_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – The expected request body type, or None if no body.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Hypothesis strategy that generates valid request bodies (as dicts).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Request body generation creates payloads for POST/PUT/PATCH requests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes.generation.body</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_body</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">class</span><span class="w"> </span><span class="nc">CreateUserRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span data-line="5">    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="6">    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="7">    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="c1"># Generate valid request bodies</span>
+</span><span data-line="10"><span class="n">body_strategy</span> <span class="o">=</span> <span class="n">generate_body</span><span class="p">(</span><span class="n">CreateUserRequest</span><span class="p">)</span>
+</span><span data-line="11"><span class="n">example</span> <span class="o">=</span> <span class="n">body_strategy</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+</span><span data-line="12"><span class="c1"># Result: {&quot;name&quot;: &quot;...&quot;, &quot;email&quot;: &quot;...&quot;, &quot;age&quot;: ...}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="module-pytest_routes.generation.headers">
+<span id="header-generation"></span><h3>Header Generation<a class="headerlink" href="#module-pytest_routes.generation.headers" title="Link to this heading">¶</a></h3>
+<p>Header generation strategies for HTTP requests.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.headers.register_header_strategy">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.headers.</span></span><span class="sig-name descname"><span class="pre">register_header_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/headers.html#register_header_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.headers.register_header_strategy" title="Link to this definition">¶</a></dt>
+<dd><p>Register a custom strategy for a specific HTTP header.</p>
+<p>This allows users to override default header generation or add
+strategies for custom headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The HTTP header name (case-insensitive).</p></li>
+<li><p><strong>strategy</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – A Hypothesis strategy that generates string values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">register_header_strategy</span><span class="p">(</span><span class="s2">&quot;X-Custom-ID&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">uuids</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+</span></pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.headers.generate_headers">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.headers.</span></span><span class="sig-name descname"><span class="pre">generate_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_specs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_content_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_accept</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_authorization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/headers.html#generate_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.headers.generate_headers" title="Link to this definition">¶</a></dt>
+<dd><p>Generate HTTP headers based on specifications.</p>
+<p>All header values are generated as strings to comply with HTTP standards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header_specs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Mapping of header names to their types. If None, only
+optional headers based on flags will be included.</p></li>
+<li><p><strong>include_content_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to include Content-Type header.</p></li>
+<li><p><strong>include_accept</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to include Accept header.</p></li>
+<li><p><strong>include_authorization</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to include Authorization header.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Hypothesis strategy that generates dictionaries of HTTP headers.</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Generate custom headers</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">header_strategy</span> <span class="o">=</span> <span class="n">generate_headers</span><span class="p">(</span>
+</span><span data-line="4"><span class="gp">... </span>    <span class="n">header_specs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X-Request-ID&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;X-Trace-ID&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">},</span>
+</span><span data-line="5"><span class="gp">... </span>    <span class="n">include_accept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="6"><span class="gp">... </span><span class="p">)</span>
+</span><span data-line="7"><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Generate only standard headers</span>
+</span><span data-line="8"><span class="gp">&gt;&gt;&gt; </span><span class="n">standard_headers</span> <span class="o">=</span> <span class="n">generate_headers</span><span class="p">(</span>
+</span><span data-line="9"><span class="gp">... </span>    <span class="n">include_content_type</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="10"><span class="gp">... </span>    <span class="n">include_accept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="11"><span class="gp">... </span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_routes.generation.headers.generate_optional_headers">
+<span class="sig-prename descclassname"><span class="pre">pytest_routes.generation.headers.</span></span><span class="sig-name descname"><span class="pre">generate_optional_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optional_headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/generation/headers.html#generate_optional_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.generation.headers.generate_optional_headers" title="Link to this definition">¶</a></dt>
+<dd><p>Generate headers with required and optional fields.</p>
+<p>This is useful for testing routes where some headers are mandatory
+and others are optional.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_headers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Headers that must always be present.</p></li>
+<li><p><strong>optional_headers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Headers that may or may not be included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/reference/strategies.html#hypothesis.strategies.SearchStrategy" title="(in Hypothesis v6.148.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchStrategy</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Hypothesis strategy that generates dictionaries of HTTP headers.</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">header_strategy</span> <span class="o">=</span> <span class="n">generate_optional_headers</span><span class="p">(</span>
+</span><span data-line="2"><span class="gp">... </span>    <span class="n">required_headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">},</span>
+</span><span data-line="3"><span class="gp">... </span>    <span class="n">optional_headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X-Request-ID&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;X-Trace-ID&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">},</span>
+</span><span data-line="4"><span class="gp">... </span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</dd></dl>
+
+<p>Header generation provides strategies for HTTP headers:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="2">    <span class="n">generate_headers</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">generate_optional_headers</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">register_header_strategy</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Generate required headers</span>
+</span><span data-line="8"><span class="n">headers</span> <span class="o">=</span> <span class="n">generate_headers</span><span class="p">([</span><span class="s2">&quot;Authorization&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Type&quot;</span><span class="p">])</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Generate optional headers (may or may not be present)</span>
+</span><span data-line="11"><span class="n">optional</span> <span class="o">=</span> <span class="n">generate_optional_headers</span><span class="p">([</span><span class="s2">&quot;X-Request-ID&quot;</span><span class="p">,</span> <span class="s2">&quot;X-Trace-ID&quot;</span><span class="p">])</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># Register a custom header strategy</span>
+</span><span data-line="14"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="15"><span class="n">register_header_strategy</span><span class="p">(</span>
+</span><span data-line="16">    <span class="s2">&quot;Authorization&quot;</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">st</span><span class="o">.</span><span class="n">just</span><span class="p">(</span><span class="s2">&quot;Bearer test-token-12345&quot;</span><span class="p">)</span>
+</span><span data-line="18"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading">¶</a></h2>
+<section id="pydantic-model-strategies">
+<h3>Pydantic Model Strategies<a class="headerlink" href="#pydantic-model-strategies" title="Link to this heading">¶</a></h3>
+<p>pytest-routes automatically generates strategies for Pydantic models:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategy_for_type</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span data-line="5">    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span data-line="6">    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span><span data-line="7">    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="c1"># Automatically creates a valid User strategy</span>
+</span><span data-line="10"><span class="n">user_strategy</span> <span class="o">=</span> <span class="n">strategy_for_type</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+</span><span data-line="11"><span class="n">user</span> <span class="o">=</span> <span class="n">user_strategy</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+<section id="dataclass-strategies">
+<h3>Dataclass Strategies<a class="headerlink" href="#dataclass-strategies" title="Link to this heading">¶</a></h3>
+<p>Dataclasses are also supported:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategy_for_type</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@dataclass</span>
+</span><span data-line="5"><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
+</span><span data-line="6">    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span>
+</span><span data-line="7">    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="n">point_strategy</span> <span class="o">=</span> <span class="n">strategy_for_type</span><span class="p">(</span><span class="n">Point</span><span class="p">)</span>
+</span><span data-line="10"><span class="n">point</span> <span class="o">=</span> <span class="n">point_strategy</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+<section id="constrained-strategies">
+<h3>Constrained Strategies<a class="headerlink" href="#constrained-strategies" title="Link to this heading">¶</a></h3>
+<p>For more control, register constrained strategies:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_strategy</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Positive integers only</span>
+</span><span data-line="5"><span class="n">register_strategy</span><span class="p">(</span>
+</span><span data-line="6">    <span class="nb">int</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">10000</span><span class="p">),</span>
+</span><span data-line="8">    <span class="n">override</span><span class="o">=</span><span class="kc">True</span>
+</span><span data-line="9"><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Email-like strings</span>
+</span><span data-line="12"><span class="k">class</span><span class="w"> </span><span class="nc">Email</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+</span><span data-line="13">    <span class="k">pass</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="n">register_strategy</span><span class="p">(</span>
+</span><span data-line="16">    <span class="n">Email</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">st</span><span class="o">.</span><span class="n">emails</span><span class="p">()</span>
+</span><span data-line="18"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="discovery.html"><span class="doc">Route Discovery</span></a> - How routes and types are extracted</p></li>
+<li><p><a class="reference internal" href="execution.html"><span class="doc">Test Execution</span></a> - How generated data is used in tests</p></li>
+<li><p><a class="reference external" href="https://hypothesis.readthedocs.io/">Hypothesis documentation</a> - Full Hypothesis docs</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="discovery.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Route Discovery</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="execution.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Test Execution</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

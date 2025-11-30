@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Test Execution - pytest-routes</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Response Validation" href="validation.html" /><link rel="prev" title="Strategy Generation" href="generation.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Test Execution"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli-options.html">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generation.html">Strategy Generation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#architecture">Architecture</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a><ul>
+<li><a class="reference internal" href="#test-runner">Test Runner</a><ul>
+<li><a class="reference internal" href="#routetestrunner">RouteTestRunner</a><ul>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestRunner"><code class="docutils literal notranslate"><span class="pre">RouteTestRunner</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestRunner.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestRunner.create_test"><code class="docutils literal notranslate">create_test()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestRunner.test_route_async"><code class="docutils literal notranslate">test_route_async()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestRunner.test_all_routes"><code class="docutils literal notranslate">test_all_routes()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#routetestfailure">RouteTestFailure</a><ul>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure"><code class="docutils literal notranslate"><span class="pre">RouteTestFailure</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.route_path"><code class="docutils literal notranslate">route_path</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.method"><code class="docutils literal notranslate">method</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.status_code"><code class="docutils literal notranslate">status_code</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.expected_codes"><code class="docutils literal notranslate">expected_codes</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.request_path"><code class="docutils literal notranslate">request_path</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.path_params"><code class="docutils literal notranslate">path_params</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.query_params"><code class="docutils literal notranslate">query_params</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.body"><code class="docutils literal notranslate">body</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.response_body"><code class="docutils literal notranslate">response_body</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.error_type"><code class="docutils literal notranslate">error_type</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.request_headers"><code class="docutils literal notranslate">request_headers</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.response_headers"><code class="docutils literal notranslate">response_headers</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.auth_type"><code class="docutils literal notranslate">auth_type</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.format_message"><code class="docutils literal notranslate">format_message()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.runner.RouteTestFailure.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-client">Test Client</a><ul>
+<li><a class="reference internal" href="#routetestclient">RouteTestClient</a><ul>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient"><code class="docutils literal notranslate"><span class="pre">RouteTestClient</span></code></a><ul>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient.request"><code class="docutils literal notranslate">request()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient.get"><code class="docutils literal notranslate">get()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient.post"><code class="docutils literal notranslate">post()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient.put"><code class="docutils literal notranslate">put()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient.patch"><code class="docutils literal notranslate">patch()</span></code></a></li>
+<li><a class="reference internal" href="#pytest_routes.execution.client.RouteTestClient.delete"><code class="docutils literal notranslate">delete()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#understanding-test-creation">Understanding Test Creation</a></li>
+<li><a class="reference internal" href="#async-execution">Async Execution</a></li>
+<li><a class="reference internal" href="#verbose-mode">Verbose Mode</a></li>
+<li><a class="reference internal" href="#error-handling">Error Handling</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Test Execution</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="test-execution">
+<span id="api-execution"></span><h1>Test Execution<a class="headerlink" href="#test-execution" title="Link to this heading">¶</a></h1>
+<p>The execution module runs property-based tests against routes using generated
+data and validates responses according to configuration.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Test execution is the final stage of the pytest-routes pipeline:</p>
+<ol class="arabic simple">
+<li><p><strong>Route Discovery</strong> - Extract routes from your application</p></li>
+<li><p><strong>Strategy Generation</strong> - Create Hypothesis strategies for parameters</p></li>
+<li><p><strong>Test Creation</strong> - Build Hypothesis-powered test functions</p></li>
+<li><p><strong>Execution</strong> - Run tests with generated data</p></li>
+<li><p><strong>Validation</strong> - Check responses against expected criteria</p></li>
+</ol>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<p>Create and run tests programmatically:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="2">    <span class="n">RouteTestConfig</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">RouteTestRunner</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">get_extractor</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Configure testing</span>
+</span><span data-line="8"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span><span class="n">max_examples</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Extract routes</span>
+</span><span data-line="11"><span class="n">extractor</span> <span class="o">=</span> <span class="n">get_extractor</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span data-line="12"><span class="n">routes</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">extract_routes</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="c1"># Create runner and execute tests</span>
+</span><span data-line="15"><span class="n">runner</span> <span class="o">=</span> <span class="n">RouteTestRunner</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">routes</span><span class="p">:</span>
+</span><span data-line="18">    <span class="n">test_func</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">create_test</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="19">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="20">        <span class="n">test_func</span><span class="p">()</span>
+</span><span data-line="21">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PASS: </span><span class="si">{</span><span class="n">route</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="22">    <span class="k">except</span> <span class="ne">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="23">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">route</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="24">        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">+------------------+
+</span><span data-line="2">| RouteTestRunner  |
+</span><span data-line="3">+--------+---------+
+</span><span data-line="4">         |
+</span><span data-line="5">         | creates
+</span><span data-line="6">         v
+</span><span data-line="7">+------------------+     +-------------------+
+</span><span data-line="8">|  Hypothesis Test |----&gt;| RouteTestClient   |
+</span><span data-line="9">|  (@given)        |     | (ASGI client)     |
+</span><span data-line="10">+------------------+     +-------------------+
+</span><span data-line="11">         |                        |
+</span><span data-line="12">         | on failure             | HTTP request
+</span><span data-line="13">         v                        v
+</span><span data-line="14">+------------------+     +-------------------+
+</span><span data-line="15">| RouteTestFailure |     | ASGI Application  |
+</span><span data-line="16">| (detailed error) |     +-------------------+
+</span><span data-line="17">+------------------+
+</span></pre></div>
+</div>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<section id="test-runner">
+<h3>Test Runner<a class="headerlink" href="#test-runner" title="Link to this heading">¶</a></h3>
+<section id="routetestrunner">
+<h4>RouteTestRunner<a class="headerlink" href="#routetestrunner" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestRunner">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.execution.runner.</span></span><span class="sig-name descname"><span class="pre">RouteTestRunner</span></span><a class="reference internal" href="../_modules/pytest_routes/execution/runner.html#RouteTestRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestRunner" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Executes smoke tests against routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+<li><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="config.html#pytest_routes.config.RouteTestConfig" title="pytest_routes.config.RouteTestConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteTestConfig</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<p>The main test runner that orchestrates test creation and execution.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestRunner</span><span class="p">,</span> <span class="n">RouteTestConfig</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="4">    <span class="n">max_examples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">fail_on_5xx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="n">runner</span> <span class="o">=</span> <span class="n">RouteTestRunner</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Create a test for a specific route</span>
+</span><span data-line="12"><span class="n">test</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">create_test</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+</span><span data-line="13"><span class="n">test</span><span class="p">()</span>  <span class="c1"># Runs 100 Hypothesis examples</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="c1"># Or test all routes asynchronously</span>
+</span><span data-line="16"><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="17"><span class="n">results</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">runner</span><span class="o">.</span><span class="n">test_all_routes</span><span class="p">(</span><span class="n">routes</span><span class="p">))</span>
+</span></pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestRunner.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/runner.html#RouteTestRunner.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestRunner.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize test runner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The ASGI application.</p></li>
+<li><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="config.html#pytest_routes.config.RouteTestConfig" title="pytest_routes.config.RouteTestConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteTestConfig</span></code></a></span>) – Test configuration.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestRunner.create_test">
+<span class="sig-name descname"><span class="pre">create_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/runner.html#RouteTestRunner.create_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestRunner.create_test" title="Link to this definition">¶</a></dt>
+<dd><p>Create a Hypothesis test for a route.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route to test.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a>[[], <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A test function decorated with &#64;given.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestRunner.test_route_async">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_route_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/runner.html#RouteTestRunner.test_route_async"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestRunner.test_route_async" title="Link to this definition">¶</a></dt>
+<dd><p>Test a single route asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>route</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a></span>) – The route to test.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Test result dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestRunner.test_all_routes">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_all_routes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/runner.html#RouteTestRunner.test_all_routes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestRunner.test_all_routes" title="Link to this definition">¶</a></dt>
+<dd><p>Test all routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>routes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="discovery.html#pytest_routes.discovery.base.RouteInfo" title="pytest_routes.discovery.base.RouteInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">RouteInfo</span></code></a>]</span>) – List of routes to test.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of test results.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="routetestfailure">
+<h4>RouteTestFailure<a class="headerlink" href="#routetestfailure" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.execution.runner.</span></span><span class="sig-name descname"><span class="pre">RouteTestFailure</span></span><a class="reference internal" href="../_modules/pytest_routes/execution/runner.html#RouteTestFailure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Detailed information about a route test failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>status_code</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>expected_codes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>request_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>path_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>query_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>body</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+<li><p><strong>response_body</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>error_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>request_headers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>response_headers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>auth_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Detailed information about a test failure, including the shrunk example
+from Hypothesis.</p>
+<p class="rubric">Attributes</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">route_path</span></code></dt><dd><p>The original route pattern (e.g., <code class="docutils literal notranslate"><span class="pre">/users/{user_id}</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">method</span></code></dt><dd><p>HTTP method that failed</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">status_code</span></code></dt><dd><p>Actual status code received</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">expected_codes</span></code></dt><dd><p>List of allowed status codes</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">request_path</span></code></dt><dd><p>The actual request URL with parameters filled in</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">path_params</span></code></dt><dd><p>Path parameter values that caused the failure (shrunk)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">query_params</span></code></dt><dd><p>Query parameter values that caused the failure (shrunk)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">body</span></code></dt><dd><p>Request body that caused the failure (shrunk)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">response_body</span></code></dt><dd><p>Response body from the server (truncated)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">error_type</span></code></dt><dd><p>Type of error: <code class="docutils literal notranslate"><span class="pre">&quot;server_error_5xx&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;unexpected_status&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;validation_error&quot;</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Example Output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">============================================================
+</span><span data-line="2">ROUTE TEST FAILURE: GET /users/{user_id}
+</span><span data-line="3">============================================================
+</span><span data-line="4">
+</span><span data-line="5">Error Type:
+</span><span data-line="6">  unexpected_status
+</span><span data-line="7">
+</span><span data-line="8">Request Details:
+</span><span data-line="9">  Method: GET
+</span><span data-line="10">  Path: /users/0
+</span><span data-line="11">  Status Code: 404
+</span><span data-line="12">  Expected: [200, 201, 204, 400, 401, 403, 422]
+</span><span data-line="13">
+</span><span data-line="14">Path Parameters (shrunk example):
+</span><span data-line="15">  user_id: 0
+</span><span data-line="16">
+</span><span data-line="17">Response Body (truncated):
+</span><span data-line="18">  {&quot;detail&quot;: &quot;User not found&quot;}
+</span><span data-line="19">
+</span><span data-line="20">============================================================
+</span></pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.route_path">
+<span class="sig-name descname"><span class="pre">route_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.route_path" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.method">
+<span class="sig-name descname"><span class="pre">method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.method" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.status_code">
+<span class="sig-name descname"><span class="pre">status_code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.status_code" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.expected_codes">
+<span class="sig-name descname"><span class="pre">expected_codes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.expected_codes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.request_path">
+<span class="sig-name descname"><span class="pre">request_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.request_path" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.path_params">
+<span class="sig-name descname"><span class="pre">path_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.path_params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.query_params">
+<span class="sig-name descname"><span class="pre">query_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.query_params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.body">
+<span class="sig-name descname"><span class="pre">body</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.body" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.response_body">
+<span class="sig-name descname"><span class="pre">response_body</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.response_body" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.error_type">
+<span class="sig-name descname"><span class="pre">error_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unexpected_status'</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.error_type" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.request_headers">
+<span class="sig-name descname"><span class="pre">request_headers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.request_headers" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.response_headers">
+<span class="sig-name descname"><span class="pre">response_headers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.response_headers" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.auth_type">
+<span class="sig-name descname"><span class="pre">auth_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.auth_type" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.format_message">
+<span class="sig-name descname"><span class="pre">format_message</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/runner.html#RouteTestFailure.format_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.format_message" title="Link to this definition">¶</a></dt>
+<dd><p>Format a detailed error message with shrunk example.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.runner.RouteTestFailure.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">route_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_codes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_params=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_params=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_body=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_type='unexpected_status'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_headers=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_headers=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_type=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_routes.execution.runner.RouteTestFailure.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>route_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>status_code</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>expected_codes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>request_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>path_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>query_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>body</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+<li><p><strong>response_body</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>error_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>request_headers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>response_headers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>auth_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="test-client">
+<h3>Test Client<a class="headerlink" href="#test-client" title="Link to this heading">¶</a></h3>
+<section id="routetestclient">
+<h4>RouteTestClient<a class="headerlink" href="#routetestclient" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_routes.execution.client.</span></span><span class="sig-name descname"><span class="pre">RouteTestClient</span></span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Async test client for ASGI applications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+<li><p><strong>base_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<p>An async ASGI test client wrapper for making requests to your application.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestClient</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_endpoint</span><span class="p">():</span>
+</span><span data-line="4">    <span class="n">client</span> <span class="o">=</span> <span class="n">RouteTestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6">    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+</span><span data-line="7">        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+</span><span data-line="8">        <span class="n">path</span><span class="o">=</span><span class="s2">&quot;/users/123&quot;</span><span class="p">,</span>
+</span><span data-line="9">        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;include_posts&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">},</span>
+</span><span data-line="10">        <span class="n">timeout</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
+</span><span data-line="11">    <span class="p">)</span>
+</span><span data-line="12">
+</span><span data-line="13">    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
+</span></pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://test'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize test client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – The ASGI application.</p></li>
+<li><p><strong>base_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Base URL for requests.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient.request">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient.request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient.request" title="Link to this definition">¶</a></dt>
+<dd><p>Make an HTTP request to the ASGI app.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – HTTP method.</p></li>
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Request path.</p></li>
+<li><p><strong>params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Query parameters.</p></li>
+<li><p><strong>json</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – JSON body.</p></li>
+<li><p><strong>headers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Request headers.</p></li>
+<li><p><strong>timeout</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Request timeout in seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The HTTP response.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient.get">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient.get" title="Link to this definition">¶</a></dt>
+<dd><p>Make a GET request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient.post">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient.post" title="Link to this definition">¶</a></dt>
+<dd><p>Make a POST request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient.put">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient.put"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient.put" title="Link to this definition">¶</a></dt>
+<dd><p>Make a PUT request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient.patch">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient.patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient.patch" title="Link to this definition">¶</a></dt>
+<dd><p>Make a PATCH request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_routes.execution.client.RouteTestClient.delete">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytest_routes/execution/client.html#RouteTestClient.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_routes.execution.client.RouteTestClient.delete" title="Link to this definition">¶</a></dt>
+<dd><p>Make a DELETE request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+<section id="understanding-test-creation">
+<h2>Understanding Test Creation<a class="headerlink" href="#understanding-test-creation" title="Link to this heading">¶</a></h2>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">RouteTestRunner.create_test()</span></code> method creates a Hypothesis-decorated
+test function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># What create_test() generates internally:</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="nd">@settings</span><span class="p">(</span>
+</span><span data-line="4">    <span class="n">max_examples</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">max_examples</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">suppress_health_check</span><span class="o">=</span><span class="p">[</span><span class="n">HealthCheck</span><span class="o">.</span><span class="n">too_slow</span><span class="p">],</span>
+</span><span data-line="6">    <span class="n">deadline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span><span data-line="8"><span class="nd">@given</span><span class="p">(</span>
+</span><span data-line="9">    <span class="n">path_params</span><span class="o">=</span><span class="n">generate_path_params</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">path_params</span><span class="p">,</span> <span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="p">),</span>
+</span><span data-line="10">    <span class="n">query_params</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">fixed_dictionaries</span><span class="p">({</span><span class="o">...</span><span class="p">}),</span>
+</span><span data-line="11">    <span class="n">body</span><span class="o">=</span><span class="n">generate_body</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">body_type</span><span class="p">),</span>
+</span><span data-line="12"><span class="p">)</span>
+</span><span data-line="13"><span class="k">def</span><span class="w"> </span><span class="nf">test_route</span><span class="p">(</span><span class="n">path_params</span><span class="p">,</span> <span class="n">query_params</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+</span><span data-line="14">    <span class="c1"># Format path with generated params</span>
+</span><span data-line="15">    <span class="n">formatted_path</span> <span class="o">=</span> <span class="n">format_path</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">path_params</span><span class="p">)</span>
+</span><span data-line="16">
+</span><span data-line="17">    <span class="c1"># Make request</span>
+</span><span data-line="18">    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+</span><span data-line="19">        <span class="n">method</span><span class="o">=</span><span class="n">route</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+</span><span data-line="20">        <span class="n">path</span><span class="o">=</span><span class="n">formatted_path</span><span class="p">,</span>
+</span><span data-line="21">        <span class="n">params</span><span class="o">=</span><span class="n">query_params</span><span class="p">,</span>
+</span><span data-line="22">        <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
+</span><span data-line="23">    <span class="p">)</span>
+</span><span data-line="24">
+</span><span data-line="25">    <span class="c1"># Validate response</span>
+</span><span data-line="26">    <span class="n">validate_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">route</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="async-execution">
+<h2>Async Execution<a class="headerlink" href="#async-execution" title="Link to this heading">¶</a></h2>
+<p>For async test execution, use the async methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">pytest_routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RouteTestRunner</span><span class="p">,</span> <span class="n">RouteTestConfig</span><span class="p">,</span> <span class="n">get_extractor</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_smoke_tests</span><span class="p">():</span>
+</span><span data-line="5">    <span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span><span class="n">max_examples</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</span><span data-line="6">    <span class="n">runner</span> <span class="o">=</span> <span class="n">RouteTestRunner</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</span><span data-line="7">    <span class="n">extractor</span> <span class="o">=</span> <span class="n">get_extractor</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span data-line="8">    <span class="n">routes</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">extract_routes</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10">    <span class="c1"># Test single route</span>
+</span><span data-line="11">    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">runner</span><span class="o">.</span><span class="n">test_route_async</span><span class="p">(</span><span class="n">routes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span data-line="12">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Route: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;route&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Passed: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;passed&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14">    <span class="c1"># Test all routes</span>
+</span><span data-line="15">    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">runner</span><span class="o">.</span><span class="n">test_all_routes</span><span class="p">(</span><span class="n">routes</span><span class="p">)</span>
+</span><span data-line="16">
+</span><span data-line="17">    <span class="n">passed</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">])</span>
+</span><span data-line="18">    <span class="n">failed</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">-</span> <span class="n">passed</span>
+</span><span data-line="19">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Results: </span><span class="si">{</span><span class="n">passed</span><span class="si">}</span><span class="s2"> passed, </span><span class="si">{</span><span class="n">failed</span><span class="si">}</span><span class="s2"> failed&quot;</span><span class="p">)</span>
+</span><span data-line="20">
+</span><span data-line="21"><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_smoke_tests</span><span class="p">())</span>
+</span></pre></div>
+</div>
+</section>
+<section id="verbose-mode">
+<h2>Verbose Mode<a class="headerlink" href="#verbose-mode" title="Link to this heading">¶</a></h2>
+<p>Enable verbose output for debugging:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">runner</span> <span class="o">=</span> <span class="n">RouteTestRunner</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Output during test execution:</span>
+</span><span data-line="5"><span class="c1">#   -&gt; GET /users/42</span>
+</span><span data-line="6"><span class="c1">#     path_params: {&#39;user_id&#39;: 42}</span>
+</span><span data-line="7"><span class="c1">#     query_params: {&#39;include_posts&#39;: True}</span>
+</span><span data-line="8"><span class="c1">#   &lt;- 200</span>
+</span></pre></div>
+</div>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading">¶</a></h2>
+<p>The runner distinguishes between different error types:</p>
+<dl class="simple">
+<dt><strong>Server Errors (5xx)</strong></dt><dd><p>Caught when <code class="docutils literal notranslate"><span class="pre">fail_on_5xx=True</span></code> (default). These indicate bugs in your
+application.</p>
+</dd>
+<dt><strong>Unexpected Status Codes</strong></dt><dd><p>When the response status is not in <code class="docutils literal notranslate"><span class="pre">allowed_status_codes</span></code>. Configure
+this list based on your API’s expected behavior.</p>
+</dd>
+<dt><strong>Validation Errors</strong></dt><dd><p>When <code class="docutils literal notranslate"><span class="pre">validate_responses=True</span></code> and validators fail. See <a class="reference internal" href="validation.html"><span class="doc">Response Validation</span></a>
+for details.</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">config</span> <span class="o">=</span> <span class="n">RouteTestConfig</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">fail_on_5xx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                    <span class="c1"># Fail on server errors</span>
+</span><span data-line="3">    <span class="n">allowed_status_codes</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">204</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">404</span><span class="p">,</span> <span class="mi">422</span><span class="p">],</span>  <span class="c1"># Expected codes</span>
+</span><span data-line="4">    <span class="n">validate_responses</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>             <span class="c1"># Enable response validation</span>
+</span><span data-line="5">    <span class="n">fail_on_validation_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>       <span class="c1"># Fail on validation errors</span>
+</span><span data-line="6"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="config.html"><span class="doc">Configuration</span></a> - Configuration options for test execution</p></li>
+<li><p><a class="reference internal" href="discovery.html"><span class="doc">Route Discovery</span></a> - How routes are extracted for testing</p></li>
+<li><p><a class="reference internal" href="generation.html"><span class="doc">Strategy Generation</span></a> - How test data is generated</p></li>
+<li><p><a class="reference internal" href="validation.html"><span class="doc">Response Validation</span></a> - Response validation details</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="generation.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Strategy Generation</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="validation.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Response Validation</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>

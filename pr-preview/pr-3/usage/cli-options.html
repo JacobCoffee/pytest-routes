@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CLI Options Reference - pytest-routes</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Configuration" href="configuration.html" /><link rel="prev" title="Usage Guide" href="index.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=14737038" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=94b6bb75" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="CLI Options Reference"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>pytest-routes</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/pytest-routes/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Learn</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Usage Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CLI Options Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schemathesis.html">Schemathesis Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stateful.html">Stateful Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html">WebSocket Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reports.html">Reports and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frameworks/index.html">Framework Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/litestar.html">Litestar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/fastapi.html">FastAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/starlette.html">Starlette</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frameworks/openapi.html">OpenAPI Fallback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/discovery.html">Route Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generation.html">Strategy Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/execution.html">Test Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/validation.html">Response Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/reporting.html">Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/integrations.html">Integrations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/pytest-routes">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/pytest-routes/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/litestar">Discord</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#quick-reference">Quick Reference</a></li>
+<li><a class="reference internal" href="#core-options">Core Options</a><ul>
+<li><a class="reference internal" href="#routes"><code class="docutils literal notranslate"><span class="pre">--routes</span></code></a></li>
+<li><a class="reference internal" href="#routes-app"><code class="docutils literal notranslate"><span class="pre">--routes-app</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-intensity-options">Test Intensity Options</a><ul>
+<li><a class="reference internal" href="#routes-max-examples"><code class="docutils literal notranslate"><span class="pre">--routes-max-examples</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#route-filtering-options">Route Filtering Options</a><ul>
+<li><a class="reference internal" href="#routes-include"><code class="docutils literal notranslate"><span class="pre">--routes-include</span></code></a></li>
+<li><a class="reference internal" href="#routes-exclude"><code class="docutils literal notranslate"><span class="pre">--routes-exclude</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#http-method-options">HTTP Method Options</a><ul>
+<li><a class="reference internal" href="#routes-methods"><code class="docutils literal notranslate"><span class="pre">--routes-methods</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reproducibility-options">Reproducibility Options</a><ul>
+<li><a class="reference internal" href="#routes-seed"><code class="docutils literal notranslate"><span class="pre">--routes-seed</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#combining-options">Combining Options</a></li>
+<li><a class="reference internal" href="#configuration-file-alternative">Configuration File Alternative</a></li>
+<li><a class="reference internal" href="#usage-examples">Usage Examples</a><ul>
+<li><a class="reference internal" href="#development-quick-validation">Development: Quick Validation</a></li>
+<li><a class="reference internal" href="#ci-pipeline-thorough-testing">CI Pipeline: Thorough Testing</a></li>
+<li><a class="reference internal" href="#feature-development-testing-new-routes">Feature Development: Testing New Routes</a></li>
+<li><a class="reference internal" href="#pre-deployment-comprehensive-check">Pre-Deployment: Comprehensive Check</a></li>
+<li><a class="reference internal" href="#read-only-testing-safe-for-production-data">Read-Only Testing: Safe for Production Data</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#schemathesis-integration-options">Schemathesis Integration Options</a><ul>
+<li><a class="reference internal" href="#routes-schemathesis"><code class="docutils literal notranslate"><span class="pre">--routes-schemathesis</span></code></a></li>
+<li><a class="reference internal" href="#routes-schemathesis-schema-path"><code class="docutils literal notranslate"><span class="pre">--routes-schemathesis-schema-path</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#report-generation-options">Report Generation Options</a><ul>
+<li><a class="reference internal" href="#routes-report"><code class="docutils literal notranslate"><span class="pre">--routes-report</span></code></a></li>
+<li><a class="reference internal" href="#routes-report-json"><code class="docutils literal notranslate"><span class="pre">--routes-report-json</span></code></a></li>
+<li><a class="reference internal" href="#routes-report-title"><code class="docutils literal notranslate"><span class="pre">--routes-report-title</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#report-configuration-in-pyproject-toml">Report Configuration in pyproject.toml</a></li>
+<li><a class="reference internal" href="#stateful-testing-options">Stateful Testing Options</a><ul>
+<li><a class="reference internal" href="#routes-stateful"><code class="docutils literal notranslate"><span class="pre">--routes-stateful</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-mode"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-mode</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-step-count"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-step-count</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-max-examples"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-max-examples</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-seed"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-seed</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-recursion-limit"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-recursion-limit</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-fail-fast"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-fail-fast</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-verbose"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-verbose</span></code></a></li>
+<li><a class="reference internal" href="#routes-stateful-include-routes-stateful-exclude"><code class="docutils literal notranslate"><span class="pre">--routes-stateful-include</span></code> / <code class="docutils literal notranslate"><span class="pre">--routes-stateful-exclude</span></code></a></li>
+<li><a class="reference internal" href="#stateful-testing-configuration-in-pyproject-toml">Stateful Testing Configuration in pyproject.toml</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#websocket-testing-options">WebSocket Testing Options</a><ul>
+<li><a class="reference internal" href="#routes-websocket"><code class="docutils literal notranslate"><span class="pre">--routes-websocket</span></code></a></li>
+<li><a class="reference internal" href="#routes-ws-max-messages"><code class="docutils literal notranslate"><span class="pre">--routes-ws-max-messages</span></code></a></li>
+<li><a class="reference internal" href="#routes-ws-timeout"><code class="docutils literal notranslate"><span class="pre">--routes-ws-timeout</span></code></a></li>
+<li><a class="reference internal" href="#routes-ws-message-timeout"><code class="docutils literal notranslate"><span class="pre">--routes-ws-message-timeout</span></code></a></li>
+<li><a class="reference internal" href="#routes-ws-include-routes-ws-exclude"><code class="docutils literal notranslate"><span class="pre">--routes-ws-include</span></code> / <code class="docutils literal notranslate"><span class="pre">--routes-ws-exclude</span></code></a></li>
+<li><a class="reference internal" href="#websocket-configuration-in-pyproject-toml">WebSocket Configuration in pyproject.toml</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#combined-testing-examples">Combined Testing Examples</a><ul>
+<li><a class="reference internal" href="#full-api-testing-http-websocket-stateful">Full API Testing (HTTP + WebSocket + Stateful)</a></li>
+<li><a class="reference internal" href="#ci-pipeline-configuration">CI Pipeline Configuration</a></li>
+<li><a class="reference internal" href="#development-quick-check">Development Quick Check</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">pytest-routes</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Usage Guide</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">CLI Options Reference</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="cli-options-reference">
+<h1>CLI Options Reference<a class="headerlink" href="#cli-options-reference" title="Link to this heading">¶</a></h1>
+<p class="lead">pytest-routes adds several command-line options to pytest for controlling smoke test behavior.</p>
+<section id="quick-reference">
+<h2>Quick Reference<a class="headerlink" href="#quick-reference" title="Link to this heading">¶</a></h2>
+<p>The following table summarizes all available CLI options:</p>
+<div class="table-wrapper colwidths-given docutils container" id="id1">
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">CLI Options Summary</span><a class="headerlink" href="#id1" title="Link to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 15.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Enable route smoke testing</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-app</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Import path to ASGI application (<code class="docutils literal notranslate"><span class="pre">module:attribute</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-max-examples</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">100</span></code></p></td>
+<td><p>Maximum Hypothesis examples per route</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-include</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[]</span></code></p></td>
+<td><p>Comma-separated glob patterns for routes to include</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-exclude</span></code></p></td>
+<td><p>See below</p></td>
+<td><p>Comma-separated glob patterns for routes to exclude</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-methods</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET,POST,PUT,PATCH,DELETE</span></code></p></td>
+<td><p>HTTP methods to test</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-seed</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Random seed for reproducible tests</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-schemathesis</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Enable Schemathesis OpenAPI contract testing</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-schemathesis-schema-path</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/openapi.json</span></code></p></td>
+<td><p>Path to OpenAPI schema endpoint</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-stateful</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Enable stateful API testing</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-stateful-step-count</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">50</span></code></p></td>
+<td><p>Maximum steps per stateful test sequence</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-websocket</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Enable WebSocket route testing</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-ws-max-messages</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
+<td><p>Maximum messages per WebSocket test</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-report</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Generate HTML report at specified path</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-report-json</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Generate JSON report at specified path</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--routes-report-title</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pytest-routes</span> <span class="pre">Report</span></code></p></td>
+<td><p>Custom title for HTML report</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="core-options">
+<h2>Core Options<a class="headerlink" href="#core-options" title="Link to this heading">¶</a></h2>
+<section id="routes">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes</span></code><a class="headerlink" href="#routes" title="Link to this heading">¶</a></h3>
+<p>Enable route smoke testing. <strong>Required</strong> - without this flag, pytest-routes does not run any tests.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable smoke testing</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Combine with other pytest options</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>-v<span class="w"> </span>--tb<span class="o">=</span>short
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This flag exists to prevent pytest-routes from running during normal test runs.
+Add it only when you specifically want to run smoke tests.</p>
+</div>
+</section>
+<section id="routes-app">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-app</span></code><a class="headerlink" href="#routes-app" title="Link to this heading">¶</a></h3>
+<p>Specify the import path to your ASGI application.</p>
+<p><strong>Format:</strong> <code class="docutils literal notranslate"><span class="pre">module:attribute</span></code> or <code class="docutils literal notranslate"><span class="pre">module.submodule:attribute</span></code></p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code> (uses <code class="docutils literal notranslate"><span class="pre">app</span></code> fixture from <a class="reference external" href="http://conftest.py">conftest.py</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Simple module import</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Nested module import</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp.main:application
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Package with factory function</span>
+</span><span data-line="8">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span><span class="s2">&quot;myapp.factory:create_app()&quot;</span>
+</span></pre></div>
+</div>
+<p><strong>Example import paths:</strong></p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Import Path</p></th>
+<th class="head"><p>Python Equivalent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">myapp:app</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">myapp</span> <span class="pre">import</span> <span class="pre">app</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">myapp.main:application</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">myapp.main</span> <span class="pre">import</span> <span class="pre">application</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">myapp.factory:create_app()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">myapp.factory</span> <span class="pre">import</span> <span class="pre">create_app;</span> <span class="pre">app</span> <span class="pre">=</span> <span class="pre">create_app()</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you don’t specify <code class="docutils literal notranslate"><span class="pre">--routes-app</span></code>, pytest-routes looks for an <code class="docutils literal notranslate"><span class="pre">app</span></code> fixture in
+your <code class="docutils literal notranslate"><span class="pre">conftest.py</span></code>. This is useful for applications that require setup before use.</p>
+</div>
+</section>
+</section>
+<section id="test-intensity-options">
+<h2>Test Intensity Options<a class="headerlink" href="#test-intensity-options" title="Link to this heading">¶</a></h2>
+<section id="routes-max-examples">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-max-examples</span></code><a class="headerlink" href="#routes-max-examples" title="Link to this heading">¶</a></h3>
+<p>Maximum number of Hypothesis examples to generate per route.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">100</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Quick smoke test (10 examples per route)</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-max-examples<span class="w"> </span><span class="m">10</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Standard testing (100 examples per route)</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-max-examples<span class="w"> </span><span class="m">100</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Thorough testing (500 examples per route)</span>
+</span><span data-line="8">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-max-examples<span class="w"> </span><span class="m">500</span>
+</span></pre></div>
+</div>
+<p><strong>Recommendations by use case:</strong></p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 15.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Use Case</p></th>
+<th class="head"><p>Examples</p></th>
+<th class="head"><p>Rationale</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Development</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">5-10</span></code></p></td>
+<td><p>Fast feedback loop, catch obvious issues</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pre-commit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">25-50</span></code></p></td>
+<td><p>Balance between speed and coverage</p></td>
+</tr>
+<tr class="row-even"><td><p>CI/CD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">100-200</span></code></p></td>
+<td><p>Thorough testing, acceptable runtime</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pre-release</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">500+</span></code></p></td>
+<td><p>Maximum coverage before deployment</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Higher values significantly increase test runtime. For an app with 50 routes,
+<code class="docutils literal notranslate"><span class="pre">--routes-max-examples</span> <span class="pre">500</span></code> generates 25,000 total test cases.</p>
+</div>
+</section>
+</section>
+<section id="route-filtering-options">
+<h2>Route Filtering Options<a class="headerlink" href="#route-filtering-options" title="Link to this heading">¶</a></h2>
+<section id="routes-include">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-include</span></code><a class="headerlink" href="#routes-include" title="Link to this heading">¶</a></h3>
+<p>Comma-separated list of glob patterns for routes to include. Only routes matching
+at least one pattern will be tested.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">[]</span></code> (empty - include all routes)</p>
+<p><strong>Glob syntax:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> matches any characters within a single path segment</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**</span></code> matches any characters including path separators (recursive)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Test only API routes (single segment)</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-include<span class="w"> </span><span class="s2">&quot;/api/*&quot;</span>
+</span><span data-line="3"><span class="c1"># Matches: /api/users, /api/orders</span>
+</span><span data-line="4"><span class="c1"># Does NOT match: /api/users/123, /api/v2/users</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Test API routes recursively</span>
+</span><span data-line="7">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-include<span class="w"> </span><span class="s2">&quot;/api/**&quot;</span>
+</span><span data-line="8"><span class="c1"># Matches: /api/users, /api/users/123, /api/v2/users/456</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Test multiple path patterns</span>
+</span><span data-line="11">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-include<span class="w"> </span><span class="s2">&quot;/users/*,/orders/*&quot;</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># Test all v2 API routes</span>
+</span><span data-line="14">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-include<span class="w"> </span><span class="s2">&quot;/api/v2/**&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-exclude">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-exclude</span></code><a class="headerlink" href="#routes-exclude" title="Link to this heading">¶</a></h3>
+<p>Comma-separated list of glob patterns for routes to exclude. Routes matching any
+pattern will be skipped.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">/health,/metrics,/openapi*,/docs,/redoc,/schema</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Exclude specific routes</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;/health,/metrics&quot;</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Exclude internal routes</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;/internal/*,/admin/*&quot;</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Exclude auth routes that require setup</span>
+</span><span data-line="8">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;/auth/*,/login,/logout&quot;</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Clear default excludes (test everything)</span>
+</span><span data-line="11">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;&quot;</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When both <code class="docutils literal notranslate"><span class="pre">--routes-include</span></code> and <code class="docutils literal notranslate"><span class="pre">--routes-exclude</span></code> are specified, a route must:</p>
+<ol class="arabic simple">
+<li><p>Match at least one include pattern, AND</p></li>
+<li><p>NOT match any exclude pattern</p></li>
+</ol>
+</div>
+<p><strong>Example: Testing API routes except internal ones:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-include<span class="w"> </span><span class="s2">&quot;/api/**&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;/api/internal/*&quot;</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="http-method-options">
+<h2>HTTP Method Options<a class="headerlink" href="#http-method-options" title="Link to this heading">¶</a></h2>
+<section id="routes-methods">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-methods</span></code><a class="headerlink" href="#routes-methods" title="Link to this heading">¶</a></h3>
+<p>Comma-separated list of HTTP methods to test.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">GET,POST,PUT,PATCH,DELETE</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Test only GET requests (safe, read-only)</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-methods<span class="w"> </span><span class="s2">&quot;GET&quot;</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Test only write operations</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-methods<span class="w"> </span><span class="s2">&quot;POST,PUT,DELETE&quot;</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Include HEAD requests</span>
+</span><span data-line="8">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-methods<span class="w"> </span><span class="s2">&quot;GET,HEAD&quot;</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Test all methods including OPTIONS</span>
+</span><span data-line="11">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-methods<span class="w"> </span><span class="s2">&quot;GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS&quot;</span>
+</span></pre></div>
+</div>
+<p><strong>Common method combinations:</strong></p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Methods</p></th>
+<th class="head"><p>Use Case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span></code></p></td>
+<td><p>Read-only smoke test, safe for production-like data</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GET,POST</span></code></p></td>
+<td><p>Test reads and creates, skip updates/deletes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST,PUT,PATCH,DELETE</span></code></p></td>
+<td><p>Test only write operations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GET,HEAD,OPTIONS</span></code></p></td>
+<td><p>Test metadata endpoints</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="reproducibility-options">
+<h2>Reproducibility Options<a class="headerlink" href="#reproducibility-options" title="Link to this heading">¶</a></h2>
+<section id="routes-seed">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-seed</span></code><a class="headerlink" href="#routes-seed" title="Link to this heading">¶</a></h3>
+<p>Set a random seed for reproducible test runs. Essential for debugging failures
+and consistent CI/CD behavior.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code> (random seed each run)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Use a specific seed</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-seed<span class="w"> </span><span class="m">12345</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Reproduce a failing test from CI</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-seed<span class="w"> </span><span class="m">98765</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Use CI run ID for reproducibility</span>
+</span><span data-line="8">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-seed<span class="w"> </span><span class="nv">$GITHUB_RUN_ID</span>
+</span></pre></div>
+</div>
+<p>When a test fails, pytest-routes reports the seed used:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">FAILED test_routes[GET /users/{id}] - AssertionError: Status 500
+</span><span data-line="2">  Seed: 98765
+</span><span data-line="3">  Input: {&quot;id&quot;: 42, &quot;include_deleted&quot;: true}
+</span><span data-line="4">
+</span><span data-line="5">To reproduce:
+</span><span data-line="6">  pytest --routes --routes-app myapp:app --routes-seed 98765
+</span></pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In CI/CD, use the run ID or commit SHA as the seed. This gives you reproducibility
+within a run while still getting varied test inputs across different runs.</p>
+</div>
+</section>
+</section>
+<section id="combining-options">
+<h2>Combining Options<a class="headerlink" href="#combining-options" title="Link to this heading">¶</a></h2>
+<p>Options can be combined for fine-grained control:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Full example with all options</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-max-examples<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="5"><span class="w">    </span>--routes-include<span class="w"> </span><span class="s2">&quot;/api/*&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="6"><span class="w">    </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;/api/internal/*,/api/admin/*&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="7"><span class="w">    </span>--routes-methods<span class="w"> </span><span class="s2">&quot;GET,POST&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="8"><span class="w">    </span>--routes-seed<span class="w"> </span><span class="m">12345</span>
+</span></pre></div>
+</div>
+</section>
+<section id="configuration-file-alternative">
+<h2>Configuration File Alternative<a class="headerlink" href="#configuration-file-alternative" title="Link to this heading">¶</a></h2>
+<p>All CLI options can also be configured in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. CLI options always
+take precedence over file configuration.</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># pyproject.toml</span>
+</span><span data-line="2"><span class="k">[tool.pytest-routes]</span>
+</span><span data-line="3"><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;myapp:app&quot;</span>
+</span><span data-line="4"><span class="n">max_examples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+</span><span data-line="5"><span class="n">include</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/api/*&quot;</span><span class="p">]</span>
+</span><span data-line="6"><span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/health&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/metrics&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/api/internal/*&quot;</span><span class="p">]</span>
+</span><span data-line="7"><span class="n">methods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">]</span>
+</span><span data-line="8"><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12345</span>
+</span></pre></div>
+</div>
+<p>See <a class="reference internal" href="configuration.html"><span class="std std-doc">Configuration</span></a> for complete details.</p>
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">¶</a></h2>
+<section id="development-quick-validation">
+<h3>Development: Quick Validation<a class="headerlink" href="#development-quick-validation" title="Link to this heading">¶</a></h3>
+<p>Fast smoke test during local development:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-max-examples<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>-x<span class="w">  </span><span class="c1"># Stop on first failure</span>
+</span></pre></div>
+</div>
+</section>
+<section id="ci-pipeline-thorough-testing">
+<h3>CI Pipeline: Thorough Testing<a class="headerlink" href="#ci-pipeline-thorough-testing" title="Link to this heading">¶</a></h3>
+<p>Comprehensive testing in CI with reproducibility:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-max-examples<span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-seed<span class="w"> </span><span class="nv">$GITHUB_RUN_ID</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="5"><span class="w">    </span>--tb<span class="o">=</span>short<span class="w">  </span><span class="c1"># Shorter tracebacks</span>
+</span></pre></div>
+</div>
+</section>
+<section id="feature-development-testing-new-routes">
+<h3>Feature Development: Testing New Routes<a class="headerlink" href="#feature-development-testing-new-routes" title="Link to this heading">¶</a></h3>
+<p>Test only routes in a specific module:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-include<span class="w"> </span><span class="s2">&quot;/api/v2/users/*&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-max-examples<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="5"><span class="w">    </span>-v<span class="w">  </span><span class="c1"># Verbose output</span>
+</span></pre></div>
+</div>
+</section>
+<section id="pre-deployment-comprehensive-check">
+<h3>Pre-Deployment: Comprehensive Check<a class="headerlink" href="#pre-deployment-comprehensive-check" title="Link to this heading">¶</a></h3>
+<p>Full smoke test before deployment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-max-examples<span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;/health&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="5"><span class="w">    </span>--routes-seed<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="w">  </span><span class="c1"># Timestamp seed for reproducibility</span>
+</span></pre></div>
+</div>
+</section>
+<section id="read-only-testing-safe-for-production-data">
+<h3>Read-Only Testing: Safe for Production Data<a class="headerlink" href="#read-only-testing-safe-for-production-data" title="Link to this heading">¶</a></h3>
+<p>Test only GET endpoints (safe with real data):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-methods<span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-exclude<span class="w"> </span><span class="s2">&quot;/admin/*&quot;</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="schemathesis-integration-options">
+<h2>Schemathesis Integration Options<a class="headerlink" href="#schemathesis-integration-options" title="Link to this heading">¶</a></h2>
+<section id="routes-schemathesis">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-schemathesis</span></code><a class="headerlink" href="#routes-schemathesis" title="Link to this heading">¶</a></h3>
+<p>Enable Schemathesis OpenAPI contract testing. When enabled, pytest-routes validates
+responses against your OpenAPI schema for conformance.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable Schemathesis contract testing</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-schemathesis
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Combine with custom schema path</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-schemathesis<span class="w"> </span>--routes-schemathesis-schema-path<span class="w"> </span>/api/openapi.json
+</span></pre></div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+uv (recommended)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;pytest-routes[schemathesis]&quot;</span>
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+pip</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pytest-routes[schemathesis]&quot;</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<p><strong>Schemathesis validates:</strong></p>
+<ul class="simple">
+<li><p>Status code conformance (response codes match schema)</p></li>
+<li><p>Content-type conformance (response content types match schema)</p></li>
+<li><p>Response schema conformance (response body matches schema)</p></li>
+</ul>
+</section>
+<section id="routes-schemathesis-schema-path">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-schemathesis-schema-path</span></code><a class="headerlink" href="#routes-schemathesis-schema-path" title="Link to this heading">¶</a></h3>
+<p>Path to the OpenAPI schema endpoint on your application.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">/openapi.json</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Custom schema path</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-schemathesis<span class="w"> </span>--routes-schemathesis-schema-path<span class="w"> </span>/api/v2/openapi.json
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Litestar default</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-schemathesis<span class="w"> </span>--routes-schemathesis-schema-path<span class="w"> </span>/schema/openapi.json
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># FastAPI default</span>
+</span><span data-line="8">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-schemathesis<span class="w"> </span>--routes-schemathesis-schema-path<span class="w"> </span>/openapi.json
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="report-generation-options">
+<h2>Report Generation Options<a class="headerlink" href="#report-generation-options" title="Link to this heading">¶</a></h2>
+<section id="routes-report">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-report</span></code><a class="headerlink" href="#routes-report" title="Link to this heading">¶</a></h3>
+<p>Generate an HTML report at the specified path. The report includes:</p>
+<ul class="simple">
+<li><p>Test summary with pass/fail counts</p></li>
+<li><p>Route-by-route results with timing metrics</p></li>
+<li><p>Coverage statistics</p></li>
+<li><p>Performance metrics (min/max/avg response times)</p></li>
+</ul>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code> (no report generated)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Generate HTML report</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-report<span class="w"> </span>pytest-routes-report.html
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Generate report with custom title</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-report<span class="w"> </span>report.html<span class="w"> </span>--routes-report-title<span class="w"> </span><span class="s2">&quot;API Smoke Test Results&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-report-json">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-report-json</span></code><a class="headerlink" href="#routes-report-json" title="Link to this heading">¶</a></h3>
+<p>Generate a JSON report at the specified path. Useful for CI/CD integration and
+programmatic analysis.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code> (no JSON report generated)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Generate JSON report</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-report-json<span class="w"> </span>results.json
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Generate both HTML and JSON reports</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-report<span class="w"> </span>report.html<span class="w"> </span>--routes-report-json<span class="w"> </span>results.json
+</span></pre></div>
+</div>
+<p><strong>JSON report structure:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">{</span>
+</span><span data-line="2"><span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pytest-routes Report&quot;</span><span class="p">,</span>
+</span><span data-line="3"><span class="w">  </span><span class="nt">&quot;generated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+</span><span data-line="4"><span class="w">  </span><span class="nt">&quot;summary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="5"><span class="w">    </span><span class="nt">&quot;total_routes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+</span><span data-line="6"><span class="w">    </span><span class="nt">&quot;passed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span>
+</span><span data-line="7"><span class="w">    </span><span class="nt">&quot;failed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span data-line="8"><span class="w">    </span><span class="nt">&quot;pass_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">92.0</span><span class="p">,</span>
+</span><span data-line="9"><span class="w">    </span><span class="nt">&quot;duration_seconds&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">45.3</span>
+</span><span data-line="10"><span class="w">  </span><span class="p">},</span>
+</span><span data-line="11"><span class="w">  </span><span class="nt">&quot;routes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span data-line="12"><span class="w">    </span><span class="p">{</span>
+</span><span data-line="13"><span class="w">      </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/users&quot;</span><span class="p">,</span>
+</span><span data-line="14"><span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+</span><span data-line="15"><span class="w">      </span><span class="nt">&quot;passed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span data-line="16"><span class="w">      </span><span class="nt">&quot;total_requests&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+</span><span data-line="17"><span class="w">      </span><span class="nt">&quot;avg_time_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.5</span><span class="p">,</span>
+</span><span data-line="18"><span class="w">      </span><span class="nt">&quot;min_time_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.2</span><span class="p">,</span>
+</span><span data-line="19"><span class="w">      </span><span class="nt">&quot;max_time_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">45.8</span>
+</span><span data-line="20"><span class="w">    </span><span class="p">}</span>
+</span><span data-line="21"><span class="w">  </span><span class="p">]</span>
+</span><span data-line="22"><span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-report-title">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-report-title</span></code><a class="headerlink" href="#routes-report-title" title="Link to this heading">¶</a></h3>
+<p>Custom title for the HTML report.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">pytest-routes</span> <span class="pre">Report</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Custom report title</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-report<span class="w"> </span>report.html<span class="w"> </span>--routes-report-title<span class="w"> </span><span class="s2">&quot;Production API Smoke Tests - v2.0&quot;</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="report-configuration-in-pyproject-toml">
+<h2>Report Configuration in pyproject.toml<a class="headerlink" href="#report-configuration-in-pyproject-toml" title="Link to this heading">¶</a></h2>
+<p>Reports can also be configured in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes.report]</span>
+</span><span data-line="2"><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span data-line="3"><span class="n">output_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest-routes-report.html&quot;</span>
+</span><span data-line="4"><span class="n">json_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest-routes-report.json&quot;</span>
+</span><span data-line="5"><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;API Route Tests&quot;</span>
+</span><span data-line="6"><span class="n">include_coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span data-line="7"><span class="n">include_timing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span data-line="8"><span class="n">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;light&quot;</span><span class="w">  </span><span class="c1"># or &quot;dark&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="stateful-testing-options">
+<h2>Stateful Testing Options<a class="headerlink" href="#stateful-testing-options" title="Link to this heading">¶</a></h2>
+<p>Stateful testing validates API workflows where operations depend on each other.
+For complete documentation, see <a class="reference internal" href="stateful.html"><span class="std std-doc">Stateful Testing</span></a>.</p>
+<section id="routes-stateful">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful</span></code><a class="headerlink" href="#routes-stateful" title="Link to this heading">¶</a></h3>
+<p>Enable stateful API testing mode. Tests CRUD workflows and operation sequences
+using Hypothesis state machines.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable stateful testing</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Combine with regular route testing</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-max-examples<span class="w"> </span><span class="m">50</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Stateful testing requires an OpenAPI schema with link definitions for best results.
+Enable with <code class="docutils literal notranslate"><span class="pre">--routes-schemathesis</span></code> for schema-based validation.</p>
+</div>
+</section>
+<section id="routes-stateful-mode">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-mode</span></code><a class="headerlink" href="#routes-stateful-mode" title="Link to this heading">¶</a></h3>
+<p>Select the stateful testing mode.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">links</span></code></p>
+<p><strong>Options:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">links</span></code> - Use OpenAPI links to determine state transitions (recommended)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data_dependency</span></code> - Infer dependencies from request/response schemas</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">explicit</span></code> - Use manually configured transition rules</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Use OpenAPI links (default)</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-mode<span class="w"> </span>links
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Infer from schemas (useful when no links defined)</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-mode<span class="w"> </span>data_dependency
+</span></pre></div>
+</div>
+</section>
+<section id="routes-stateful-step-count">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-step-count</span></code><a class="headerlink" href="#routes-stateful-step-count" title="Link to this heading">¶</a></h3>
+<p>Maximum number of API calls (steps) per test sequence.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">50</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Quick smoke test</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-step-count<span class="w"> </span><span class="m">10</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Thorough workflow testing</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-step-count<span class="w"> </span><span class="m">100</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-stateful-max-examples">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-max-examples</span></code><a class="headerlink" href="#routes-stateful-max-examples" title="Link to this heading">¶</a></h3>
+<p>Number of test sequences (examples) to generate.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">100</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Fewer sequences for development</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-max-examples<span class="w"> </span><span class="m">10</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Many sequences for CI</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-max-examples<span class="w"> </span><span class="m">200</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-stateful-seed">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-seed</span></code><a class="headerlink" href="#routes-stateful-seed" title="Link to this heading">¶</a></h3>
+<p>Random seed for reproducible stateful tests.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Reproducible test run</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-seed<span class="w"> </span><span class="m">12345</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Use CI run ID</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-seed<span class="w"> </span><span class="nv">$GITHUB_RUN_ID</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-stateful-recursion-limit">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-recursion-limit</span></code><a class="headerlink" href="#routes-stateful-recursion-limit" title="Link to this heading">¶</a></h3>
+<p>Maximum depth for nested state transitions.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">5</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-recursion-limit<span class="w"> </span><span class="m">10</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-stateful-fail-fast">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-fail-fast</span></code><a class="headerlink" href="#routes-stateful-fail-fast" title="Link to this heading">¶</a></h3>
+<p>Stop on first failure instead of collecting all failures.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-fail-fast
+</span></pre></div>
+</div>
+</section>
+<section id="routes-stateful-verbose">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-verbose</span></code><a class="headerlink" href="#routes-stateful-verbose" title="Link to this heading">¶</a></h3>
+<p>Enable detailed logging of state machine execution.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span>--routes-stateful-verbose
+</span></pre></div>
+</div>
+</section>
+<section id="routes-stateful-include-routes-stateful-exclude">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-stateful-include</span></code> / <code class="docutils literal notranslate"><span class="pre">--routes-stateful-exclude</span></code><a class="headerlink" href="#routes-stateful-include-routes-stateful-exclude" title="Link to this heading">¶</a></h3>
+<p>Filter which operations to include or exclude from stateful testing.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> (empty - include all)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Only test user operations</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-stateful-include<span class="w"> </span><span class="s2">&quot;create*User*,get*User*,update*User*&quot;</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="c1"># Exclude admin operations</span>
+</span><span data-line="6">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-stateful<span class="w"> </span><span class="se">\</span>
+</span><span data-line="7"><span class="w">    </span>--routes-stateful-exclude<span class="w"> </span><span class="s2">&quot;*Admin*,*Internal*&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<section id="stateful-testing-configuration-in-pyproject-toml">
+<h3>Stateful Testing Configuration in pyproject.toml<a class="headerlink" href="#stateful-testing-configuration-in-pyproject-toml" title="Link to this heading">¶</a></h3>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes.stateful]</span>
+</span><span data-line="2"><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span data-line="3"><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;links&quot;</span>
+</span><span data-line="4"><span class="n">step_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+</span><span data-line="5"><span class="n">max_examples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+</span><span data-line="6"><span class="n">stateful_recursion_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+</span><span data-line="7"><span class="n">fail_fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</span><span data-line="8"><span class="n">collect_coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span data-line="9"><span class="n">exclude_operations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*Admin*&quot;</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<p>See <a class="reference internal" href="stateful.html"><span class="std std-doc">Stateful Testing</span></a> for complete documentation.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="websocket-testing-options">
+<h2>WebSocket Testing Options<a class="headerlink" href="#websocket-testing-options" title="Link to this heading">¶</a></h2>
+<p>WebSocket testing validates real-time endpoints with property-based message generation.
+For complete documentation, see <a class="reference internal" href="websocket.html"><span class="std std-doc">WebSocket Testing</span></a>.</p>
+<section id="routes-websocket">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-websocket</span></code><a class="headerlink" href="#routes-websocket" title="Link to this heading">¶</a></h3>
+<p>Enable WebSocket route testing.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable WebSocket testing</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Combine with HTTP route testing</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket
+</span></pre></div>
+</div>
+</section>
+<section id="routes-ws-max-messages">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-ws-max-messages</span></code><a class="headerlink" href="#routes-ws-max-messages" title="Link to this heading">¶</a></h3>
+<p>Maximum number of messages per test sequence.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">10</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Quick test with few messages</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket<span class="w"> </span>--routes-ws-max-messages<span class="w"> </span><span class="m">3</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Thorough testing with many messages</span>
+</span><span data-line="5">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket<span class="w"> </span>--routes-ws-max-messages<span class="w"> </span><span class="m">50</span>
+</span></pre></div>
+</div>
+</section>
+<section id="routes-ws-timeout">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-ws-timeout</span></code><a class="headerlink" href="#routes-ws-timeout" title="Link to this heading">¶</a></h3>
+<p>WebSocket connection timeout in seconds.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">30.0</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Extended timeout for slow handlers</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket<span class="w"> </span>--routes-ws-timeout<span class="w"> </span><span class="m">60</span>.0
+</span></pre></div>
+</div>
+</section>
+<section id="routes-ws-message-timeout">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-ws-message-timeout</span></code><a class="headerlink" href="#routes-ws-message-timeout" title="Link to this heading">¶</a></h3>
+<p>Timeout for receiving messages in seconds.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">10.0</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket<span class="w"> </span>--routes-ws-message-timeout<span class="w"> </span><span class="m">30</span>.0
+</span></pre></div>
+</div>
+</section>
+<section id="routes-ws-include-routes-ws-exclude">
+<h3><code class="docutils literal notranslate"><span class="pre">--routes-ws-include</span></code> / <code class="docutils literal notranslate"><span class="pre">--routes-ws-exclude</span></code><a class="headerlink" href="#routes-ws-include-routes-ws-exclude" title="Link to this heading">¶</a></h3>
+<p>Filter which WebSocket routes to include or exclude.</p>
+<p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> (empty)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Only test specific routes</span>
+</span><span data-line="2">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-ws-include<span class="w"> </span><span class="s2">&quot;/ws/chat,/ws/notifications&quot;</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="c1"># Exclude internal routes</span>
+</span><span data-line="6">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span>--routes-websocket<span class="w"> </span><span class="se">\</span>
+</span><span data-line="7"><span class="w">    </span>--routes-ws-exclude<span class="w"> </span><span class="s2">&quot;/ws/internal/*,/ws/debug/*&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<section id="websocket-configuration-in-pyproject-toml">
+<h3>WebSocket Configuration in pyproject.toml<a class="headerlink" href="#websocket-configuration-in-pyproject-toml" title="Link to this heading">¶</a></h3>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">[tool.pytest-routes.websocket]</span>
+</span><span data-line="2"><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span data-line="3"><span class="n">max_messages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+</span><span data-line="4"><span class="n">connection_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">30.0</span>
+</span><span data-line="5"><span class="n">message_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span>
+</span><span data-line="6"><span class="n">include</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/ws/*&quot;</span><span class="p">]</span>
+</span><span data-line="7"><span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/ws/internal/*&quot;</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<p>See <a class="reference internal" href="websocket.html"><span class="std std-doc">WebSocket Testing</span></a> for complete documentation.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="combined-testing-examples">
+<h2>Combined Testing Examples<a class="headerlink" href="#combined-testing-examples" title="Link to this heading">¶</a></h2>
+<section id="full-api-testing-http-websocket-stateful">
+<h3>Full API Testing (HTTP + WebSocket + Stateful)<a class="headerlink" href="#full-api-testing-http-websocket-stateful" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-websocket<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-stateful<span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-max-examples<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="5"><span class="w">    </span>--routes-ws-max-messages<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="6"><span class="w">    </span>--routes-stateful-step-count<span class="w"> </span><span class="m">50</span>
+</span></pre></div>
+</div>
+</section>
+<section id="ci-pipeline-configuration">
+<h3>CI Pipeline Configuration<a class="headerlink" href="#ci-pipeline-configuration" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-websocket<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-stateful<span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-schemathesis<span class="w"> </span><span class="se">\</span>
+</span><span data-line="5"><span class="w">    </span>--routes-seed<span class="w"> </span><span class="nv">$GITHUB_RUN_ID</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="6"><span class="w">    </span>--routes-stateful-seed<span class="w"> </span><span class="nv">$GITHUB_RUN_ID</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="7"><span class="w">    </span>--routes-report<span class="w"> </span>report.html<span class="w"> </span><span class="se">\</span>
+</span><span data-line="8"><span class="w">    </span>--routes-report-json<span class="w"> </span>report.json
+</span></pre></div>
+</div>
+</section>
+<section id="development-quick-check">
+<h3>Development Quick Check<a class="headerlink" href="#development-quick-check" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pytest<span class="w"> </span>--routes<span class="w"> </span>--routes-app<span class="w"> </span>myapp:app<span class="w"> </span><span class="se">\</span>
+</span><span data-line="2"><span class="w">    </span>--routes-websocket<span class="w"> </span><span class="se">\</span>
+</span><span data-line="3"><span class="w">    </span>--routes-stateful<span class="w"> </span><span class="se">\</span>
+</span><span data-line="4"><span class="w">    </span>--routes-max-examples<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="5"><span class="w">    </span>--routes-ws-max-messages<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="6"><span class="w">    </span>--routes-stateful-step-count<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="7"><span class="w">    </span>--routes-stateful-max-examples<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+</span><span data-line="8"><span class="w">    </span>-x<span class="w">  </span><span class="c1"># Stop on first failure</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="configuration.html"><span class="std std-doc">Configuration</span></a> - Full configuration file reference</p></li>
+<li><p><a class="reference internal" href="stateful.html"><span class="std std-doc">Stateful Testing</span></a> - API workflow testing guide</p></li>
+<li><p><a class="reference internal" href="websocket.html"><span class="std std-doc">WebSocket Testing</span></a> - Real-time endpoint testing guide</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="index.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Usage Guide</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="configuration.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Configuration</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/pytest-routes" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=c1cf1a6b"></script></body>
+</html>
