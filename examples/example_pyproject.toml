@@ -1,0 +1,28 @@
+# Example pyproject.toml configuration for pytest-routes
+
+[project]
+name = "my-project"
+version = "0.1.0"
+
+[tool.pytest-routes]
+# ASGI application to test (required for auto-discovery)
+app = "myapp:app"
+
+# Test execution settings
+max_examples = 50  # Number of test cases per route (default: 100)
+timeout = 30.0     # Timeout per route in seconds (default: 30.0)
+
+# Route filtering
+include = ["/api/*"]              # Only test routes matching these patterns
+exclude = ["/health", "/metrics"] # Skip routes matching these patterns (default: ["/health", "/metrics", "/openapi*", "/docs", "/redoc", "/schema"])
+methods = ["GET", "POST"]         # HTTP methods to test (default: ["GET", "POST", "PUT", "PATCH", "DELETE"])
+
+# Validation
+fail_on_5xx = true  # Fail tests on 5xx status codes (default: true)
+allowed_status_codes = [200, 201, 204, 400, 401, 403, 404, 422]  # Allowed status codes
+
+# Property-based testing
+seed = 12345  # Random seed for reproducible tests (optional)
+
+# Framework detection
+framework = "litestar"  # One of: "auto", "litestar", "fastapi", "starlette" (default: "auto")

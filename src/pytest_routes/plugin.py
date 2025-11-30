@@ -1,0 +1,547 @@
+"""Pytest plugin for route smoke testing."""
+
+from __future__ import annotations
+
+import importlib
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
+
+import pytest
+
+from pytest_routes.config import RouteTestConfig, load_config_from_pyproject, merge_configs
+from pytest_routes.discovery import get_extractor
+from pytest_routes.execution.runner import RouteTestRunner
+
+if TYPE_CHECKING:
+    from pytest_routes.discovery.base import RouteInfo
+
+# Global storage for routes (set during collection)
+_discovered_routes: list[RouteInfo] = []
+_route_runner: RouteTestRunner | None = None
+_routes_enabled: bool = False
+
+
+def pytest_addoption(parser: pytest.Parser) -> None:
+    """Add pytest command line options."""
+    group = parser.getgroup("routes")
+    group.addoption(
+        "--routes",
+        action="store_true",
+        default=False,
+        help="Run route smoke tests",
+    )
+    group.addoption(
+        "--routes-app",
+        action="store",
+        help="Import path to ASGI app (e.g., 'myapp:app')",
+    )
+    group.addoption(
+        "--routes-max-examples",
+        type=int,
+        default=100,
+        help="Max examples per route (default: 100)",
+    )
+    group.addoption(
+        "--routes-exclude",
+        action="store",
+        default="",
+        help="Comma-separated patterns to exclude (e.g., '/health,/metrics')",
+    )
+    group.addoption(
+        "--routes-include",
+        action="store",
+        default="",
+        help="Comma-separated patterns to include (e.g., '/api/*')",
+    )
+    group.addoption(
+        "--routes-methods",
+        action="store",
+        default="GET,POST,PUT,PATCH,DELETE",
+        help="Comma-separated HTTP methods to test (default: GET,POST,PUT,PATCH,DELETE)",
+    )
+    group.addoption(
+        "--routes-seed",
+        type=int,
+        default=None,
+        help="Random seed for reproducibility",
+    )
+    group.addoption(
+        "--routes-verbose",
+        action="store_true",
+        default=False,
+        help="Show generated values for each request (path params, query params, body)",
+    )
+
+
+def pytest_configure(config: pytest.Config) -> None:
+    """Register plugin markers and discover routes if enabled."""
+    global _discovered_routes, _route_runner, _routes_enabled
+
+    config.addinivalue_line("markers", "routes: mark test as route smoke test")
+    config.addinivalue_line("markers", "routes_app(app): specify ASGI app for route testing")
+
+    # Check if routes testing is enabled
+    if not config.getoption("--routes", default=False):
+        return
+
+    _routes_enabled = True
+
+    # Load configuration from pyproject.toml first
+    try:
+        # Try to find pyproject.toml in the project root
+        rootdir = Path(config.rootpath) if hasattr(config, "rootpath") else Path.cwd()
+        pyproject_path = rootdir / "pyproject.toml"
+        file_config = load_config_from_pyproject(pyproject_path if pyproject_path.exists() else None)
+    except (ImportError, ValueError) as e:
+        # If we can't load from pyproject.toml, use defaults
+        print(f"\npytest-routes: Warning - could not load pyproject.toml config: {e}")
+        file_config = RouteTestConfig()
+
+    # Build CLI config
+    cli_exclude_patterns = []
+    if exclude_str := config.getoption("--routes-exclude", default=""):
+        cli_exclude_patterns = [p.strip() for p in exclude_str.split(",") if p.strip()]
+
+    cli_include_patterns = []
+    if include_str := config.getoption("--routes-include", default=""):
+        cli_include_patterns = [p.strip() for p in include_str.split(",") if p.strip()]
+
+    cli_methods_str = config.getoption("--routes-methods", default="GET,POST,PUT,PATCH,DELETE")
+    cli_methods = [m.strip().upper() for m in cli_methods_str.split(",")]
+
+    # Create CLI config (only with values that were explicitly set)
+    cli_config = RouteTestConfig(
+        max_examples=config.getoption("--routes-max-examples", default=100),
+        exclude_patterns=cli_exclude_patterns,
+        include_patterns=cli_include_patterns,
+        methods=cli_methods,
+        seed=config.getoption("--routes-seed", default=None),
+        verbose=config.getoption("--routes-verbose", default=False),
+    )
+
+    # Merge configs: CLI > pyproject.toml > defaults
+    route_config = merge_configs(cli_config, file_config)
+
+    # If exclude/include patterns are empty after merge, use sensible defaults
+    if not route_config.exclude_patterns:
+        route_config.exclude_patterns = ["/health", "/metrics", "/docs", "/schema*", "/openapi*"]
+
+    # Load the app (check CLI first, then pyproject.toml)
+    app_path = config.getoption("--routes-app")
+    if not app_path:
+        # Try to get from pyproject.toml
+        try:
+            rootdir = Path(config.rootpath) if hasattr(config, "rootpath") else Path.cwd()
+            pyproject_path = rootdir / "pyproject.toml"
+            if pyproject_path.exists():
+                import sys
+
+                if sys.version_info >= (3, 11):
+                    import tomllib
+                else:
+                    try:
+                        import tomli as tomllib  # type: ignore[import-untyped]
+                    except ImportError:
+                        tomllib = None  # type: ignore[assignment]
+
+                if tomllib is not None:
+                    with open(pyproject_path, "rb") as f:
+                        data = tomllib.load(f)
+                    app_path = data.get("tool", {}).get("pytest-routes", {}).get("app")
+        except Exception:
+            pass
+
+    if not app_path:
+        return
+
+    try:
+        module_path, attr = app_path.rsplit(":", 1)
+        module = importlib.import_module(module_path)
+        app = getattr(module, attr)
+    except Exception as e:
+        print(f"\npytest-routes: Failed to load app '{app_path}': {e}")
+        return
+
+    # Discover routes
+    extractor = get_extractor(app)
+    routes = extractor.extract_routes(app)
+
+    # Filter routes
+    for route in routes:
+        # Check method filter
+        if not any(m in route_config.methods for m in route.methods):
+            continue
+
+        # Check exclude patterns
+        excluded = False
+        for pattern in route_config.exclude_patterns:
+            if _matches_pattern(route.path, pattern):
+                excluded = True
+                break
+        if excluded:
+            continue
+
+        # Check include patterns (if specified)
+        if route_config.include_patterns:
+            included = False
+            for pattern in route_config.include_patterns:
+                if _matches_pattern(route.path, pattern):
+                    included = True
+                    break
+            if not included:
+                continue
+
+        _discovered_routes.append(route)
+
+    # Create runner
+    _route_runner = RouteTestRunner(app, route_config)
+
+    # Print discovered routes
+    print(f"\n{'=' * 60}")
+    print("pytest-routes: Route Discovery")
+    print(f"{'=' * 60}")
+    print(f"App: {app_path}")
+    print(f"Total routes found: {len(routes)}")
+    print(f"Routes after filtering: {len(_discovered_routes)}")
+    print(f"Max examples: {route_config.max_examples}")
+    print(f"Methods: {', '.join(route_config.methods)}")
+    if route_config.exclude_patterns:
+        print(f"Exclude patterns: {', '.join(route_config.exclude_patterns)}")
+    if route_config.include_patterns:
+        print(f"Include patterns: {', '.join(route_config.include_patterns)}")
+    if route_config.seed is not None:
+        print(f"Random seed: {route_config.seed}")
+    print("\nRoutes to test:")
+    for route in _discovered_routes:
+        print(f"  {', '.join(route.methods):20} {route.path}")
+    print(f"{'=' * 60}\n")
+
+
+@pytest.fixture(scope="session")
+def route_config(request: pytest.FixtureRequest) -> RouteTestConfig:
+    """Build configuration from CLI options and pyproject.toml.
+
+    Configuration priority (highest to lowest):
+    1. CLI options
+    2. pyproject.toml [tool.pytest-routes]
+    3. Built-in defaults
+    """
+    config = request.config
+
+    # Load from pyproject.toml first
+    try:
+        rootdir = Path(config.rootpath) if hasattr(config, "rootpath") else Path.cwd()
+        pyproject_path = rootdir / "pyproject.toml"
+        file_config = load_config_from_pyproject(pyproject_path if pyproject_path.exists() else None)
+    except (ImportError, ValueError):
+        file_config = RouteTestConfig()
+
+    # Build CLI config
+    cli_exclude_patterns = []
+    if exclude_str := config.getoption("--routes-exclude", default=""):
+        cli_exclude_patterns = [p.strip() for p in exclude_str.split(",") if p.strip()]
+
+    cli_include_patterns = []
+    if include_str := config.getoption("--routes-include", default=""):
+        cli_include_patterns = [p.strip() for p in include_str.split(",") if p.strip()]
+
+    cli_methods_str = config.getoption("--routes-methods", default="GET,POST,PUT,PATCH,DELETE")
+    cli_methods = [m.strip().upper() for m in cli_methods_str.split(",")]
+
+    cli_config = RouteTestConfig(
+        max_examples=config.getoption("--routes-max-examples", default=100),
+        exclude_patterns=cli_exclude_patterns,
+        include_patterns=cli_include_patterns,
+        methods=cli_methods,
+        seed=config.getoption("--routes-seed", default=None),
+    )
+
+    # Merge configs: CLI > pyproject.toml > defaults
+    merged = merge_configs(cli_config, file_config)
+
+    # If exclude patterns are empty, use sensible defaults
+    if not merged.exclude_patterns:
+        merged.exclude_patterns = ["/health", "/metrics", "/docs", "/schema*", "/openapi*"]
+
+    return merged
+
+
+@pytest.fixture(scope="session")
+def asgi_app(request: pytest.FixtureRequest) -> Any:
+    """Load the ASGI application."""
+    app_path = request.config.getoption("--routes-app")
+
+    if app_path:
+        module_path, attr = app_path.rsplit(":", 1)
+        module = importlib.import_module(module_path)
+        return getattr(module, attr)
+
+    # Try to find from conftest or pytest fixture
+    try:
+        return request.getfixturevalue("app")
+    except pytest.FixtureLookupError:
+        pytest.skip("No ASGI app provided. Use --routes-app or define an 'app' fixture.")
+        return None
+
+
+@pytest.fixture(scope="session")
+def discovered_routes(asgi_app: Any, route_config: RouteTestConfig) -> list[RouteInfo]:
+    """Discover routes from the ASGI application."""
+    extractor = get_extractor(asgi_app)
+    routes = extractor.extract_routes(asgi_app)
+
+    # Filter routes based on config
+    filtered = []
+    for route in routes:
+        # Check method filter
+        if not any(m in route_config.methods for m in route.methods):
+            continue
+
+        # Check exclude patterns
+        excluded = False
+        for pattern in route_config.exclude_patterns:
+            if _matches_pattern(route.path, pattern):
+                excluded = True
+                break
+        if excluded:
+            continue
+
+        # Check include patterns (if specified)
+        if route_config.include_patterns:
+            included = False
+            for pattern in route_config.include_patterns:
+                if _matches_pattern(route.path, pattern):
+                    included = True
+                    break
+            if not included:
+                continue
+
+        filtered.append(route)
+
+    return filtered
+
+
+@pytest.fixture
+def route_runner(asgi_app: Any, route_config: RouteTestConfig) -> RouteTestRunner:
+    """Provide configured test runner."""
+    return RouteTestRunner(asgi_app, route_config)
+
+
+def _matches_pattern(path: str, pattern: str) -> bool:
+    """Check if path matches a glob-like pattern."""
+    import fnmatch
+
+    return fnmatch.fnmatch(path, pattern)
+
+
+class RouteTestItem(pytest.Item):
+    """Custom pytest Item for individual route smoke tests.
+
+    This class represents a single test case for a discovered route. Each RouteTestItem
+    executes property-based tests against one route using Hypothesis to generate test data.
+    The item is created during pytest's collection phase and executed during the test phase.
+
+    Attributes:
+        route: The RouteInfo object containing route metadata (path, methods, parameters).
+        runner: The RouteTestRunner instance used to execute the route test.
+    """
+
+    def __init__(self, name: str, parent: pytest.Collector, route: RouteInfo, runner: RouteTestRunner) -> None:
+        """Initialize a RouteTestItem.
+
+        Args:
+            name: The test item name (e.g., "test_GET_users_id").
+            parent: The parent pytest Collector that owns this item.
+            route: The RouteInfo object describing the route to test.
+            runner: The RouteTestRunner instance for executing route tests.
+        """
+        super().__init__(name, parent)
+        self.route = route
+        self.runner = runner
+
+    def runtest(self) -> None:
+        """Execute the route smoke test.
+
+        This pytest hook runs the actual test logic for this item. It executes
+        the async route test using the RouteTestRunner, handling the async/sync
+        boundary with asyncio. The test uses Hypothesis to generate multiple
+        examples of valid requests and validates the route's responses.
+
+        Raises:
+            RouteTestError: If the route test fails (e.g., unexpected status code,
+                validation error, or exception during test execution).
+        """
+        import asyncio
+
+        # Run the test
+        async def run_test() -> dict:
+            return await self.runner.test_route_async(self.route)
+
+        try:
+            loop = asyncio.get_running_loop()
+            import concurrent.futures
+
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(asyncio.run, run_test())
+                result = future.result()
+        except RuntimeError:
+            result = asyncio.run(run_test())
+
+        if not result["passed"]:
+            raise RouteTestError(self.route, result.get("error", "Unknown error"))
+
+    def repr_failure(
+        self,
+        excinfo: pytest.ExceptionInfo[BaseException],
+        style: str | None = None,
+    ) -> str:
+        """Represent a test failure for reporting.
+
+        This pytest hook formats the failure output shown to users when a test fails.
+        For RouteTestError exceptions, it provides a custom formatted message with
+        route details and error information. For other exceptions, it delegates to
+        the default pytest failure representation.
+
+        Args:
+            excinfo: Exception information captured by pytest.
+            style: Optional formatting style for the failure representation.
+
+        Returns:
+            A formatted string representation of the test failure.
+        """
+        if isinstance(excinfo.value, RouteTestError):
+            return str(excinfo.value)
+        result = super().repr_failure(excinfo, style=style)  # type: ignore[arg-type]
+        return str(result)
+
+    def reportinfo(self) -> tuple[str, int | None, str]:
+        """Report test information for pytest's output.
+
+        This pytest hook provides metadata about the test for reporting purposes,
+        including the file path, line number (if applicable), and a human-readable
+        description of what's being tested.
+
+        Returns:
+            A tuple of (file_path, line_number, description) where:
+                - file_path: Path to the test file (str)
+                - line_number: Line number in the file (None for synthetic tests)
+                - description: Human-readable test description (e.g., "GET, POST /users/{id}")
+        """
+        return (
+            str(self.path),
+            None,
+            f"{', '.join(self.route.methods)} {self.route.path}",
+        )
+
+
+class RouteTestError(Exception):
+    """Exception raised when a route smoke test fails.
+
+    This exception is raised by RouteTestItem.runtest() when a route test does not
+    pass. It contains the route information and error details for reporting.
+
+    Attributes:
+        route: The RouteInfo object for the route that failed testing.
+        error: A string describing what went wrong during the test.
+    """
+
+    def __init__(self, route: RouteInfo, error: str) -> None:
+        """Initialize a RouteTestError.
+
+        Args:
+            route: The RouteInfo object for the route that failed.
+            error: Description of the test failure (e.g., "Expected 200, got 500").
+        """
+        self.route = route
+        self.error = error
+        super().__init__(f"Route test failed: {', '.join(route.methods)} {route.path}\n{error}")
+
+
+class RouteTestCollector(pytest.Collector):
+    """Pytest Collector for route smoke tests.
+
+    This collector is responsible for discovering and creating RouteTestItem instances
+    from the globally discovered routes. It's part of pytest's collection phase and
+    generates test items based on the routes found during plugin configuration.
+
+    Note:
+        This collector is currently not actively used in favor of the
+        pytest_collection_modifyitems hook, but is kept for potential future use
+        or alternative collection strategies.
+    """
+
+    def __init__(self, name: str, parent: pytest.Collector) -> None:
+        super().__init__(name, parent)
+
+    def collect(self) -> list[RouteTestItem]:
+        """Collect route tests from discovered routes.
+
+        This pytest hook creates RouteTestItem instances for each discovered route.
+        It's called during pytest's collection phase to gather all tests to be run.
+
+        Returns:
+            A list of RouteTestItem instances, one for each discovered route.
+            Returns an empty list if route testing is disabled or no routes were
+            discovered.
+        """
+        if not _routes_enabled or not _discovered_routes or not _route_runner:
+            return []
+
+        items = []
+        for route in _discovered_routes:
+            method = route.methods[0]
+            path_name = route.path.replace("/", "_").replace("{", "").replace("}", "").replace(":", "_").strip("_")
+            name = f"test_{method}_{path_name}" if path_name else f"test_{method}_root"
+            items.append(RouteTestItem.from_parent(self, name=name, route=route, runner=_route_runner))
+        return items
+
+
+def pytest_collection_modifyitems(session: pytest.Session, config: pytest.Config, items: list[pytest.Item]) -> None:
+    """Add route tests to the collection after standard test discovery.
+
+    This pytest hook modifies the collected test items by adding RouteTestItem instances
+    for each discovered route. It runs after pytest's normal collection phase and
+    dynamically injects route smoke tests into the test suite.
+
+    Args:
+        session: The pytest Session object.
+        config: The pytest Config object containing configuration and CLI options.
+        items: The list of collected test items to modify (route tests are appended).
+
+    Note:
+        This hook uses a guard flag (_routes_collected) to ensure route tests are
+        only added once, even if the hook is called multiple times.
+    """
+    if not _routes_enabled or not _discovered_routes or not _route_runner:
+        return
+
+    # Check if we already added route tests
+    if hasattr(config, "_routes_collected"):
+        return
+    config._routes_collected = True  # type: ignore[attr-defined]
+
+    # Create route test items
+    for route in _discovered_routes:
+        method = route.methods[0]
+        path_name = route.path.replace("/", "_").replace("{", "").replace("}", "").replace(":", "_").strip("_")
+        name = f"test_{method}_{path_name}" if path_name else f"test_{method}_root"
+
+        # Create a simple item that runs the route test
+        item = RouteTestItem.from_parent(session, name=name, route=route, runner=_route_runner)
+        items.append(item)
+
+
+def pytest_unconfigure(config: pytest.Config) -> None:
+    """Clean up plugin state after test run.
+
+    This pytest hook resets the global state used by the plugin, ensuring that
+    subsequent test runs start with a clean slate. It's called when pytest is
+    shutting down or when a test session completes.
+
+    Args:
+        config: The pytest Config object.
+    """
+    global _discovered_routes, _route_runner, _routes_enabled
+    _discovered_routes = []
+    _route_runner = None
+    _routes_enabled = False

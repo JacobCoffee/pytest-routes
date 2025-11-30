@@ -1,0 +1,367 @@
+[build-system]
+build-backend = "uv_build"
+requires = ["uv_build>=0.9.11,<0.10.0"]
+
+[dependency-groups]
+docs = [
+    "linkify-it-py>=2.0.0",
+    "myst-parser>=4.0.0",
+    "shibuya>=2024.0.0",
+    "sphinx>=7.0.0",
+    "sphinx-autobuild>=2024.0.0",
+    "sphinx-autodoc-typehints>=2.0.0",
+    "sphinx-copybutton>=0.5.0",
+    "sphinx-design>=0.5.0",
+]
+lint = [
+    "codespell>=2.2.6",
+    "prek>=0.2.18",
+    "ruff>=0.9.0",
+    "ty>=0.0.1a7",
+]
+test = [
+    "litestar[standard]>=2.0.0",
+    "fastapi>=0.100.0",
+    "starlette>=0.27.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.0.0",
+    "pytest-rerunfailures>=16.1",
+    "pytest-sugar>=1.1.1",
+    "pytest-timeout>=2.2.0",
+    "pytest-xdist>=3.5.0",
+    "uvicorn>=0.30.0",
+    "sniffio>=1.3.1",
+]
+dev = [
+    {include-group = "docs"},
+    {include-group = "lint"},
+    {include-group = "test"},
+]
+
+[project]
+authors = [
+    {name = "Jacob Coffee", email = "jacob@z7x.org"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Plugins",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pytest>=7.0",
+    "hypothesis>=6.0",
+    "httpx>=0.24",
+    "tomli>=2.0.0; python_version < '3.11'",
+]
+description = "Property-based smoke testing for ASGI application routes"
+keywords = [
+    "pytest",
+    "pytest-plugin",
+    "testing",
+    "asgi",
+    "litestar",
+    "fastapi",
+    "starlette",
+    "hypothesis",
+    "property-based-testing",
+    "smoke-testing",
+]
+license = {text = "MIT"}
+name = "pytest-routes"
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+version = "0.1.0"
+
+[project.entry-points.pytest11]
+pytest_routes = "pytest_routes.plugin"
+
+[project.optional-dependencies]
+all = [
+    "pytest-routes[litestar,fastapi,starlette]",
+]
+fastapi = [
+    "fastapi>=0.100.0",
+]
+litestar = [
+    "litestar>=2.0.0",
+]
+starlette = [
+    "starlette>=0.27.0",
+]
+
+[project.urls]
+Changelog = "https://github.com/JacobCoffee/pytest-routes/releases/"
+Discord = "https://discord.gg/litestar-919193495116337154"
+Documentation = "https://jacobcoffee.github.io/pytest-routes"
+Homepage = "https://github.com/JacobCoffee/pytest-routes"
+"Issue Tracker" = "https://github.com/JacobCoffee/pytest-routes/issues"
+Repository = "https://github.com/JacobCoffee/pytest-routes"
+
+[tool.codespell]
+skip = "uv.lock"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "if TYPE_CHECKING:",
+    "if typing.TYPE_CHECKING:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "@abstractmethod",
+    "@abc.abstractmethod",
+    "@overload",
+    "if __name__ == .__main__.:",
+    "\\.\\.\\.",
+]
+fail_under = 0
+
+[tool.coverage.run]
+branch = true
+concurrency = ["multiprocessing", "thread"]
+omit = ["*/tests/*"]
+parallel = true
+source = ["pytest_routes"]
+
+[tool.git-cliff.changelog]
+header = """
+# Changelog
+
+All notable changes to this project will be documented in this file.
+"""
+body = """
+---
+{% if version %}\
+    {% if previous.version %}\
+        ## [{{ version | trim_start_matches(pat="v") }}]($REPO/compare/{{ previous.version }}..{{ version }}) - {{ timestamp | date(format="%Y-%m-%d") }}
+    {% else %}\
+        ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+    {% endif %}\
+{% else %}\
+    ## [unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | striptags | trim | upper_first }}
+    {% for commit in commits
+    | filter(attribute="scope")
+    | sort(attribute="scope") %}
+        - **({{commit.scope}})**{% if commit.breaking %} [**breaking**]{% endif %} \
+            {{ commit.message }} - ([{{ commit.id | truncate(length=7, end="") }}]($REPO/commit/{{ commit.id }})) - {{ commit.author.name }}
+    {%- endfor -%}
+    {% raw %}\n{% endraw %}\
+    {%- for commit in commits %}
+        {%- if commit.scope -%}
+        {% else -%}
+            - {% if commit.breaking %} [**breaking**]{% endif %}\
+                {{ commit.message }} - ([{{ commit.id | truncate(length=7, end="") }}]($REPO/commit/{{ commit.id }})) - {{ commit.author.name }}
+        {% endif -%}
+    {% endfor -%}
+{% endfor %}\n
+"""
+footer = """
+``pytest-routes`` Changelog
+"""
+postprocessors = [
+    {pattern = '\$REPO', replace = "https://github.com/JacobCoffee/pytest-routes"},
+]
+trim = true
+
+[tool.git-cliff.git]
+commit_parsers = [
+    {message = "^feat", group = "Features"},
+    {message = "^fix", group = "Bug Fixes"},
+    {message = "^doc", group = "Documentation"},
+    {message = "^perf", group = "Performance"},
+    {message = "^refactor", group = "Refactoring"},
+    {message = "^style", group = "Style"},
+    {message = "^revert", group = "Revert"},
+    {message = "^test", group = "Tests"},
+    {message = "^chore\\(version\\):", skip = true},
+    {message = "^chore", group = "Miscellaneous Chores"},
+    {body = ".*security", group = "Security"},
+]
+commit_preprocessors = []
+conventional_commits = true
+filter_commits = false
+filter_unconventional = true
+ignore_tags = ""
+protect_breaking_commits = false
+skip_tags = ""
+sort_commits = "oldest"
+split_commits = false
+tag_pattern = "v[0-9].*"
+topo_order = false
+
+[tool.pytest.ini_options]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--strict-config",
+    "--tb=short",
+    "-p", "no:pastebin",
+    "-p", "no:nose",
+    "-p", "no:doctest",
+    "-ra",
+]
+asyncio_mode = "auto"
+norecursedirs = [
+    ".*",
+    "build",
+    "dist",
+    "*.egg",
+    "venv",
+    ".venv",
+    "node_modules",
+    "_build",
+    "docs",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+    "ignore::pytest.PytestUnraisableExceptionWarning",
+    "ignore::RuntimeWarning",
+]
+markers = [
+    "unit: Unit tests (fast, isolated)",
+    "integration: Integration tests (may use mocked external services)",
+    "e2e: End-to-end tests (full application workflow)",
+    "slow: Tests that take more than 1 second",
+]
+minversion = "8.0"
+python_classes = ["Test*"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+testpaths = ["tests"]
+timeout = 60
+timeout_method = "thread"
+
+[tool.ruff]
+exclude = ["examples/"]
+fix = true
+line-length = 120
+src = ["src/pytest_routes", "tests"]
+target-version = "py310"
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 88
+indent-style = "space"
+quote-style = "double"
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+ignore = [
+    "A005",     # module-shadowing-builtin
+    "ANN401",   # any-type (needed for generic strategies)
+    "ARG002",   # unused-method-argument (protocol interface)
+    "BLE001",   # blind-except (sometimes needed)
+    "COM812",   # missing-trailing-comma (conflicts with formatter)
+    "D",        # pydocstyle (too strict for now)
+    "EM",       # flake8-errmsg (too strict)
+    "ERA001",   # commented-out-code
+    "FIX002",   # line-contains-fixme
+    "ISC001",   # single-line-implicit-string-concatenation (conflicts with formatter)
+    "PERF401",  # manual-list-comprehension
+    "PLC0415",  # import-outside-toplevel (allow lazy imports)
+    "PLR0913",  # too-many-arguments
+    "RUF022",   # unsorted-all
+    "TC003",    # move-import-into-type-checking (breaks runtime imports)
+    "TD",       # flake8-todos
+    "TRY003",   # raise-vanilla-args
+    "TRY300",   # try-consider-else
+]
+select = ["ALL"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pytest_routes", "tests"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.per-file-ignores]
+# Plugin is inherently complex due to pytest hook requirements
+"src/pytest_routes/plugin.py" = [
+    "ARG001",   # unused-function-argument (pytest hooks require signature)
+    "C901",     # too-complex (pytest hooks are inherently complex)
+    "F841",     # local-variable-assigned-but-never-used (loop detection pattern)
+    "PLR0912",  # too-many-branches
+    "PLR0915",  # too-many-statements
+    "PLW0602",  # global-variable-not-assigned
+    "PLW0603",  # global-statement
+    "PTH123",   # builtin-open (tomllib requires file handle)
+    "S110",     # try-except-pass (acceptable for optional config loading)
+    "SLF001",   # private-member-access (pytest internal state)
+    "T201",     # print (used for pytest output during collection)
+]
+# Runner needs internal method access from closures and print for verbose output
+"src/pytest_routes/execution/runner.py" = [
+    "PLR2004",  # magic-value-comparison (HTTP status code ranges)
+    "SLF001",   # private-member-access (internal access in closures)
+    "T201",     # print (used for verbose output)
+]
+"tests/**/*.*" = [
+    "A",
+    "ANN",
+    "ARG",
+    "ASYNC230",
+    "B",
+    "BLE",
+    "C901",
+    "D",
+    "DTZ",
+    "E721",     # type-comparison (common in test assertions)
+    "EM",
+    "ERA001",
+    "FBT",
+    "G",
+    "N",
+    "PGH",
+    "PIE",
+    "PLR",
+    "PLW",
+    "PT011",
+    "PT012",
+    "PTH",
+    "RSE",
+    "S",
+    "S101",
+    "SIM",
+    "SLF001",
+    "TCH",
+    "TRY",
+    "UP006",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ty]
+
+[tool.ty.rules]
+deprecated = "warn"
+not-iterable = "warn"
+unresolved-import = "warn"  # Optional dependencies (tomli)
+
+[tool.ty.src]
+exclude = [
+    "docs/conf.py",
+    "tests/",
+]
+
+[tool.uv]
+default-groups = ["dev"]
