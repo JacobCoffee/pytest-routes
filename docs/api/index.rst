@@ -35,6 +35,10 @@ The most commonly used classes and functions, organized by task:
      - :class:`~pytest_routes.execution.runner.RouteTestRunner`, :class:`~pytest_routes.execution.client.RouteTestClient`
    * - Validate responses
      - :class:`~pytest_routes.validation.response.StatusCodeValidator`, :class:`~pytest_routes.validation.response.CompositeValidator`
+   * - Generate reports
+     - :class:`~pytest_routes.reporting.HTMLReportGenerator`, :class:`~pytest_routes.reporting.TestMetrics`
+   * - Schemathesis integration
+     - :class:`~pytest_routes.integrations.SchemathesisAdapter`, :class:`~pytest_routes.integrations.SchemathesisValidator`
 
 
 Usage Examples
@@ -189,6 +193,8 @@ The API is organized into the following modules:
    generation
    execution
    validation
+   reporting
+   integrations
 
 
 Module Overview
@@ -218,6 +224,16 @@ Validation (:mod:`pytest_routes.validation`)
     Validates HTTP responses against expected schemas, status codes, and
     content types. Supports OpenAPI schema validation.
     See :doc:`validation`.
+
+Reporting (:mod:`pytest_routes.reporting`)
+    Generates HTML and JSON reports with test metrics, coverage statistics,
+    and performance timing data.
+    See :doc:`reporting`.
+
+Integrations (:mod:`pytest_routes.integrations`)
+    Provides adapters for external testing tools like Schemathesis for
+    OpenAPI contract testing.
+    See :doc:`integrations`.
 
 
 Plugin Integration

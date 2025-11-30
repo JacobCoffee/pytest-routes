@@ -6,8 +6,8 @@
 
 ## Current Status
 
-**Version**: 0.3.0 (In Development)
-**Phase**: v0.3.0 - Schemathesis Integration & Reporting Complete
+**Version**: 0.3.1 (Released)
+**Phase**: v0.3.0 - Schemathesis Integration & Reporting with Documentation
 **Last Updated**: 2025-11-30
 
 ### Test Coverage
@@ -192,6 +192,12 @@ Initial development on `main`:
   - [x] `TestMetrics` class for aggregate test metrics
   - [x] `aggregate_metrics()` function
 - [x] Tests for new features (40 tests, 263 total)
+- [x] Documentation
+  - [x] CLI options reference updated with new flags
+  - [x] Schemathesis integration user guide
+  - [x] Reports and metrics user guide
+  - [x] API reference for reporting module
+  - [x] API reference for integrations module
 
 ### Next Up
 
