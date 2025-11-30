@@ -51,75 +51,43 @@ Install with your framework of choice for optimal type extraction:
 ::::{tab-set}
 
 :::{tab-item} Litestar
-::::{tab-set}
-
-:::{tab-item} uv
 ```bash
+# uv (recommended)
 uv add "pytest-routes[litestar]"
-```
-:::
 
-:::{tab-item} pip
-```bash
+# pip
 pip install "pytest-routes[litestar]"
 ```
 :::
 
-::::
-:::
-
 :::{tab-item} FastAPI
-::::{tab-set}
-
-:::{tab-item} uv
 ```bash
+# uv (recommended)
 uv add "pytest-routes[fastapi]"
-```
-:::
 
-:::{tab-item} pip
-```bash
+# pip
 pip install "pytest-routes[fastapi]"
 ```
 :::
 
-::::
-:::
-
 :::{tab-item} Starlette
-::::{tab-set}
-
-:::{tab-item} uv
 ```bash
+# uv (recommended)
 uv add "pytest-routes[starlette]"
-```
-:::
 
-:::{tab-item} pip
-```bash
+# pip
 pip install "pytest-routes[starlette]"
 ```
 :::
 
-::::
-:::
-
 :::{tab-item} All Extras
-::::{tab-set}
-
-:::{tab-item} uv
 ```bash
+# uv (recommended)
 uv add "pytest-routes[all]"
-```
-:::
 
-:::{tab-item} pip
-```bash
+# pip
 pip install "pytest-routes[all]"
 ```
-:::
-
-::::
 :::
 
 ::::
