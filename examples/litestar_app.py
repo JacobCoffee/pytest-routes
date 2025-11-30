@@ -1,6 +1,7 @@
 """Example Litestar application for pytest-routes demonstration.
 
 Includes both public and authenticated routes to demonstrate auth features.
+Also includes WebSocket routes for v0.4.0 WebSocket testing demonstration.
 """
 
 from __future__ import annotations
@@ -8,12 +9,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
-from litestar import Controller, Litestar, delete, get, patch, post
+from litestar import Controller, Litestar, delete, get, patch, post, websocket
 from litestar.exceptions import NotAuthorizedException
 
 if TYPE_CHECKING:
     from litestar.connection import ASGIConnection
     from litestar.handlers import BaseRouteHandler
+    from litestar.channels import ChannelsPlugin
 
 
 def require_auth(connection: ASGIConnection[Any, Any, Any], _: BaseRouteHandler) -> None:
@@ -140,7 +142,70 @@ async def get_protected_data() -> dict:
     return {"data": [1, 2, 3], "protected": True}
 
 
+# WebSocket routes for v0.4.0 demonstration
+@websocket("/ws/echo")
+async def ws_echo(socket: "litestar.WebSocket") -> None:
+    """Echo WebSocket - sends back whatever it receives."""
+    await socket.accept()
+    try:
+        while True:
+            data = await socket.receive_text()
+            await socket.send_text(f"Echo: {data}")
+    except Exception:
+        pass
+    finally:
+        await socket.close()
+
+
+@websocket("/ws/chat/{room_id:str}")
+async def ws_chat(socket: "litestar.WebSocket", room_id: str) -> None:
+    """Chat room WebSocket with path parameter."""
+    await socket.accept()
+    await socket.send_json({"type": "joined", "room": room_id})
+    try:
+        while True:
+            data = await socket.receive_json()
+            response = {
+                "type": "message",
+                "room": room_id,
+                "content": data.get("content", ""),
+            }
+            await socket.send_json(response)
+    except Exception:
+        pass
+    finally:
+        await socket.close()
+
+
+@websocket("/ws/notifications")
+async def ws_notifications(socket: "litestar.WebSocket") -> None:
+    """Notifications WebSocket - server-push pattern."""
+    await socket.accept()
+    await socket.send_json({"type": "connected", "status": "ok"})
+    try:
+        while True:
+            await socket.receive_text()
+            await socket.send_json({"type": "notification", "message": "You have updates"})
+    except Exception:
+        pass
+    finally:
+        await socket.close()
+
+
+# Import for WebSocket type hint
+import litestar
+
 app = Litestar(
-    route_handlers=[root, health, UsersController, get_item, get_profile, get_protected_data],
+    route_handlers=[
+        root,
+        health,
+        UsersController,
+        get_item,
+        get_profile,
+        get_protected_data,
+        ws_echo,
+        ws_chat,
+        ws_notifications,
+    ],
     debug=True,
 )

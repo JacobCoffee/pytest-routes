@@ -111,6 +111,48 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         default="pytest-routes Test Report",
         help="Title for the HTML report",
     )
+    group.addoption(
+        "--routes-stateful",
+        action="store_true",
+        default=False,
+        help="Enable stateful API testing via state machines",
+    )
+    group.addoption(
+        "--routes-stateful-step-count",
+        type=int,
+        default=50,
+        help="Maximum number of steps per stateful test sequence (default: 50)",
+    )
+    group.addoption(
+        "--routes-stateful-max-examples",
+        type=int,
+        default=20,
+        help="Maximum number of stateful test sequences to generate (default: 20)",
+    )
+    group.addoption(
+        "--routes-stateful-seed",
+        type=int,
+        default=None,
+        help="Random seed for stateful test reproducibility",
+    )
+    group.addoption(
+        "--routes-websocket",
+        action="store_true",
+        default=False,
+        help="Enable WebSocket route testing",
+    )
+    group.addoption(
+        "--routes-ws-max-messages",
+        type=int,
+        default=10,
+        help="Maximum messages per WebSocket test sequence (default: 10)",
+    )
+    group.addoption(
+        "--routes-ws-timeout",
+        type=float,
+        default=30.0,
+        help="WebSocket connection timeout in seconds (default: 30.0)",
+    )
 
 
 def pytest_configure(config: pytest.Config) -> None:
@@ -174,6 +216,31 @@ def pytest_configure(config: pytest.Config) -> None:
         title=config.getoption("--routes-report-title", default="pytest-routes Test Report"),
     )
 
+    # Build stateful config from CLI
+    stateful_enabled = config.getoption("--routes-stateful", default=False)
+    stateful_config = None
+    if stateful_enabled:
+        from pytest_routes.stateful.config import StatefulTestConfig
+
+        stateful_config = StatefulTestConfig(
+            enabled=True,
+            step_count=config.getoption("--routes-stateful-step-count", default=50),
+            max_examples=config.getoption("--routes-stateful-max-examples", default=20),
+            seed=config.getoption("--routes-stateful-seed", default=None),
+        )
+
+    # Build WebSocket config from CLI
+    websocket_enabled = config.getoption("--routes-websocket", default=False)
+    websocket_config = None
+    if websocket_enabled:
+        from pytest_routes.websocket.config import WebSocketTestConfig
+
+        websocket_config = WebSocketTestConfig(
+            enabled=True,
+            max_messages=config.getoption("--routes-ws-max-messages", default=10),
+            connection_timeout=config.getoption("--routes-ws-timeout", default=30.0),
+        )
+
     # Create CLI config (only with values that were explicitly set)
     cli_config = RouteTestConfig(
         max_examples=config.getoption("--routes-max-examples", default=100),
@@ -184,6 +251,8 @@ def pytest_configure(config: pytest.Config) -> None:
         verbose=config.getoption("--routes-verbose", default=False),
         schemathesis=schemathesis_config,
         report=report_config,
+        stateful=stateful_config,
+        websocket=websocket_config,
     )
 
     # Merge configs: CLI > pyproject.toml > defaults
@@ -269,10 +338,10 @@ def pytest_configure(config: pytest.Config) -> None:
 
     # Initialize metrics if reporting is enabled
     if route_config.report.enabled:
-        from pytest_routes.reporting.metrics import TestMetrics
+        from pytest_routes.reporting.metrics import RunMetrics
         from pytest_routes.reporting.route_coverage import CoverageMetrics
 
-        _test_metrics = TestMetrics()
+        _test_metrics = RunMetrics()
         _coverage_metrics = CoverageMetrics()
 
         # Add all routes to coverage tracking
@@ -296,6 +365,12 @@ def pytest_configure(config: pytest.Config) -> None:
         print(f"Random seed: {route_config.seed}")
     if route_config.schemathesis.enabled:
         print(f"Schemathesis: enabled (schema: {route_config.schemathesis.schema_path})")
+    if route_config.stateful and route_config.stateful.enabled:
+        steps = route_config.stateful.step_count
+        examples = route_config.stateful.max_examples
+        print(f"Stateful testing: enabled (steps: {steps}, examples: {examples})")
+    if route_config.websocket and route_config.websocket.enabled:
+        print(f"WebSocket testing: enabled (max messages: {route_config.websocket.max_messages})")
     if route_config.report.enabled:
         print(f"Report: {route_config.report.output_path}")
     print("\nRoutes to test:")
@@ -544,6 +619,204 @@ class RouteTestError(Exception):
         super().__init__(f"Route test failed: {', '.join(route.methods)} {route.path}\n{error}")
 
 
+class StatefulTestItem(pytest.Item):
+    """Custom pytest Item for stateful API testing.
+
+    This item represents a stateful test execution using Hypothesis state machines
+    to test API workflows and sequences.
+
+    Attributes:
+        runner: The StatefulTestRunner instance for executing stateful tests.
+        config: The StatefulTestConfig with test parameters.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        parent: pytest.Collector,
+        runner: Any,
+        config: Any,
+    ) -> None:
+        """Initialize a StatefulTestItem.
+
+        Args:
+            name: The test item name.
+            parent: The parent pytest Collector.
+            runner: The StatefulTestRunner instance.
+            config: The StatefulTestConfig instance.
+        """
+        super().__init__(name, parent)
+        self.runner = runner
+        self.config = config
+
+    def runtest(self) -> None:
+        """Execute the stateful test.
+
+        Runs the state machine and collects results. Raises an exception
+        if any test sequences fail.
+
+        Raises:
+            StatefulTestError: If any stateful test sequences fail.
+        """
+        import asyncio
+
+        async def run_test() -> list[Any]:
+            return await self.runner.run_stateful_tests()
+
+        try:
+            loop = asyncio.get_running_loop()
+            import concurrent.futures
+
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(asyncio.run, run_test())
+                results = future.result()
+        except RuntimeError:
+            results = asyncio.run(run_test())
+
+        failures = [r for r in results if not r.passed]
+        if failures:
+            error_messages = []
+            for result in failures:
+                error_messages.append(f"\n{result.test_name}:")
+                for error in result.errors:
+                    error_messages.append(f"  - {error}")
+            raise StatefulTestError("\n".join(error_messages))
+
+    def repr_failure(
+        self,
+        excinfo: pytest.ExceptionInfo[BaseException],
+        style: str | None = None,
+    ) -> str:
+        """Represent a test failure for reporting.
+
+        Args:
+            excinfo: Exception information captured by pytest.
+            style: Optional formatting style for the failure representation.
+
+        Returns:
+            A formatted string representation of the test failure.
+        """
+        if isinstance(excinfo.value, StatefulTestError):
+            return str(excinfo.value)
+        result = super().repr_failure(excinfo, style=style)  # type: ignore[arg-type]
+        return str(result)
+
+    def reportinfo(self) -> tuple[str, int | None, str]:
+        """Report test information for pytest's output.
+
+        Returns:
+            A tuple of (file_path, line_number, description).
+        """
+        return str(self.path), None, "stateful: API workflow testing"
+
+
+class StatefulTestError(Exception):
+    """Exception raised when stateful tests fail."""
+
+
+class WebSocketTestItem(pytest.Item):
+    """Custom pytest Item for WebSocket route testing.
+
+    This item represents a WebSocket test execution for a single route.
+
+    Attributes:
+        route: The RouteInfo for the WebSocket route.
+        runner: The WebSocketTestRunner instance.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        parent: pytest.Collector,
+        route: RouteInfo,
+        runner: Any,
+    ) -> None:
+        """Initialize a WebSocketTestItem.
+
+        Args:
+            name: The test item name.
+            parent: The parent pytest Collector.
+            route: The RouteInfo for the WebSocket route.
+            runner: The WebSocketTestRunner instance.
+        """
+        super().__init__(name, parent)
+        self.route = route
+        self.runner = runner
+
+    def runtest(self) -> None:
+        """Execute the WebSocket test.
+
+        Runs property-based tests against the WebSocket route.
+
+        Raises:
+            WebSocketTestError: If the WebSocket test fails.
+        """
+        import asyncio
+
+        async def run_test() -> dict:
+            return await self.runner.test_route_async(self.route)
+
+        try:
+            loop = asyncio.get_running_loop()
+            import concurrent.futures
+
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(asyncio.run, run_test())
+                result = future.result()
+        except RuntimeError:
+            result = asyncio.run(run_test())
+
+        if not result["passed"]:
+            raise WebSocketTestError(self.route, result.get("error", "Unknown error"))
+
+    def repr_failure(
+        self,
+        excinfo: pytest.ExceptionInfo[BaseException],
+        style: str | None = None,
+    ) -> str:
+        """Represent a test failure for reporting.
+
+        Args:
+            excinfo: Exception information captured by pytest.
+            style: Optional formatting style for the failure representation.
+
+        Returns:
+            A formatted string representation of the test failure.
+        """
+        if isinstance(excinfo.value, WebSocketTestError):
+            return str(excinfo.value)
+        result = super().repr_failure(excinfo, style=style)  # type: ignore[arg-type]
+        return str(result)
+
+    def reportinfo(self) -> tuple[str, int | None, str]:
+        """Report test information for pytest's output.
+
+        Returns:
+            A tuple of (file_path, line_number, description).
+        """
+        return str(self.path), None, f"websocket: {self.route.path}"
+
+
+class WebSocketTestError(Exception):
+    """Exception raised when a WebSocket test fails.
+
+    Attributes:
+        route: The RouteInfo for the route that failed.
+        error: Description of the test failure.
+    """
+
+    def __init__(self, route: RouteInfo, error: str) -> None:
+        """Initialize a WebSocketTestError.
+
+        Args:
+            route: The RouteInfo for the route that failed.
+            error: Description of the test failure.
+        """
+        self.route = route
+        self.error = error
+        super().__init__(f"WebSocket test failed: {route.path}\n{error}")
+
+
 class RouteTestCollector(pytest.Collector):
     """Pytest Collector for route smoke tests.
 
@@ -599,7 +872,7 @@ def pytest_collection_modifyitems(session: pytest.Session, config: pytest.Config
         This hook uses a guard flag (_routes_collected) to ensure route tests are
         only added once, even if the hook is called multiple times.
     """
-    if not _routes_enabled or not _discovered_routes or not _route_runner:
+    if not _routes_enabled or not _route_config:
         return
 
     # Check if we already added route tests
@@ -607,15 +880,63 @@ def pytest_collection_modifyitems(session: pytest.Session, config: pytest.Config
         return
     config._routes_collected = True  # type: ignore[attr-defined]
 
-    # Create route test items
-    for route in _discovered_routes:
-        method = route.methods[0]
-        path_name = route.path.replace("/", "_").replace("{", "").replace("}", "").replace(":", "_").strip("_")
-        name = f"test_{method}_{path_name}" if path_name else f"test_{method}_root"
+    # Create HTTP route test items
+    if _discovered_routes and _route_runner:
+        for route in _discovered_routes:
+            method = route.methods[0]
+            path_name = route.path.replace("/", "_").replace("{", "").replace("}", "").replace(":", "_").strip("_")
+            name = f"test_{method}_{path_name}" if path_name else f"test_{method}_root"
 
-        # Create a simple item that runs the route test
-        item = RouteTestItem.from_parent(session, name=name, route=route, runner=_route_runner)
-        items.append(item)
+            item = RouteTestItem.from_parent(session, name=name, route=route, runner=_route_runner)
+            items.append(item)
+
+    # Create stateful test item if enabled
+    if _route_config.stateful and _route_config.stateful.enabled:
+        try:
+            from pytest_routes.stateful.runner import StatefulTestRunner
+
+            # Get app from the route runner if available
+            if _route_runner:
+                app = _route_runner.app
+                stateful_runner = StatefulTestRunner(app, _route_config.stateful, _route_config)
+                stateful_item = StatefulTestItem.from_parent(
+                    session,
+                    name="test_stateful_api_workflows",
+                    runner=stateful_runner,
+                    config=_route_config.stateful,
+                )
+                items.append(stateful_item)
+        except ImportError as e:
+            print(f"\npytest-routes: Warning - Stateful testing enabled but import failed: {e}")
+
+    # Create WebSocket test items if enabled
+    if _route_config.websocket and _route_config.websocket.enabled:
+        try:
+            from pytest_routes.websocket.runner import WebSocketTestRunner
+
+            # Filter for WebSocket routes
+            ws_routes = [r for r in _all_routes if r.is_websocket]
+
+            if ws_routes and _route_runner:
+                app = _route_runner.app
+                ws_runner = WebSocketTestRunner(app, _route_config)
+
+                for route in ws_routes:
+                    path_name = route.path.replace("/", "_").strip("_")
+                    name = f"test_ws_{path_name}" if path_name else "test_ws_root"
+
+                    ws_item = WebSocketTestItem.from_parent(
+                        session,
+                        name=name,
+                        route=route,
+                        runner=ws_runner,
+                    )
+                    items.append(ws_item)
+
+                if ws_routes:
+                    print(f"\npytest-routes: Added {len(ws_routes)} WebSocket test(s)")
+        except ImportError as e:
+            print(f"\npytest-routes: Warning - WebSocket testing enabled but import failed: {e}")
 
 
 def pytest_unconfigure(config: pytest.Config) -> None:

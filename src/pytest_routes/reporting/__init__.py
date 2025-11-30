@@ -5,7 +5,7 @@ from __future__ import annotations
 from pytest_routes.reporting.html import HTMLReportGenerator
 from pytest_routes.reporting.metrics import (
     RouteMetrics,
-    TestMetrics,
+    RunMetrics,
     aggregate_metrics,
 )
 from pytest_routes.reporting.route_coverage import (
@@ -19,7 +19,7 @@ __all__ = [
     "HTMLReportGenerator",
     "RouteCoverage",
     "RouteMetrics",
-    "TestMetrics",
+    "RunMetrics",
     "aggregate_metrics",
     "calculate_coverage",
 ]

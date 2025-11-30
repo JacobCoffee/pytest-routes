@@ -10,6 +10,8 @@ cli-options
 configuration
 authentication
 schemathesis
+stateful
+websocket
 reports
 frameworks/index
 ```

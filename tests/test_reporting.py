@@ -9,7 +9,7 @@ import pytest
 
 from pytest_routes.discovery.base import RouteInfo
 from pytest_routes.reporting.html import HTMLReportGenerator, ReportConfig
-from pytest_routes.reporting.metrics import RouteMetrics, TestMetrics, aggregate_metrics
+from pytest_routes.reporting.metrics import RouteMetrics, RunMetrics, aggregate_metrics
 from pytest_routes.reporting.route_coverage import CoverageMetrics, RouteCoverage, calculate_coverage
 
 if TYPE_CHECKING:
@@ -90,18 +90,18 @@ class TestRouteMetrics:
         assert result["passed"] is True
 
 
-class TestTestMetrics:
-    """Tests for TestMetrics."""
+class TestRunMetrics:
+    """Tests for RunMetrics."""
 
     def test_initial_state(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         assert metrics.total_routes == 0
         assert metrics.passed_routes == 0
         assert metrics.failed_routes == 0
         assert metrics.skipped_routes == 0
 
     def test_get_or_create_route_metrics(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         route = RouteInfo(
             path="/users",
             methods=["GET"],
@@ -118,7 +118,7 @@ class TestTestMetrics:
         assert rm is rm2
 
     def test_pass_rate(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         route1 = RouteInfo(path="/users", methods=["GET"], path_params={}, query_params={}, body_type=None)
         route2 = RouteInfo(path="/users", methods=["POST"], path_params={}, query_params={}, body_type=None)
 
@@ -131,7 +131,7 @@ class TestTestMetrics:
         assert metrics.pass_rate == 50.0
 
     def test_finish(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         assert metrics.end_time is None
 
         metrics.finish()
@@ -139,7 +139,7 @@ class TestTestMetrics:
         assert metrics.duration_seconds >= 0
 
     def test_to_dict(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         metrics.finish()
 
         result = metrics.to_dict()
@@ -285,7 +285,7 @@ class TestHTMLReportGenerator:
         assert generator.config.theme == "dark"
 
     def test_generate_html(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         route = RouteInfo(path="/users", methods=["GET"], path_params={}, query_params={}, body_type=None)
         rm = metrics.get_or_create_route_metrics(route)
         rm.record_request(200, 50.0, success=True)
@@ -299,7 +299,7 @@ class TestHTMLReportGenerator:
         assert "GET" in html
 
     def test_generate_html_with_coverage(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         coverage = CoverageMetrics()
 
         route = RouteInfo(path="/users", methods=["GET"], path_params={}, query_params={}, body_type=None)
@@ -317,7 +317,7 @@ class TestHTMLReportGenerator:
         assert "Coverage" in html or "coverage" in html.lower()
 
     def test_write_report(self, tmp_path):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         metrics.finish()
 
         config = ReportConfig(output_path=tmp_path / "report.html")
@@ -329,7 +329,7 @@ class TestHTMLReportGenerator:
         assert "pytest-routes Test Report" in content
 
     def test_to_json(self):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         metrics.finish()
 
         generator = HTMLReportGenerator()
@@ -340,7 +340,7 @@ class TestHTMLReportGenerator:
         assert "metrics" in data
 
     def test_write_json(self, tmp_path):
-        metrics = TestMetrics()
+        metrics = RunMetrics()
         metrics.finish()
 
         generator = HTMLReportGenerator()

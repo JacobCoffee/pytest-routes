@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from pytest_routes.reporting.metrics import TestMetrics
+    from pytest_routes.reporting.metrics import RunMetrics
     from pytest_routes.reporting.route_coverage import CoverageMetrics
 
 
@@ -380,7 +380,7 @@ class HTMLReportGenerator:
 
     def generate(
         self,
-        metrics: TestMetrics,
+        metrics: RunMetrics,
         coverage: CoverageMetrics | None = None,
     ) -> str:
         """Generate HTML report.
@@ -398,7 +398,7 @@ class HTMLReportGenerator:
 
     def write(
         self,
-        metrics: TestMetrics,
+        metrics: RunMetrics,
         coverage: CoverageMetrics | None = None,
     ) -> Path:
         """Generate and write HTML report to file.
@@ -417,7 +417,7 @@ class HTMLReportGenerator:
 
     def _generate_with_jinja(
         self,
-        metrics: TestMetrics,
+        metrics: RunMetrics,
         coverage: CoverageMetrics | None,
     ) -> str:
         """Generate report using Jinja2 templates."""
@@ -449,7 +449,7 @@ class HTMLReportGenerator:
 
     def _generate_simple(
         self,
-        metrics: TestMetrics,
+        metrics: RunMetrics,
         coverage: CoverageMetrics | None,
     ) -> str:
         """Generate simple HTML report without Jinja2."""
@@ -484,7 +484,7 @@ class HTMLReportGenerator:
 
     def to_json(
         self,
-        metrics: TestMetrics,
+        metrics: RunMetrics,
         coverage: CoverageMetrics | None = None,
     ) -> str:
         """Export metrics as JSON.
@@ -506,7 +506,7 @@ class HTMLReportGenerator:
 
     def write_json(
         self,
-        metrics: TestMetrics,
+        metrics: RunMetrics,
         coverage: CoverageMetrics | None = None,
         output_path: Path | str | None = None,
     ) -> Path:

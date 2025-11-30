@@ -22,12 +22,12 @@ Collects metrics for a single route during testing.
    :show-inheritance:
 
 
-TestMetrics
+RunMetrics
 -----------
 
 Aggregates metrics across all routes for a test run.
 
-.. autoclass:: pytest_routes.reporting.TestMetrics
+.. autoclass:: pytest_routes.reporting.RunMetrics
    :members:
    :undoc-members:
    :show-inheritance:
@@ -103,11 +103,11 @@ Collecting Metrics
 
 .. code-block:: python
 
-   from pytest_routes.reporting import TestMetrics, RouteMetrics
+   from pytest_routes.reporting import RunMetrics, RouteMetrics
    from pytest_routes.discovery.base import RouteInfo
 
    # Create test metrics container
-   test_metrics = TestMetrics()
+   test_metrics = RunMetrics()
 
    # Get or create metrics for a route
    route = RouteInfo(
@@ -174,7 +174,7 @@ Generating Reports
 
 .. code-block:: python
 
-   from pytest_routes.reporting import HTMLReportGenerator, TestMetrics
+   from pytest_routes.reporting import HTMLReportGenerator, RunMetrics
    from pytest_routes.reporting.html import ReportConfig
 
    # Configure the report

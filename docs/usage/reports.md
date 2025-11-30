@@ -171,7 +171,7 @@ You can use the reporting module programmatically:
 from pytest_routes.reporting import (
     HTMLReportGenerator,
     RouteMetrics,
-    TestMetrics,
+    RunMetrics,
     CoverageMetrics,
     calculate_coverage,
 )
@@ -186,7 +186,7 @@ config = ReportConfig(
 )
 
 # Create test metrics
-test_metrics = TestMetrics()
+test_metrics = RunMetrics()
 
 # Record route metrics during testing
 route = RouteInfo(path="/users", methods=["GET"], ...)

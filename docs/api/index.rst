@@ -31,7 +31,7 @@ The most commonly used classes and functions, organized by task:
    * - Validate responses
      - :class:`~pytest_routes.validation.response.StatusCodeValidator`, :class:`~pytest_routes.validation.response.CompositeValidator`
    * - Generate reports
-     - :class:`~pytest_routes.reporting.HTMLReportGenerator`, :class:`~pytest_routes.reporting.TestMetrics`
+     - :class:`~pytest_routes.reporting.HTMLReportGenerator`, :class:`~pytest_routes.reporting.RunMetrics`
    * - Schemathesis integration
      - :class:`~pytest_routes.integrations.SchemathesisAdapter`, :class:`~pytest_routes.integrations.SchemathesisValidator`
 

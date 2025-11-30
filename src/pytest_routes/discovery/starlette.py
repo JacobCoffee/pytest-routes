@@ -76,24 +76,25 @@ class StarletteExtractor(RouteExtractor):
         return False
 
     def extract_routes(self, app: Any) -> list[RouteInfo]:
-        """Extract all HTTP routes from a Starlette or FastAPI application.
+        """Extract all HTTP and WebSocket routes from a Starlette or FastAPI application.
 
         This method traverses the application's route registry, recursively handling
         Mount instances to collect all routes with their full path prefixes. It extracts
-        path parameters, query parameters, and route metadata.
+        path parameters, query parameters, and route metadata for both HTTP and WebSocket routes.
 
         Args:
             app: A Starlette or FastAPI application instance.
 
         Returns:
             A list of RouteInfo objects containing route metadata:
-            path (full route path including mount prefixes), methods (HTTP methods),
+            path (full route path including mount prefixes), methods (HTTP methods or "WEBSOCKET"),
             name (route name), handler (endpoint function), path_params (parameter
             name to type mapping parsed from path), query_params (query parameter
-            mapping), body_type (always None for Starlette - use OpenAPI extractor).
+            mapping), body_type (always None for Starlette - use OpenAPI extractor),
+            is_websocket (True for WebSocket routes), websocket_metadata (WebSocket config).
 
         Example:
-            >>> from fastapi import FastAPI, Query
+            >>> from fastapi import FastAPI, Query, WebSocket
             >>> from pydantic import BaseModel
             >>>
             >>> app = FastAPI()
@@ -110,32 +111,44 @@ class StarletteExtractor(RouteExtractor):
             >>> async def create_user(user: User):
             ...     return {"name": user.name}
             >>>
+            >>> @app.websocket("/ws/chat")
+            >>> async def websocket_endpoint(websocket: WebSocket):
+            ...     await websocket.accept()
+            ...     await websocket.send_json({"type": "welcome"})
+            >>>
             >>> extractor = StarletteExtractor()
             >>> routes = extractor.extract_routes(app)
             >>> len(routes)
-            2
+            3
             >>> routes[0].path_params
             {'user_id': <class 'int'>}
             >>> routes[0].query_params
             {'include_posts': <class 'bool'>}
+            >>> routes[2].is_websocket
+            True
 
         Note:
             - Recursively processes Mount instances to handle sub-applications
-            - HEAD methods are automatically filtered out
+            - HEAD methods are automatically filtered out for HTTP routes
             - Path prefixes from Mount instances are accumulated
             - Query parameter extraction handles FastAPI Query/Body annotations
+            - WebSocket routes have auto_accept=False in their metadata (requires manual accept)
         """
         routes: list[RouteInfo] = []
         self._collect_routes(app.routes, "", routes)
         return routes
 
     def _collect_routes(self, route_list: list[Any], prefix: str, collected: list[RouteInfo]) -> None:
-        """Recursively collect routes, handling mounts."""
-        from starlette.routing import Mount, Route
+        """Recursively collect routes, handling mounts and WebSocket routes."""
+        from starlette.routing import Mount, Route, WebSocketRoute
 
         for route in route_list:
             if isinstance(route, Mount):
                 self._collect_routes(route.routes or [], prefix + route.path, collected)
+            elif isinstance(route, WebSocketRoute):
+                full_path = prefix + route.path
+                path_params = self._parse_path_params(full_path)
+                collected.append(self._build_websocket_route_info(route, full_path, path_params))
             elif isinstance(route, Route):
                 for method in route.methods or ["GET"]:
                     if method == "HEAD":
@@ -281,3 +294,46 @@ class StarletteExtractor(RouteExtractor):
                 query_params[param_name] = str
 
         return query_params
+
+    def _build_websocket_route_info(self, route: Any, full_path: str, path_params: dict[str, type]) -> RouteInfo:
+        """Build RouteInfo for a Starlette/FastAPI WebSocket route.
+
+        Args:
+            route: A Starlette WebSocketRoute instance.
+            full_path: The full path including any mount prefixes.
+            path_params: Already extracted path parameters.
+
+        Returns:
+            RouteInfo configured for WebSocket with appropriate metadata.
+        """
+        from pytest_routes.discovery.base import WebSocketMessageType, WebSocketMetadata
+
+        ws_metadata = WebSocketMetadata(
+            subprotocols=[],
+            accepted_message_types=[
+                WebSocketMessageType.TEXT,
+                WebSocketMessageType.BINARY,
+                WebSocketMessageType.JSON,
+            ],
+            sends_message_types=[
+                WebSocketMessageType.TEXT,
+                WebSocketMessageType.BINARY,
+                WebSocketMessageType.JSON,
+            ],
+            auto_accept=False,
+        )
+
+        return RouteInfo(
+            path=full_path,
+            methods=["WEBSOCKET"],
+            name=route.name,
+            handler=route.endpoint,
+            path_params=path_params,
+            query_params={},
+            body_type=None,
+            tags=[],
+            deprecated=False,
+            description=None,
+            is_websocket=True,
+            websocket_metadata=ws_metadata,
+        )

@@ -42,6 +42,18 @@ The following table summarizes all available CLI options:
 * - `--routes-schemathesis-schema-path`
   - `/openapi.json`
   - Path to OpenAPI schema endpoint
+* - `--routes-stateful`
+  - `false`
+  - Enable stateful API testing
+* - `--routes-stateful-step-count`
+  - `50`
+  - Maximum steps per stateful test sequence
+* - `--routes-websocket`
+  - `false`
+  - Enable WebSocket route testing
+* - `--routes-ws-max-messages`
+  - `10`
+  - Maximum messages per WebSocket test
 * - `--routes-report`
   - `None`
   - Generate HTML report at specified path
@@ -536,4 +548,287 @@ include_timing = true
 theme = "light"  # or "dark"
 ```
 
-See [Configuration](configuration.md) for complete details.
+---
+
+## Stateful Testing Options
+
+Stateful testing validates API workflows where operations depend on each other.
+For complete documentation, see [Stateful Testing](stateful.md).
+
+### `--routes-stateful`
+
+Enable stateful API testing mode. Tests CRUD workflows and operation sequences
+using Hypothesis state machines.
+
+**Default:** `false`
+
+```bash
+# Enable stateful testing
+pytest --routes --routes-app myapp:app --routes-stateful
+
+# Combine with regular route testing
+pytest --routes --routes-app myapp:app --routes-stateful --routes-max-examples 50
+```
+
+```{note}
+Stateful testing requires an OpenAPI schema with link definitions for best results.
+Enable with `--routes-schemathesis` for schema-based validation.
+```
+
+### `--routes-stateful-mode`
+
+Select the stateful testing mode.
+
+**Default:** `links`
+
+**Options:**
+- `links` - Use OpenAPI links to determine state transitions (recommended)
+- `data_dependency` - Infer dependencies from request/response schemas
+- `explicit` - Use manually configured transition rules
+
+```bash
+# Use OpenAPI links (default)
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-mode links
+
+# Infer from schemas (useful when no links defined)
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-mode data_dependency
+```
+
+### `--routes-stateful-step-count`
+
+Maximum number of API calls (steps) per test sequence.
+
+**Default:** `50`
+
+```bash
+# Quick smoke test
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-step-count 10
+
+# Thorough workflow testing
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-step-count 100
+```
+
+### `--routes-stateful-max-examples`
+
+Number of test sequences (examples) to generate.
+
+**Default:** `100`
+
+```bash
+# Fewer sequences for development
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-max-examples 10
+
+# Many sequences for CI
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-max-examples 200
+```
+
+### `--routes-stateful-seed`
+
+Random seed for reproducible stateful tests.
+
+**Default:** `None`
+
+```bash
+# Reproducible test run
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-seed 12345
+
+# Use CI run ID
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-seed $GITHUB_RUN_ID
+```
+
+### `--routes-stateful-recursion-limit`
+
+Maximum depth for nested state transitions.
+
+**Default:** `5`
+
+```bash
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-recursion-limit 10
+```
+
+### `--routes-stateful-fail-fast`
+
+Stop on first failure instead of collecting all failures.
+
+**Default:** `false`
+
+```bash
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-fail-fast
+```
+
+### `--routes-stateful-verbose`
+
+Enable detailed logging of state machine execution.
+
+**Default:** `false`
+
+```bash
+pytest --routes --routes-app myapp:app --routes-stateful --routes-stateful-verbose
+```
+
+### `--routes-stateful-include` / `--routes-stateful-exclude`
+
+Filter which operations to include or exclude from stateful testing.
+
+**Default:** `""` (empty - include all)
+
+```bash
+# Only test user operations
+pytest --routes --routes-app myapp:app --routes-stateful \
+    --routes-stateful-include "create*User*,get*User*,update*User*"
+
+# Exclude admin operations
+pytest --routes --routes-app myapp:app --routes-stateful \
+    --routes-stateful-exclude "*Admin*,*Internal*"
+```
+
+### Stateful Testing Configuration in pyproject.toml
+
+```toml
+[tool.pytest-routes.stateful]
+enabled = true
+mode = "links"
+step_count = 50
+max_examples = 100
+stateful_recursion_limit = 5
+fail_fast = false
+collect_coverage = true
+exclude_operations = ["*Admin*"]
+```
+
+See [Stateful Testing](stateful.md) for complete documentation.
+
+---
+
+## WebSocket Testing Options
+
+WebSocket testing validates real-time endpoints with property-based message generation.
+For complete documentation, see [WebSocket Testing](websocket.md).
+
+### `--routes-websocket`
+
+Enable WebSocket route testing.
+
+**Default:** `false`
+
+```bash
+# Enable WebSocket testing
+pytest --routes --routes-app myapp:app --routes-websocket
+
+# Combine with HTTP route testing
+pytest --routes --routes-app myapp:app --routes-websocket
+```
+
+### `--routes-ws-max-messages`
+
+Maximum number of messages per test sequence.
+
+**Default:** `10`
+
+```bash
+# Quick test with few messages
+pytest --routes --routes-app myapp:app --routes-websocket --routes-ws-max-messages 3
+
+# Thorough testing with many messages
+pytest --routes --routes-app myapp:app --routes-websocket --routes-ws-max-messages 50
+```
+
+### `--routes-ws-timeout`
+
+WebSocket connection timeout in seconds.
+
+**Default:** `30.0`
+
+```bash
+# Extended timeout for slow handlers
+pytest --routes --routes-app myapp:app --routes-websocket --routes-ws-timeout 60.0
+```
+
+### `--routes-ws-message-timeout`
+
+Timeout for receiving messages in seconds.
+
+**Default:** `10.0`
+
+```bash
+pytest --routes --routes-app myapp:app --routes-websocket --routes-ws-message-timeout 30.0
+```
+
+### `--routes-ws-include` / `--routes-ws-exclude`
+
+Filter which WebSocket routes to include or exclude.
+
+**Default:** `""` (empty)
+
+```bash
+# Only test specific routes
+pytest --routes --routes-app myapp:app --routes-websocket \
+    --routes-ws-include "/ws/chat,/ws/notifications"
+
+# Exclude internal routes
+pytest --routes --routes-app myapp:app --routes-websocket \
+    --routes-ws-exclude "/ws/internal/*,/ws/debug/*"
+```
+
+### WebSocket Configuration in pyproject.toml
+
+```toml
+[tool.pytest-routes.websocket]
+enabled = true
+max_messages = 10
+connection_timeout = 30.0
+message_timeout = 10.0
+include = ["/ws/*"]
+exclude = ["/ws/internal/*"]
+```
+
+See [WebSocket Testing](websocket.md) for complete documentation.
+
+---
+
+## Combined Testing Examples
+
+### Full API Testing (HTTP + WebSocket + Stateful)
+
+```bash
+pytest --routes --routes-app myapp:app \
+    --routes-websocket \
+    --routes-stateful \
+    --routes-max-examples 100 \
+    --routes-ws-max-messages 20 \
+    --routes-stateful-step-count 50
+```
+
+### CI Pipeline Configuration
+
+```bash
+pytest --routes --routes-app myapp:app \
+    --routes-websocket \
+    --routes-stateful \
+    --routes-schemathesis \
+    --routes-seed $GITHUB_RUN_ID \
+    --routes-stateful-seed $GITHUB_RUN_ID \
+    --routes-report report.html \
+    --routes-report-json report.json
+```
+
+### Development Quick Check
+
+```bash
+pytest --routes --routes-app myapp:app \
+    --routes-websocket \
+    --routes-stateful \
+    --routes-max-examples 5 \
+    --routes-ws-max-messages 3 \
+    --routes-stateful-step-count 10 \
+    --routes-stateful-max-examples 5 \
+    -x  # Stop on first failure
+```
+
+---
+
+## See Also
+
+- [Configuration](configuration.md) - Full configuration file reference
+- [Stateful Testing](stateful.md) - API workflow testing guide
+- [WebSocket Testing](websocket.md) - Real-time endpoint testing guide
