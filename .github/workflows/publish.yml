@@ -54,7 +54,8 @@ jobs:
         env:
           EXPECTED_VERSION: ${{ steps.version.outputs.version }}
         run: |
-          PYPROJECT_VERSION=$(uv version 2>/dev/null || grep -oP 'version = "\K[^"]+' pyproject.toml)
+          # uv version returns "package-name X.Y.Z", extract just the version
+          PYPROJECT_VERSION=$(uv version 2>/dev/null | awk '{print $NF}' || grep -oP 'version = "\K[^"]+' pyproject.toml)
           if [ "$PYPROJECT_VERSION" != "$EXPECTED_VERSION" ]; then
             echo "Version mismatch: tag=$EXPECTED_VERSION, pyproject.toml=$PYPROJECT_VERSION"
             exit 1

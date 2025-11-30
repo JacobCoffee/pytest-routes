@@ -112,7 +112,8 @@ Homepage = "https://github.com/JacobCoffee/pytest-routes"
 Repository = "https://github.com/JacobCoffee/pytest-routes"
 
 [tool.codespell]
-skip = "uv.lock"
+ignore-words-list = "nd"  # Unicode category for decimal digits
+skip = "uv.lock,docs/_build"
 
 [tool.coverage.report]
 exclude_lines = [
