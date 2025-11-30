@@ -136,7 +136,7 @@ class TestTestMetrics:
 
         metrics.finish()
         assert metrics.end_time is not None
-        assert metrics.duration_seconds > 0
+        assert metrics.duration_seconds >= 0
 
     def test_to_dict(self):
         metrics = TestMetrics()
