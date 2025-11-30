@@ -6,15 +6,15 @@
 
 ## Current Status
 
-**Version**: 0.2.3 (Released)
-**Phase**: Post-Release - Ready for v0.3.0 Development
+**Version**: 0.3.0 (In Development)
+**Phase**: v0.3.0 - Schemathesis Integration & Reporting Complete
 **Last Updated**: 2025-11-30
 
 ### Test Coverage
 
 | Metric | Value |
 |--------|-------|
-| Unit Tests | 219 |
+| Unit Tests | 263 |
 | Route Smoke Tests | 9 (per example app) |
 | Coverage | ~90% |
 | Target | 90% |
@@ -36,6 +36,8 @@
 | `test_openapi_body_extraction.py` | 12 | OpenAPI body type extraction |
 | `validation/test_response.py` | 26 | Response validation |
 | `validation/test_integration.py` | 6 | Validation integration |
+| `test_reporting.py` | 31 | Reporting metrics and HTML generation |
+| `test_schemathesis_integration.py` | 9 | Schemathesis adapter tests |
 
 ### Example Apps
 
@@ -168,16 +170,30 @@ Initial development on `main`:
 
 **Released**: v0.2.0 → v0.2.3 (patch releases for CI fixes)
 
-### Next Up
+#### v0.3.0 - Schemathesis Integration & Reporting (Complete) ✅
+- [x] Schemathesis integration (optional dependency)
+  - [x] `SchemathesisAdapter` class for schema-based testing
+  - [x] `SchemathesisValidator` for response validation
+  - [x] `--routes-schemathesis` CLI flag
+  - [x] `--routes-schemathesis-schema-path` CLI flag
+  - [x] `SchemathesisConfig` dataclass for configuration
+- [x] HTML report generation
+  - [x] `HTMLReportGenerator` with Jinja2 templates
+  - [x] `ReportConfig` dataclass for configuration
+  - [x] `--routes-report` CLI flag for HTML output
+  - [x] `--routes-report-json` CLI flag for JSON output
+  - [x] `--routes-report-title` CLI flag for custom title
+- [x] Coverage metrics per route
+  - [x] `RouteCoverage` class for per-route coverage tracking
+  - [x] `CoverageMetrics` class for aggregate coverage
+  - [x] `calculate_coverage()` function
+- [x] Performance timing per route
+  - [x] `RouteMetrics` class with min/max/avg timing
+  - [x] `TestMetrics` class for aggregate test metrics
+  - [x] `aggregate_metrics()` function
+- [x] Tests for new features (40 tests, 263 total)
 
-#### v0.3.0 - Schemathesis Integration & Reporting (Planned)
-- [ ] Schemathesis integration (optional dependency)
-  - [ ] `SchemathesisAdapter` class for schema-based testing
-  - [ ] `--routes-schemathesis` CLI flag
-  - [ ] Response schema validation via Schemathesis
-- [ ] HTML report generation
-- [ ] Coverage metrics per route
-- [ ] Performance timing per route
+### Next Up
 
 #### v0.4.0 - Stateful Testing & WebSocket Support (Planned)
 - [ ] Stateful testing (CRUD flows via Schemathesis links)
@@ -1096,7 +1112,7 @@ pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathes
 
 ---
 
-*Document Version: 1.3.0*
+*Document Version: 1.4.0*
 *Last Updated: 2025-11-30*
 *Author: Claude (Architecture Review)*
-*Status: v0.2.0 Complete - Schemathesis Integration Planned for v0.3.0*
+*Status: v0.3.0 Complete - Schemathesis Integration & Reporting*
