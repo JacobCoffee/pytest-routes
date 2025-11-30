@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 ---
+## [0.3.3](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.2..v0.3.3) - 2025-11-30
+
+### Bug Fixes
+
+- **(docs)** resolve nested tab-set syntax issue - ([c0a4939](https://github.com/JacobCoffee/pytest-routes/commit/c0a493937dcfa201ea349b3573c188f3ea6b3241)) - Jacob Coffee
+
+### Documentation
+
+- regenerate changelog for v0.3.2 - ([d19c111](https://github.com/JacobCoffee/pytest-routes/commit/d19c111c14167e4d7ce36c101fb3f0c3c2a5c27d)) - github-actions[bot]
+
+### Miscellaneous Chores
+
+- bump version to 0.3.3 - ([b95b7a8](https://github.com/JacobCoffee/pytest-routes/commit/b95b7a878386d714adbf2345e58a1193bef687df)) - Jacob Coffee
+
+---
 ## [0.3.2](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.0..v0.3.2) - 2025-11-30
 
 ### Documentation
