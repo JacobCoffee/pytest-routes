@@ -41,6 +41,21 @@ The following table summarizes all available CLI options:
 * - `--routes-seed`
   - `None`
   - Random seed for reproducible tests
+* - `--routes-schemathesis`
+  - `false`
+  - Enable Schemathesis OpenAPI contract testing
+* - `--routes-schemathesis-schema-path`
+  - `/openapi.json`
+  - Path to OpenAPI schema endpoint
+* - `--routes-report`
+  - `None`
+  - Generate HTML report at specified path
+* - `--routes-report-json`
+  - `None`
+  - Generate JSON report at specified path
+* - `--routes-report-title`
+  - `pytest-routes Report`
+  - Custom title for HTML report
 ```
 
 ---
@@ -398,3 +413,142 @@ pytest --routes \
     --routes-methods "GET" \
     --routes-exclude "/admin/*"
 ```
+
+---
+
+## Schemathesis Integration Options
+
+### `--routes-schemathesis`
+
+Enable Schemathesis OpenAPI contract testing. When enabled, pytest-routes validates
+responses against your OpenAPI schema for conformance.
+
+**Default:** `false`
+
+```bash
+# Enable Schemathesis contract testing
+pytest --routes --routes-app myapp:app --routes-schemathesis
+
+# Combine with custom schema path
+pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-schema-path /api/openapi.json
+```
+
+```{note}
+Schemathesis is an optional dependency. Install with: `pip install pytest-routes[schemathesis]`
+```
+
+**Schemathesis validates:**
+- Status code conformance (response codes match schema)
+- Content-type conformance (response content types match schema)
+- Response schema conformance (response body matches schema)
+
+### `--routes-schemathesis-schema-path`
+
+Path to the OpenAPI schema endpoint on your application.
+
+**Default:** `/openapi.json`
+
+```bash
+# Custom schema path
+pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-schema-path /api/v2/openapi.json
+
+# Litestar default
+pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-schema-path /schema/openapi.json
+
+# FastAPI default
+pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-schema-path /openapi.json
+```
+
+---
+
+## Report Generation Options
+
+### `--routes-report`
+
+Generate an HTML report at the specified path. The report includes:
+- Test summary with pass/fail counts
+- Route-by-route results with timing metrics
+- Coverage statistics
+- Performance metrics (min/max/avg response times)
+
+**Default:** `None` (no report generated)
+
+```bash
+# Generate HTML report
+pytest --routes --routes-app myapp:app --routes-report pytest-routes-report.html
+
+# Generate report with custom title
+pytest --routes --routes-app myapp:app --routes-report report.html --routes-report-title "API Smoke Test Results"
+```
+
+### `--routes-report-json`
+
+Generate a JSON report at the specified path. Useful for CI/CD integration and
+programmatic analysis.
+
+**Default:** `None` (no JSON report generated)
+
+```bash
+# Generate JSON report
+pytest --routes --routes-app myapp:app --routes-report-json results.json
+
+# Generate both HTML and JSON reports
+pytest --routes --routes-app myapp:app --routes-report report.html --routes-report-json results.json
+```
+
+**JSON report structure:**
+
+```json
+{
+  "title": "pytest-routes Report",
+  "generated_at": "2025-01-15T10:30:00Z",
+  "summary": {
+    "total_routes": 25,
+    "passed": 23,
+    "failed": 2,
+    "pass_rate": 92.0,
+    "duration_seconds": 45.3
+  },
+  "routes": [
+    {
+      "path": "/users",
+      "method": "GET",
+      "passed": true,
+      "total_requests": 100,
+      "avg_time_ms": 12.5,
+      "min_time_ms": 5.2,
+      "max_time_ms": 45.8
+    }
+  ]
+}
+```
+
+### `--routes-report-title`
+
+Custom title for the HTML report.
+
+**Default:** `pytest-routes Report`
+
+```bash
+# Custom report title
+pytest --routes --routes-app myapp:app --routes-report report.html --routes-report-title "Production API Smoke Tests - v2.0"
+```
+
+---
+
+## Report Configuration in pyproject.toml
+
+Reports can also be configured in `pyproject.toml`:
+
+```toml
+[tool.pytest-routes.report]
+enabled = true
+output_path = "pytest-routes-report.html"
+json_output = "pytest-routes-report.json"
+title = "API Route Tests"
+include_coverage = true
+include_timing = true
+theme = "light"  # or "dark"
+```
+
+See [Configuration](configuration.md) for complete details
