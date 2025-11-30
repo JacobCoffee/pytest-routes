@@ -74,13 +74,14 @@ jobs:
           fetch-depth: 0
 
       - name: Generate changelog
-        uses: orhun/git-cliff-action@4a8e3711dcf2869f845caef8e2a6e141ab720ec4  # v4.4.2
+        uses: orhun/git-cliff-action@d77b37db2e3f7398432d34b72a12aa3e2ba87e51  # v4.6.0
         id: changelog
         with:
           config: pyproject.toml
           args: --verbose --latest --strip header
         env:
           OUTPUT: CHANGELOG.md
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload changelog
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
