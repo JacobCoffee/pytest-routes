@@ -6,8 +6,8 @@
 
 ## Current Status
 
-**Version**: 0.2.0 (Alpha)
-**Phase**: CI/CD Infrastructure (Complete) ✅
+**Version**: 0.1.0 (Released)
+**Phase**: Post-Release - Ready for v0.2.0 Development
 **Last Updated**: 2025-11-30
 
 ### Test Coverage
@@ -107,7 +107,7 @@ Initial development on `main`:
   - [x] `merge_configs()` with CLI > file > defaults precedence
   - [x] Python 3.10 compatibility (tomli fallback)
 
-#### Phase 3: Documentation & Polish (In Progress)
+#### Phase 3: Documentation & Polish (Complete) ✅
 - [x] README with usage examples
 - [x] Sphinx documentation site (shibuya theme, red accent)
   - [x] `docs/conf.py` - Sphinx configuration
@@ -127,15 +127,34 @@ Initial development on `main`:
 
 | Workflow | Purpose | Status |
 |----------|---------|--------|
-| `ci.yml` | Lint, format, type-check, test (OS matrix) | Complete ✅ |
-| `docs.yml` | Build & deploy docs to GitHub Pages | Complete ✅ |
-| `cd.yml` | git-cliff changelog, PyPI publish, Sigstore | Complete ✅ |
+| `ci.yml` | Zizmor security, lint, smoke tests, full matrix | Complete ✅ |
+| `docs.yml` | Build docs, PR preview, GitHub Pages deploy | Complete ✅ |
+| `cd.yml` | Changelog generation (git-cliff) | Complete ✅ |
+| `publish.yml` | Build → Sign → Draft Release → PyPI → Publish | Complete ✅ |
+| `pages-deploy.yml` | Deploy from gh-pages branch | Complete ✅ |
+| `pr-title.yml` | Semantic PR title validation | Complete ✅ |
 
-**Security**: All workflows validated with zizmor (0 findings).
+**Additional Files:**
+- `.github/dependabot.yml` - Weekly updates for actions & pip
+- `.github/PULL_REQUEST_TEMPLATE.md` - PR checklist
+
+**Security**: All workflows validated with zizmor (1 accepted finding: `pull_request_target`).
+
+**Released**: v0.1.0 on PyPI with Sigstore signatures.
 
 ### Next Up
 
-Ready for initial release (v0.1.0)
+#### v0.2.0 - Authentication & Advanced Features
+- [ ] Authentication support (Bearer token, API key)
+- [ ] Per-route configuration overrides
+- [ ] `@pytest.mark.routes_skip` marker for excluding routes
+- [ ] `@pytest.mark.routes_auth` marker for auth requirements
+- [ ] Improved error messages with request/response details
+
+#### Future Releases
+- **v0.3.0**: HTML report generation, coverage metrics per route
+- **v0.4.0**: Stateful testing (CRUD flows), WebSocket routes
+- **v1.0.0**: Stable release, fuzz testing mode
 
 ---
 
