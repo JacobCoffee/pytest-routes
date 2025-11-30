@@ -3,7 +3,15 @@
 from __future__ import annotations
 
 from pytest_routes.__metadata__ import __version__
+from pytest_routes.auth import (
+    APIKeyAuth,
+    AuthProvider,
+    BearerTokenAuth,
+    CompositeAuth,
+    NoAuth,
+)
 from pytest_routes.config import (
+    RouteOverride,
     RouteTestConfig,
     load_config_from_pyproject,
     merge_configs,
@@ -38,7 +46,14 @@ from pytest_routes.validation.response import (
 
 __all__ = [
     "__version__",
+    # Auth
+    "APIKeyAuth",
+    "AuthProvider",
+    "BearerTokenAuth",
+    "CompositeAuth",
+    "NoAuth",
     # Config
+    "RouteOverride",
     "RouteTestConfig",
     "load_config_from_pyproject",
     "merge_configs",

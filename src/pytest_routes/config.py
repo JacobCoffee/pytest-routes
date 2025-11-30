@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 # Python 3.11+ has tomllib, earlier versions need tomli
 if sys.version_info >= (3, 11):
@@ -15,6 +15,40 @@ else:
         import tomli as tomllib  # type: ignore[import-untyped]
     except ImportError:
         tomllib = None  # type: ignore[assignment]
+
+if TYPE_CHECKING:
+    from pytest_routes.auth.providers import AuthProvider
+
+
+@dataclass
+class RouteOverride:
+    """Per-route configuration overrides.
+
+    Allows customizing test behavior for specific routes by path pattern.
+    All fields are optional; only specified fields will override the base config.
+
+    Args:
+        pattern: Glob pattern to match routes (e.g., "/api/admin/*").
+        max_examples: Override max examples for matching routes.
+        timeout: Override timeout for matching routes.
+        auth: Override authentication provider for matching routes.
+        skip: If True, skip testing for matching routes.
+        allowed_status_codes: Override allowed status codes for matching routes.
+
+    Example:
+        >>> override = RouteOverride(
+        ...     pattern="/api/admin/*",
+        ...     auth=BearerTokenAuth("admin-token"),
+        ...     max_examples=50,
+        ... )
+    """
+
+    pattern: str
+    max_examples: int | None = None
+    timeout: float | None = None
+    auth: AuthProvider | None = None
+    skip: bool = False
+    allowed_status_codes: list[int] | None = None
 
 
 @dataclass
@@ -51,6 +85,64 @@ class RouteTestConfig:
     # Output verbosity
     verbose: bool = False
 
+    # Authentication
+    auth: AuthProvider | None = None
+
+    # Per-route overrides
+    route_overrides: list[RouteOverride] = field(default_factory=list)
+
+    def get_override_for_route(self, path: str) -> RouteOverride | None:
+        """Get the matching override for a route path.
+
+        Finds the first RouteOverride whose pattern matches the given path.
+        Uses glob-style pattern matching.
+
+        Args:
+            path: The route path to match.
+
+        Returns:
+            The first matching RouteOverride, or None if no match.
+        """
+        import fnmatch
+
+        for override in self.route_overrides:
+            if fnmatch.fnmatch(path, override.pattern):
+                return override
+        return None
+
+    def get_effective_config_for_route(self, path: str) -> dict[str, Any]:
+        """Get effective configuration for a specific route.
+
+        Merges the base config with any matching route override.
+
+        Args:
+            path: The route path to get config for.
+
+        Returns:
+            Dictionary with effective configuration values.
+        """
+        override = self.get_override_for_route(path)
+        config: dict[str, Any] = {
+            "max_examples": self.max_examples,
+            "timeout": self.timeout_per_route,
+            "auth": self.auth,
+            "allowed_status_codes": self.allowed_status_codes,
+            "skip": False,
+        }
+
+        if override:
+            if override.max_examples is not None:
+                config["max_examples"] = override.max_examples
+            if override.timeout is not None:
+                config["timeout"] = override.timeout
+            if override.auth is not None:
+                config["auth"] = override.auth
+            if override.allowed_status_codes is not None:
+                config["allowed_status_codes"] = override.allowed_status_codes
+            config["skip"] = override.skip
+
+        return config
+
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> RouteTestConfig:
         """Create config from dictionary (e.g., from pyproject.toml).
@@ -80,6 +172,12 @@ class RouteTestConfig:
         # Use defaults for missing values
         defaults = cls()
 
+        # Parse auth configuration if present
+        auth = _parse_auth_config(data.get("auth"))
+
+        # Parse route overrides if present
+        route_overrides = _parse_route_overrides(data.get("routes", []))
+
         return cls(
             max_examples=data.get("max_examples", defaults.max_examples),
             timeout_per_route=data.get("timeout", defaults.timeout_per_route),
@@ -95,7 +193,104 @@ class RouteTestConfig:
             response_validators=data.get("response_validators", defaults.response_validators),
             framework=data.get("framework", defaults.framework),
             verbose=data.get("verbose", defaults.verbose),
+            auth=auth,
+            route_overrides=route_overrides,
         )
+
+
+def _parse_auth_config(auth_data: dict[str, Any] | None) -> AuthProvider | None:
+    """Parse authentication configuration from dictionary.
+
+    Supports the following auth types:
+    - bearer_token: Bearer token authentication
+    - api_key: API key authentication (header or query param)
+
+    Args:
+        auth_data: Authentication configuration dictionary.
+
+    Returns:
+        Configured AuthProvider or None if no auth specified.
+
+    Example config in pyproject.toml::
+
+        [tool.pytest - routes.auth]
+        bearer_token = "$API_TOKEN"  # From environment variable
+
+        # OR
+
+        [tool.pytest - routes.auth]
+        api_key = "my-key"
+        header_name = "X-API-Key"
+
+        # OR
+
+        [tool.pytest - routes.auth]
+        api_key = "$API_KEY"
+        query_param = "api_key"
+    """
+    if not auth_data:
+        return None
+
+    # Import here to avoid circular imports
+    from pytest_routes.auth.providers import APIKeyAuth, BearerTokenAuth
+
+    # Bearer token auth
+    if "bearer_token" in auth_data:
+        return BearerTokenAuth(auth_data["bearer_token"])
+
+    # API key auth
+    if "api_key" in auth_data:
+        return APIKeyAuth(
+            auth_data["api_key"],
+            header_name=auth_data.get("header_name"),
+            query_param=auth_data.get("query_param"),
+        )
+
+    return None
+
+
+def _parse_route_overrides(routes_data: list[dict[str, Any]]) -> list[RouteOverride]:
+    """Parse route override configurations.
+
+    Args:
+        routes_data: List of route override dictionaries.
+
+    Returns:
+        List of RouteOverride instances.
+
+    Example config in pyproject.toml::
+
+        [[tool.pytest - routes.routes]]
+        pattern = "/api/admin/*"
+        max_examples = 50
+        skip = false
+
+        [[tool.pytest - routes.routes]]
+        pattern = "/api/internal/*"
+        skip = true
+    """
+    if not routes_data:
+        return []
+
+    overrides = []
+    for route_data in routes_data:
+        if "pattern" not in route_data:
+            continue
+
+        # Parse auth for this route if specified
+        auth = _parse_auth_config(route_data.get("auth"))
+
+        override = RouteOverride(
+            pattern=route_data["pattern"],
+            max_examples=route_data.get("max_examples"),
+            timeout=route_data.get("timeout"),
+            auth=auth,
+            skip=route_data.get("skip", False),
+            allowed_status_codes=route_data.get("allowed_status_codes"),
+        )
+        overrides.append(override)
+
+    return overrides
 
 
 def load_config_from_pyproject(path: Path | None = None) -> RouteTestConfig:
@@ -249,4 +444,8 @@ def merge_configs(
         ),
         framework=(cli_config.framework if cli_config.framework != defaults.framework else file_config.framework),
         verbose=cli_config.verbose if cli_config.verbose != defaults.verbose else file_config.verbose,
+        # Auth: CLI takes precedence if set
+        auth=cli_config.auth if cli_config.auth is not None else file_config.auth,
+        # Route overrides: merge both lists (CLI overrides first for pattern matching priority)
+        route_overrides=cli_config.route_overrides + file_config.route_overrides,
     )

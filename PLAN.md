@@ -14,7 +14,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Unit Tests | 176 |
+| Unit Tests | 202 |
 | Route Smoke Tests | 7 (per example app) |
 | Coverage | ~90% |
 | Target | 90% |
@@ -23,13 +23,14 @@
 
 | File | Tests | Description |
 |------|-------|-------------|
+| `test_auth.py` | 24 | Authentication provider tests |
+| `test_config.py` | 34 | Configuration and auth/overrides |
 | `test_discovery.py` | 9 | Route extraction tests |
 | `test_strategies.py` | 25 | Type-to-strategy mapping (enhanced) |
 | `test_plugin.py` | 13 | Plugin and pattern matching |
 | `test_runner.py` | 11 | Runner and validation |
 | `test_client.py` | 10 | ASGI test client |
 | `test_integration.py` | 17 | End-to-end tests |
-| `test_config.py` | 15 | Configuration and pyproject.toml |
 | `test_headers.py` | 21 | Header generation strategies |
 | `test_query_params.py` | 11 | Query parameter extraction |
 | `test_openapi_body_extraction.py` | 12 | OpenAPI body type extraction |
@@ -142,18 +143,34 @@ Initial development on `main`:
 
 **Released**: v0.1.0 on PyPI with Sigstore signatures.
 
-### Next Up
+### In Progress
 
-#### v0.2.0 - Authentication & Advanced Features
-- [ ] Authentication support (Bearer token, API key)
-- [ ] Per-route configuration overrides
-- [ ] `@pytest.mark.routes_skip` marker for excluding routes
-- [ ] `@pytest.mark.routes_auth` marker for auth requirements
-- [ ] Improved error messages with request/response details
+#### v0.2.0 - Authentication & Advanced Features (In Development)
+- [x] Authentication support (Bearer token, API key)
+  - [x] `BearerTokenAuth` - Bearer token with env var support (`$ENV_VAR` syntax)
+  - [x] `APIKeyAuth` - API key via header or query param with env var support
+  - [x] `CompositeAuth` - Combine multiple auth providers
+  - [x] `NoAuth` - Explicit no-authentication provider
+- [x] Per-route configuration overrides
+  - [x] `RouteOverride` dataclass for route-specific settings
+  - [x] Pattern-based matching with glob syntax
+  - [x] Override: max_examples, timeout, auth, skip, allowed_status_codes
+  - [x] `get_effective_config_for_route()` merges base + override config
+- [x] `@pytest.mark.routes_skip` marker for excluding routes
+- [x] `@pytest.mark.routes_auth` marker for auth requirements
+- [x] Improved error messages with request/response details
+  - [x] Request headers in failure output (with auth header truncation)
+  - [x] Response headers in failure output
+  - [x] Auth type indicator in failure messages
+- [x] pyproject.toml auth configuration support
+- [x] Test suite for auth providers (24 tests)
+- [x] Test suite for config with auth/overrides (43 tests)
+- [ ] Documentation updates for new features
+- [ ] Example app with authenticated routes
 
-#### Future Releases
-- **v0.3.0**: HTML report generation, coverage metrics per route
-- **v0.4.0**: Stateful testing (CRUD flows), WebSocket routes
+#### Next Up
+- **v0.3.0**: Schemathesis integration (optional), HTML report generation, coverage metrics per route
+- **v0.4.0**: Stateful testing (CRUD flows via Schemathesis links), WebSocket routes
 - **v1.0.0**: Stable release, fuzz testing mode
 
 ---
@@ -171,6 +188,7 @@ Initial development on `main`:
 9. [Implementation Phases](#implementation-phases)
 10. [API Reference](#api-reference)
 11. [Design Decisions](#design-decisions)
+12. [Schemathesis Integration](#schemathesis-integration)
 
 ---
 
@@ -536,9 +554,9 @@ src/pytest_routes/
 │   ├── __init__.py          # Validation exports
 │   └── response.py          # Response validators (Status, ContentType, JsonSchema, OpenAPI, Composite)
 │
-└── auth/                    # Auth support (Planned)
-    ├── __init__.py
-    └── providers.py         # Auth token providers
+└── auth/                    # Auth support ✅ v0.2.0
+    ├── __init__.py          # Public exports (AuthProvider, BearerTokenAuth, APIKeyAuth, etc.)
+    └── providers.py         # Auth provider implementations (BearerTokenAuth, APIKeyAuth, CompositeAuth, NoAuth)
 ```
 
 ---
@@ -752,6 +770,306 @@ bearer_token = "${API_TOKEN}"
 
 ---
 
+## Schemathesis Integration
+
+### Rationale
+
+**pytest-routes** and **Schemathesis** are complementary tools with different philosophies:
+
+| Aspect | pytest-routes | Schemathesis |
+|--------|--------------|--------------|
+| Schema Required | **No** (key differentiator) | Yes |
+| Focus | Smoke testing ("does it crash?") | Contract testing ("matches schema?") |
+| Response Validation | Status codes, basic | Full JSON Schema validation |
+| Stateful Testing | Not yet | Supported (links) |
+| Litestar Support | First-class | Via OpenAPI only |
+
+**Integration Goal**: Offer Schemathesis as an optional enhancement for users with OpenAPI schemas who want full contract validation, while preserving pytest-routes' core value proposition of schema-optional testing.
+
+### Integration Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         pytest-routes                                │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │                    Core (Schema-Optional)                      │  │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐   │  │
+│  │  │  Discovery  │  │  Generation │  │     Execution       │   │  │
+│  │  │ (Litestar,  │  │ (Hypothesis │  │   (RouteRunner)     │   │  │
+│  │  │  Starlette) │  │  strategies)│  │                     │   │  │
+│  │  └─────────────┘  └─────────────┘  └─────────────────────┘   │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+│                              │                                       │
+│                              ▼                                       │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │              Optional: Schemathesis Integration               │  │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐   │  │
+│  │  │  Contract   │  │  Stateful   │  │   Response Schema   │   │  │
+│  │  │  Validation │  │  Links      │  │   Validation        │   │  │
+│  │  └─────────────┘  └─────────────┘  └─────────────────────┘   │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Package Structure
+
+```
+src/pytest_routes/
+├── integrations/                # Optional integrations
+│   ├── __init__.py
+│   └── schemathesis.py          # Schemathesis adapter
+```
+
+### Configuration
+
+```toml
+# pyproject.toml
+[tool.pytest-routes]
+app = "myapp:app"
+
+# Schemathesis integration (optional)
+[tool.pytest-routes.schemathesis]
+enabled = true                    # Enable Schemathesis mode
+schema_path = "/openapi.json"     # Path to fetch schema from app
+validate_responses = true         # Validate response bodies against schema
+stateful = "links"                # Enable stateful link testing
+checks = [
+    "status_code_conformance",
+    "content_type_conformance",
+    "response_schema_conformance",
+]
+```
+
+### CLI Options
+
+```bash
+# Enable Schemathesis mode
+pytest --routes --routes-app myapp:app --routes-schemathesis
+
+# With specific checks
+pytest --routes --routes-schemathesis --routes-schemathesis-checks response_schema
+
+# Stateful testing
+pytest --routes --routes-schemathesis --routes-schemathesis-stateful links
+```
+
+### API Design
+
+```python
+# src/pytest_routes/integrations/schemathesis.py
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from schemathesis import GraphQLCase, APIOperation
+    from pytest_routes.discovery.base import RouteInfo
+
+class SchemathesisAdapter:
+    """Adapter for Schemathesis integration.
+
+    Provides contract testing capabilities when OpenAPI schema is available.
+    Falls back gracefully when Schemathesis is not installed.
+    """
+
+    def __init__(self, app: Any, schema_path: str = "/openapi.json") -> None:
+        self.app = app
+        self.schema_path = schema_path
+        self._schema = None
+
+    @property
+    def available(self) -> bool:
+        """Check if Schemathesis is installed."""
+        try:
+            import schemathesis
+            return True
+        except ImportError:
+            return False
+
+    def load_schema(self) -> Any:
+        """Load OpenAPI schema via Schemathesis."""
+        import schemathesis
+        self._schema = schemathesis.from_asgi(self.schema_path, app=self.app)
+        return self._schema
+
+    def create_contract_test(self, route: RouteInfo) -> Callable:
+        """Create Schemathesis-powered contract test for a route."""
+        if not self._schema:
+            self.load_schema()
+
+        # Find matching operation in schema
+        operation = self._find_operation(route)
+        if not operation:
+            return None
+
+        @self._schema.parametrize()
+        def test_contract(case):
+            response = case.call_asgi(app=self.app)
+            case.validate_response(response)
+
+        return test_contract
+
+    def get_stateful_tests(self) -> list[Callable]:
+        """Generate stateful tests using Schemathesis links."""
+        if not self._schema:
+            self.load_schema()
+
+        return self._schema.as_state_machine().TestCase
+
+
+class SchemathesisValidator:
+    """Response validator using Schemathesis schema validation."""
+
+    def __init__(self, schema: Any) -> None:
+        self.schema = schema
+
+    def validate(self, response: Any, route: RouteInfo) -> ValidationResult:
+        """Validate response against OpenAPI schema."""
+        from schemathesis.checks import (
+            status_code_conformance,
+            content_type_conformance,
+            response_schema_conformance,
+        )
+
+        errors = []
+
+        # Run Schemathesis checks
+        for check in [status_code_conformance, content_type_conformance, response_schema_conformance]:
+            try:
+                check(response, self._get_case(route))
+            except AssertionError as e:
+                errors.append(str(e))
+
+        return ValidationResult(valid=len(errors) == 0, errors=errors)
+```
+
+### Integration with Existing Validators
+
+```python
+# src/pytest_routes/validation/response.py (enhanced)
+
+class OpenAPIResponseValidator(ResponseValidator):
+    """Validate responses against OpenAPI schema.
+
+    Uses Schemathesis for schema validation when available,
+    falls back to jsonschema when not.
+    """
+
+    def __init__(self, schema: dict[str, Any]) -> None:
+        self.schema = schema
+        self._use_schemathesis = self._check_schemathesis()
+
+    def _check_schemathesis(self) -> bool:
+        try:
+            import schemathesis
+            return True
+        except ImportError:
+            return False
+
+    def validate(self, response: Any, route: RouteInfo) -> ValidationResult:
+        if self._use_schemathesis:
+            return self._validate_with_schemathesis(response, route)
+        return self._validate_with_jsonschema(response, route)
+```
+
+### Optional Dependency
+
+```toml
+# pyproject.toml
+[project.optional-dependencies]
+schemathesis = [
+    "schemathesis>=3.0",
+]
+all = [
+    "pytest-routes[litestar,fastapi,starlette,schemathesis]",
+]
+```
+
+### Usage Modes
+
+#### Mode 1: Smoke Testing Only (Default)
+```bash
+# No schema required, basic status code validation
+pytest --routes --routes-app myapp:app
+```
+
+#### Mode 2: Smoke + Schema Validation
+```bash
+# Uses Schemathesis for response schema validation
+pytest --routes --routes-app myapp:app --routes-schemathesis
+```
+
+#### Mode 3: Full Contract Testing
+```bash
+# Delegates entirely to Schemathesis for schema-first testing
+pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-mode full
+```
+
+#### Mode 4: Stateful Testing
+```bash
+# CRUD flow testing using Schemathesis links
+pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-stateful links
+```
+
+### When to Use Each Tool
+
+| Scenario | Recommended Approach |
+|----------|---------------------|
+| No OpenAPI schema | pytest-routes only |
+| Quick smoke testing | pytest-routes only |
+| Schema available, want contract validation | pytest-routes + Schemathesis |
+| Full API contract testing | Schemathesis directly or Mode 3 |
+| Stateful CRUD testing | pytest-routes + Schemathesis stateful |
+| Litestar-specific features | pytest-routes (first-class support) |
+
+### Implementation Phases
+
+#### Phase 1: Basic Integration (v0.3.0)
+- [ ] Add `schemathesis` optional dependency
+- [ ] Create `SchemathesisAdapter` class
+- [ ] Add `--routes-schemathesis` CLI flag
+- [ ] Integrate with `OpenAPIResponseValidator`
+- [ ] Documentation for integration
+
+#### Phase 2: Stateful Testing (v0.4.0)
+- [ ] Implement stateful link testing via Schemathesis
+- [ ] Add `--routes-schemathesis-stateful` CLI flag
+- [ ] CRUD flow test generation
+- [ ] State machine visualization
+
+#### Phase 3: Full Mode (v1.0.0)
+- [ ] "Full Schemathesis mode" for pure contract testing
+- [ ] Custom check registration
+- [ ] Performance benchmarks vs direct Schemathesis
+
+### Design Decisions
+
+#### 1. Optional Dependency
+**Decision**: Schemathesis is an optional extra, not a core dependency.
+
+**Rationale**:
+- Preserves pytest-routes' lightweight, schema-optional identity
+- Users without OpenAPI schemas don't pay the dependency cost
+- Clear separation of concerns
+
+#### 2. Adapter Pattern
+**Decision**: Use adapter pattern to wrap Schemathesis functionality.
+
+**Rationale**:
+- Graceful degradation when Schemathesis not installed
+- Clean interface boundary
+- Easy to test in isolation
+
+#### 3. CLI-First Configuration
+**Decision**: Enable via CLI flags, not auto-detection.
+
+**Rationale**:
+- Explicit user intent
+- Predictable behavior
+- Easy to toggle in CI/CD
+
+---
+
 ## References
 
 - **Schemathesis** - OpenAPI property testing (inspiration)
@@ -762,7 +1080,7 @@ bearer_token = "${API_TOKEN}"
 
 ---
 
-*Document Version: 1.1.0*
+*Document Version: 1.2.0*
 *Last Updated: 2025-11-30*
 *Author: Claude (Architecture Review)*
-*Status: Phase 1 Complete - Ready for Phase 2*
+*Status: Phase 1 Complete - Schemathesis Integration Planned for v0.3.0*

@@ -79,6 +79,14 @@ def pytest_configure(config: pytest.Config) -> None:
 
     config.addinivalue_line("markers", "routes: mark test as route smoke test")
     config.addinivalue_line("markers", "routes_app(app): specify ASGI app for route testing")
+    config.addinivalue_line(
+        "markers",
+        "routes_skip(reason=None): skip route smoke testing for this test or route pattern",
+    )
+    config.addinivalue_line(
+        "markers",
+        "routes_auth(provider): specify authentication provider for route testing",
+    )
 
     # Check if routes testing is enabled
     if not config.getoption("--routes", default=False):

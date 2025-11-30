@@ -18,6 +18,7 @@ from pytest_routes.generation.path import format_path, generate_path_params
 from pytest_routes.generation.strategies import strategy_for_type
 
 if TYPE_CHECKING:
+    from pytest_routes.auth.providers import AuthProvider
     from pytest_routes.config import RouteTestConfig
     from pytest_routes.discovery.base import RouteInfo
     from pytest_routes.validation.response import ResponseValidator
@@ -70,6 +71,9 @@ class RouteTestFailure:
     body: Any = None
     response_body: str | None = None
     error_type: str = "unexpected_status"
+    request_headers: dict[str, str] = field(default_factory=dict)
+    response_headers: dict[str, str] = field(default_factory=dict)
+    auth_type: str | None = None
 
     def _format_expected_codes(self) -> str:
         """Format expected codes with truncation."""
@@ -79,7 +83,7 @@ class RouteTestFailure:
 
     def _base_lines(self) -> list[str]:
         """Build base error lines."""
-        return [
+        lines = [
             "",
             "=" * 60,
             f"ROUTE TEST FAILURE: {self.method} {self.route_path}",
@@ -95,37 +99,63 @@ class RouteTestFailure:
             self._format_expected_codes(),
         ]
 
+        if self.auth_type:
+            lines.append(f"  Auth: {self.auth_type}")
+
+        return lines
+
+    def _format_params_section(self, title: str, params: dict[str, Any]) -> list[str]:
+        """Format a parameters section."""
+        if not params:
+            return []
+        lines = ["", f"{title}:"]
+        for key, value in params.items():
+            lines.append(f"  {key}: {value!r}")
+        return lines
+
+    def _format_headers_section(self, title: str, headers: dict[str, str], limit: int | None = None) -> list[str]:
+        """Format a headers section."""
+        if not headers:
+            return []
+        lines = ["", f"{title}:"]
+        items = list(headers.items())[:limit] if limit else list(headers.items())
+        for key, val in items:
+            display_val = val[:20] + "..." if key.lower() == "authorization" and len(val) > 20 else val
+            lines.append(f"  {key}: {display_val}")
+        return lines
+
+    def _format_body_section(self) -> list[str]:
+        """Format the request body section."""
+        if self.body is None:
+            return []
+        lines = ["", "Request Body (shrunk example):"]
+        try:
+            body_str = json.dumps(self.body, indent=2, default=str)
+            lines.extend(f"  {line}" for line in body_str.split("\n"))
+        except (TypeError, ValueError):
+            lines.append(f"  {self.body!r}")
+        return lines
+
+    def _format_response_body_section(self) -> list[str]:
+        """Format the response body section."""
+        if not self.response_body:
+            return []
+        lines = ["", "Response Body (truncated):"]
+        truncated = self.response_body[:_MAX_RESPONSE_BODY_DISPLAY]
+        if len(self.response_body) > _MAX_RESPONSE_BODY_DISPLAY:
+            truncated += "..."
+        lines.extend(f"  {line}" for line in truncated.split("\n"))
+        return lines
+
     def format_message(self) -> str:
         """Format a detailed error message with shrunk example."""
         lines = self._base_lines()
-
-        if self.path_params:
-            lines.extend(["", "Path Parameters (shrunk example):"])
-            for key, value in self.path_params.items():
-                lines.append(f"  {key}: {value!r}")
-
-        if self.query_params:
-            lines.extend(["", "Query Parameters (shrunk example):"])
-            for key, value in self.query_params.items():
-                lines.append(f"  {key}: {value!r}")
-
-        if self.body is not None:
-            lines.extend(["", "Request Body (shrunk example):"])
-            try:
-                body_str = json.dumps(self.body, indent=2, default=str)
-                for line in body_str.split("\n"):
-                    lines.append(f"  {line}")
-            except (TypeError, ValueError):
-                lines.append(f"  {self.body!r}")
-
-        if self.response_body:
-            lines.extend(["", "Response Body (truncated):"])
-            truncated = self.response_body[:_MAX_RESPONSE_BODY_DISPLAY]
-            if len(self.response_body) > _MAX_RESPONSE_BODY_DISPLAY:
-                truncated += "..."
-            for line in truncated.split("\n"):
-                lines.append(f"  {line}")
-
+        lines.extend(self._format_params_section("Path Parameters (shrunk example)", self.path_params))
+        lines.extend(self._format_params_section("Query Parameters (shrunk example)", self.query_params))
+        lines.extend(self._format_headers_section("Request Headers", self.request_headers))
+        lines.extend(self._format_body_section())
+        lines.extend(self._format_headers_section("Response Headers", self.response_headers, limit=10))
+        lines.extend(self._format_response_body_section())
         lines.extend(["", "=" * 60])
         return "\n".join(lines)
 
@@ -165,6 +195,26 @@ class RouteTestRunner:
                 self._validators.append(ContentTypeValidator())
             # Additional validators can be added here
 
+    def _get_auth_for_route(self, route: RouteInfo) -> AuthProvider | None:
+        """Get the authentication provider for a route.
+
+        Checks for route-specific auth override, then falls back to config auth.
+
+        Args:
+            route: The route to get auth for.
+
+        Returns:
+            AuthProvider if configured, None otherwise.
+        """
+        effective_config = self.config.get_effective_config_for_route(route.path)
+        return effective_config.get("auth")
+
+    def _get_auth_type_name(self, auth: AuthProvider | None) -> str | None:
+        """Get a descriptive name for the auth type."""
+        if auth is None:
+            return None
+        return type(auth).__name__
+
     def create_test(self, route: RouteInfo) -> Callable[[], None]:
         """Create a Hypothesis test for a route.
 
@@ -174,6 +224,18 @@ class RouteTestRunner:
         Returns:
             A test function decorated with @given.
         """
+        effective_config = self.config.get_effective_config_for_route(route.path)
+
+        if effective_config.get("skip", False):
+
+            def skipped_test() -> None:
+                import pytest
+
+                pytest.skip(f"Route {route.path} is configured to be skipped")
+
+            return skipped_test
+
+        max_examples = effective_config.get("max_examples", self.config.max_examples)
         path_strategy = generate_path_params(route.path_params, route.path)
         query_strategy = (
             st.fixed_dictionaries({name: strategy_for_type(typ) for name, typ in route.query_params.items()})
@@ -183,9 +245,10 @@ class RouteTestRunner:
         body_strategy = generate_body(route.body_type)
 
         runner = self
+        auth = self._get_auth_for_route(route)
 
         @settings(
-            max_examples=self.config.max_examples,
+            max_examples=max_examples,
             suppress_health_check=[HealthCheck.too_slow],
             deadline=None,
         )
@@ -195,57 +258,59 @@ class RouteTestRunner:
             body=body_strategy,
         )
         def test_route(path_params: dict[str, Any], query_params: dict[str, Any], body: Any) -> None:
-            # Format path with params
             formatted_path = format_path(route.path, path_params)
 
-            # Verbose: print request details before making request
+            auth_headers: dict[str, str] = {}
+            auth_query_params: dict[str, str] = {}
+            if auth:
+                auth_headers = auth.get_headers()
+                auth_query_params = auth.get_query_params()
+
+            merged_query_params = {**query_params, **auth_query_params}
+
             if runner.config.verbose:
                 _print_verbose_request(
                     method=route.methods[0],
                     path=formatted_path,
                     path_params=path_params,
-                    query_params=query_params,
+                    query_params=merged_query_params,
                     body=body,
                 )
 
-            # Execute request - use new event loop to avoid conflicts with running loops
             async def run_request() -> Any:
                 return await runner.client.request(
                     method=route.methods[0],
                     path=formatted_path,
-                    params=query_params or None,
+                    params=merged_query_params or None,
                     json=body if body is not None else None,
+                    headers=auth_headers or None,
                     timeout=runner.config.timeout_per_route,
                 )
 
             try:
-                # Try to get the running loop
                 asyncio.get_running_loop()
-                # If we're in an async context, use nest_asyncio-like approach
                 import concurrent.futures
 
                 with concurrent.futures.ThreadPoolExecutor() as executor:
                     future = executor.submit(asyncio.run, run_request())
                     response = future.result()
             except RuntimeError:
-                # No running loop, we can use asyncio.run directly
                 response = asyncio.run(run_request())
 
-            # Verbose: print response details
             if runner.config.verbose:
                 _print_verbose_response(response)
 
-            # Validate response with detailed error reporting
             runner._validate_response_detailed(
                 response=response,
                 route=route,
                 formatted_path=formatted_path,
                 path_params=path_params,
-                query_params=query_params,
+                query_params=merged_query_params,
                 body=body,
+                request_headers=auth_headers,
+                auth_type=runner._get_auth_type_name(auth),
             )
 
-        # Set test name for better reporting
         method = route.methods[0]
         test_route.__name__ = f"test_{method}_{route.path.replace('/', '_').strip('_')}"
         test_route.__doc__ = f"Smoke test for {method} {route.path}"
@@ -280,6 +345,8 @@ class RouteTestRunner:
         path_params: dict[str, Any],
         query_params: dict[str, Any],
         body: Any,
+        request_headers: dict[str, str] | None = None,
+        auth_type: str | None = None,
     ) -> None:
         """Validate response with detailed error reporting.
 
@@ -290,16 +357,20 @@ class RouteTestRunner:
             path_params: Path parameters used.
             query_params: Query parameters used.
             body: Request body used.
+            request_headers: Headers that were sent with the request.
+            auth_type: Type of authentication used.
 
         Raises:
             AssertionError: If validation fails with detailed error.
         """
-        # Get response body for error reporting
         response_body = None
         with contextlib.suppress(Exception):
             response_body = response.text
 
-        # Check for 5xx errors
+        response_headers = {}
+        with contextlib.suppress(Exception):
+            response_headers = dict(response.headers)
+
         if self.config.fail_on_5xx and response.status_code >= _SERVER_ERROR_THRESHOLD:
             failure = RouteTestFailure(
                 route_path=route.path,
@@ -312,10 +383,12 @@ class RouteTestRunner:
                 body=body,
                 response_body=response_body,
                 error_type="server_error_5xx",
+                request_headers=request_headers or {},
+                response_headers=response_headers,
+                auth_type=auth_type,
             )
             raise AssertionError(failure.format_message())
 
-        # Check allowed status codes
         if response.status_code not in self.config.allowed_status_codes:
             failure = RouteTestFailure(
                 route_path=route.path,
@@ -328,10 +401,12 @@ class RouteTestRunner:
                 body=body,
                 response_body=response_body,
                 error_type="unexpected_status",
+                request_headers=request_headers or {},
+                response_headers=response_headers,
+                auth_type=auth_type,
             )
             raise AssertionError(failure.format_message())
 
-        # Run optional response validators
         if self.config.validate_responses and self._validators:
             validation_errors = []
             for validator in self._validators:
@@ -351,8 +426,10 @@ class RouteTestRunner:
                     body=body,
                     response_body=response_body,
                     error_type="validation_error",
+                    request_headers=request_headers or {},
+                    response_headers=response_headers,
+                    auth_type=auth_type,
                 )
-                # Add validation errors to the failure message
                 base_msg = failure.format_message()
                 validation_msg = "\n\nValidation Errors:\n" + "\n".join(f"  - {err}" for err in validation_errors)
                 raise AssertionError(base_msg + validation_msg)

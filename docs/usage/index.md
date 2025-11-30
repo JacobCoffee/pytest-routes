@@ -8,6 +8,7 @@ This section covers how to use pytest-routes effectively in your projects.
 
 cli-options
 configuration
+authentication
 frameworks/index
 ```
 

@@ -404,6 +404,78 @@ verbose = true
 
 ---
 
+## Authentication Configuration
+
+pytest-routes supports authentication for testing protected routes.
+
+### Bearer Token Authentication
+
+```toml
+[tool.pytest-routes.auth]
+bearer_token = "your-secret-token"
+
+# Or use an environment variable (recommended for security)
+bearer_token = "$API_TOKEN"
+```
+
+### API Key Authentication
+
+```toml
+[tool.pytest-routes.auth]
+# API key in header (default header: X-API-Key)
+api_key = "your-api-key"
+header_name = "X-API-Key"
+
+# Or API key as query parameter
+api_key = "$API_KEY"
+query_param = "api_key"
+```
+
+### Per-Route Authentication Overrides
+
+Configure different authentication for specific route patterns:
+
+```toml
+[tool.pytest-routes]
+max_examples = 100
+
+# Global auth for most routes
+[tool.pytest-routes.auth]
+bearer_token = "$USER_TOKEN"
+
+# Override auth for admin routes
+[[tool.pytest-routes.routes]]
+pattern = "/admin/*"
+[tool.pytest-routes.routes.auth]
+bearer_token = "$ADMIN_TOKEN"
+
+# Skip internal routes entirely
+[[tool.pytest-routes.routes]]
+pattern = "/internal/*"
+skip = true
+
+# Different settings for slow endpoints
+[[tool.pytest-routes.routes]]
+pattern = "/api/reports/*"
+max_examples = 25
+timeout = 60.0
+```
+
+### Route Override Options
+
+Each route override can specify:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `pattern` | `str` | Glob pattern to match routes (required) |
+| `max_examples` | `int` | Override Hypothesis examples |
+| `timeout` | `float` | Override timeout in seconds |
+| `skip` | `bool` | Skip testing these routes |
+| `allowed_status_codes` | `list[int]` | Override allowed status codes |
+| `auth` | `object` | Override authentication |
+
+---
+
 ## Configuration Precedence
 
 Configuration is merged from multiple sources with this precedence (highest first):

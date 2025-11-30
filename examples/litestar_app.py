@@ -1,14 +1,26 @@
-"""Example Litestar application for pytest-routes demonstration."""
+"""Example Litestar application for pytest-routes demonstration.
+
+Includes both public and authenticated routes to demonstrate auth features.
+"""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from litestar import Controller, Litestar, delete, get, patch, post
+from litestar.exceptions import NotAuthorizedException
 
 if TYPE_CHECKING:
-    pass
+    from litestar.connection import ASGIConnection
+    from litestar.handlers import BaseRouteHandler
+
+
+def require_auth(connection: ASGIConnection[Any, Any, Any], _: BaseRouteHandler) -> None:
+    """Guard that requires a valid Authorization header."""
+    auth_header = connection.headers.get("Authorization", "")
+    if not auth_header.startswith("Bearer "):
+        raise NotAuthorizedException("Authentication required")
 
 
 @dataclass
@@ -116,7 +128,19 @@ async def get_item(item_id: int, q: str | None = None) -> dict:
     return {"item_id": item_id, "query": q}
 
 
+@get("/protected/profile", guards=[require_auth])
+async def get_profile() -> dict:
+    """Protected endpoint requiring Bearer token auth."""
+    return {"message": "Authenticated!", "user": "demo-user"}
+
+
+@get("/protected/data", guards=[require_auth])
+async def get_protected_data() -> dict:
+    """Another protected endpoint."""
+    return {"data": [1, 2, 3], "protected": True}
+
+
 app = Litestar(
-    route_handlers=[root, health, UsersController, get_item],
+    route_handlers=[root, health, UsersController, get_item, get_profile, get_protected_data],
     debug=True,
 )
