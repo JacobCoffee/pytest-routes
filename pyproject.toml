@@ -241,6 +241,7 @@ filterwarnings = [
     "ignore::PendingDeprecationWarning",
     "ignore::pytest.PytestUnraisableExceptionWarning",
     "ignore::RuntimeWarning",
+    "ignore:cannot collect 'test_endpoint':pytest.PytestCollectionWarning",
 ]
 markers = [
     "unit: Unit tests (fast, isolated)",

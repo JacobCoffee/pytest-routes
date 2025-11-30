@@ -627,7 +627,7 @@ class StatefulTestItem(pytest.Item):
 
     Attributes:
         runner: The StatefulTestRunner instance for executing stateful tests.
-        config: The StatefulTestConfig with test parameters.
+        stateful_config: The StatefulTestConfig with test parameters.
     """
 
     def __init__(
@@ -635,7 +635,6 @@ class StatefulTestItem(pytest.Item):
         name: str,
         parent: pytest.Collector,
         runner: Any,
-        config: Any,
     ) -> None:
         """Initialize a StatefulTestItem.
 
@@ -643,11 +642,10 @@ class StatefulTestItem(pytest.Item):
             name: The test item name.
             parent: The parent pytest Collector.
             runner: The StatefulTestRunner instance.
-            config: The StatefulTestConfig instance.
         """
         super().__init__(name, parent)
         self.runner = runner
-        self.config = config
+        self.stateful_config = runner.config if runner else None
 
     def runtest(self) -> None:
         """Execute the stateful test.
@@ -903,7 +901,6 @@ def pytest_collection_modifyitems(session: pytest.Session, config: pytest.Config
                     session,
                     name="test_stateful_api_workflows",
                     runner=stateful_runner,
-                    config=_route_config.stateful,
                 )
                 items.append(stateful_item)
         except ImportError as e:
