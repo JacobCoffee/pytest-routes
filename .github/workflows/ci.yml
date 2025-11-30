@@ -74,13 +74,13 @@ jobs:
         run: uv sync --group lint
 
       - name: Run ruff check
-        uses: astral-sh/ruff-action@f14634c415d3e022acee0a68c17f8acdf3e92599 # v3.3.1
+        uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1 # v3.5.1
         with:
           args: check
           version: "0.9.0"
 
       - name: Run ruff format check
-        uses: astral-sh/ruff-action@f14634c415d3e022acee0a68c17f8acdf3e92599 # v3.3.1
+        uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1 # v3.5.1
         with:
           args: format --check
           version: "0.9.0"
