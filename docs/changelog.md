@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 ---
+## [0.3.2](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.0..v0.3.2) - 2025-11-30
+
+### Documentation
+
+- regenerate changelog for v0.3.0 - ([d7bde26](https://github.com/JacobCoffee/pytest-routes/commit/d7bde2662261af89d7c7158b57fd5b1d9668ea95)) - github-actions[bot]
+- add v0.3.0 documentation for schemathesis and reports - ([012248b](https://github.com/JacobCoffee/pytest-routes/commit/012248b7470921a8de770d7d379fb01e0c0ff6e6)) - Jacob Coffee
+- convert install commands to sphinx-tabs, remove redundant TOCs - ([bcf97c8](https://github.com/JacobCoffee/pytest-routes/commit/bcf97c81e32798d5a3b0aa65700d943190b7e297)) - Jacob Coffee
+
+### Miscellaneous Chores
+
+- bump version to 0.3.1 - ([8334530](https://github.com/JacobCoffee/pytest-routes/commit/833453032264334e6498259c9b53a9963a475f08)) - Jacob Coffee
+- bump version to 0.3.2 - ([c82c366](https://github.com/JacobCoffee/pytest-routes/commit/c82c366e4032400292b85d7f34ff1d17e60a1424)) - Jacob Coffee
+
+---
 ## [0.3.0](https://github.com/JacobCoffee/pytest-routes/compare/v0.2.3..v0.3.0) - 2025-11-30
 
 ### Bug Fixes
