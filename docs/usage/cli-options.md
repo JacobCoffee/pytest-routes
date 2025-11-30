@@ -1,13 +1,8 @@
 # CLI Options Reference
 
+```{rst-class} lead
 pytest-routes adds several command-line options to pytest for controlling smoke test behavior.
-
-```{contents}
-:local:
-:depth: 2
 ```
-
----
 
 ## Quick Reference
 
@@ -57,8 +52,6 @@ The following table summarizes all available CLI options:
   - `pytest-routes Report`
   - Custom title for HTML report
 ```
-
----
 
 ## Core Options
 
@@ -119,8 +112,6 @@ If you don't specify `--routes-app`, pytest-routes looks for an `app` fixture in
 your `conftest.py`. This is useful for applications that require setup before use.
 ```
 
----
-
 ## Test Intensity Options
 
 ### `--routes-max-examples`
@@ -167,8 +158,6 @@ pytest --routes --routes-app myapp:app --routes-max-examples 500
 Higher values significantly increase test runtime. For an app with 50 routes,
 `--routes-max-examples 500` generates 25,000 total test cases.
 ```
-
----
 
 ## Route Filtering Options
 
@@ -235,8 +224,6 @@ pytest --routes --routes-app myapp:app \
     --routes-exclude "/api/internal/*"
 ```
 
----
-
 ## HTTP Method Options
 
 ### `--routes-methods`
@@ -277,8 +264,6 @@ pytest --routes --routes-app myapp:app --routes-methods "GET,HEAD,POST,PUT,PATCH
   - Test metadata endpoints
 ```
 
----
-
 ## Reproducibility Options
 
 ### `--routes-seed`
@@ -301,7 +286,7 @@ pytest --routes --routes-app myapp:app --routes-seed $GITHUB_RUN_ID
 
 When a test fails, pytest-routes reports the seed used:
 
-```
+```text
 FAILED test_routes[GET /users/{id}] - AssertionError: Status 500
   Seed: 98765
   Input: {"id": 42, "include_deleted": true}
@@ -314,8 +299,6 @@ To reproduce:
 In CI/CD, use the run ID or commit SHA as the seed. This gives you reproducibility
 within a run while still getting varied test inputs across different runs.
 ```
-
----
 
 ## Combining Options
 
@@ -331,8 +314,6 @@ pytest --routes \
     --routes-methods "GET,POST" \
     --routes-seed 12345
 ```
-
----
 
 ## Configuration File Alternative
 
@@ -351,8 +332,6 @@ seed = 12345
 ```
 
 See [Configuration](configuration.md) for complete details.
-
----
 
 ## Usage Examples
 
@@ -414,8 +393,6 @@ pytest --routes \
     --routes-exclude "/admin/*"
 ```
 
----
-
 ## Schemathesis Integration Options
 
 ### `--routes-schemathesis`
@@ -433,9 +410,21 @@ pytest --routes --routes-app myapp:app --routes-schemathesis
 pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-schema-path /api/openapi.json
 ```
 
-```{note}
-Schemathesis is an optional dependency. Install with: `pip install pytest-routes[schemathesis]`
+::::{tab-set}
+
+:::{tab-item} uv (recommended)
+```bash
+uv add "pytest-routes[schemathesis]"
 ```
+:::
+
+:::{tab-item} pip
+```bash
+pip install "pytest-routes[schemathesis]"
+```
+:::
+
+::::
 
 **Schemathesis validates:**
 - Status code conformance (response codes match schema)
@@ -458,8 +447,6 @@ pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathes
 # FastAPI default
 pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathesis-schema-path /openapi.json
 ```
-
----
 
 ## Report Generation Options
 
@@ -534,8 +521,6 @@ Custom title for the HTML report.
 pytest --routes --routes-app myapp:app --routes-report report.html --routes-report-title "Production API Smoke Tests - v2.0"
 ```
 
----
-
 ## Report Configuration in pyproject.toml
 
 Reports can also be configured in `pyproject.toml`:
@@ -551,4 +536,4 @@ include_timing = true
 theme = "light"  # or "dark"
 ```
 
-See [Configuration](configuration.md) for complete details
+See [Configuration](configuration.md) for complete details.

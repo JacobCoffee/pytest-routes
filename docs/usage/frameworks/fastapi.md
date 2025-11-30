@@ -5,17 +5,9 @@
 [FastAPI](https://fastapi.tiangolo.com/) is built on Starlette, so pytest-routes
 uses the Starlette extractor with FastAPI-specific enhancements.
 
----
-
 ## Installation
 
 ::::{tab-set}
-
-:::{tab-item} uv (recommended)
-```bash
-uv add "pytest-routes[fastapi]"
-```
-:::
 
 :::{tab-item} pip
 ```bash
@@ -23,9 +15,13 @@ pip install "pytest-routes[fastapi]"
 ```
 :::
 
-::::
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[fastapi]"
+```
+:::
 
----
+::::
 
 ## Features
 
@@ -34,8 +30,6 @@ pip install "pytest-routes[fastapi]"
 - Pydantic model body extraction with full validation
 - Automatic type inference from annotations
 - Response model extraction for validation
-
----
 
 ## Complete Example
 
@@ -103,8 +97,6 @@ async def delete_user(user_id: Annotated[UUID, Path()]) -> None:
     pass
 ```
 
----
-
 ## Running Tests
 
 ```bash
@@ -117,8 +109,6 @@ pytest --routes --routes-app myapp.main:app --routes-max-examples 200
 # Test only GET endpoints (safe for real data)
 pytest --routes --routes-app myapp.main:app --routes-methods GET
 ```
-
----
 
 ## Tips
 
@@ -136,8 +126,6 @@ for better documentation and constraint extraction.
 **Dependency injection is not automatically invoked.** For routes with complex
 dependencies (database sessions, auth), configure overrides in your test fixture.
 ```
-
----
 
 ## Handling Dependencies
 

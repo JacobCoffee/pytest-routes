@@ -5,17 +5,9 @@
 [Litestar](https://litestar.dev/) is the primary supported framework with full
 type extraction from route handlers.
 
----
-
 ## Installation
 
 ::::{tab-set}
-
-:::{tab-item} uv (recommended)
-```bash
-uv add "pytest-routes[litestar]"
-```
-:::
 
 :::{tab-item} pip
 ```bash
@@ -23,9 +15,13 @@ pip install "pytest-routes[litestar]"
 ```
 :::
 
-::::
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[litestar]"
+```
+:::
 
----
+::::
 
 ## Features
 
@@ -34,8 +30,6 @@ pip install "pytest-routes[litestar]"
 - Request body type extraction (Pydantic models, dataclasses, TypedDicts)
 - Handler metadata (tags, deprecated, description)
 - OpenAPI schema fallback for edge cases
-
----
 
 ## Complete Example
 
@@ -106,8 +100,6 @@ class UserController(Controller):
 app = Litestar(route_handlers=[UserController], debug=True)
 ```
 
----
-
 ## Running Tests
 
 ```bash
@@ -121,8 +113,6 @@ pytest --routes --routes-app myapp.main:app -v
 pytest --routes --routes-app myapp.main:app --routes-include "/users/*"
 ```
 
----
-
 ## What pytest-routes Extracts
 
 For the example above, pytest-routes discovers:
@@ -134,8 +124,6 @@ POST /users/              body: CreateUser
 PUT  /users/{user_id}     params: user_id(UUID), body: UpdateUser
 DELETE /users/{user_id}   params: user_id(UUID)
 ```
-
----
 
 ## Tips
 
@@ -153,8 +141,6 @@ The type hint after `:` is used for strategy selection.
 **Guards and middleware** are executed during smoke tests. If you have
 authentication guards, either exclude those routes or configure test auth.
 ```
-
----
 
 ## Handling Authentication
 

@@ -6,8 +6,6 @@ Get up and running with pytest-routes in a few minutes.
 
 This guide walks you through installing pytest-routes and running your first smoke test.
 
----
-
 ## Requirements
 
 ```{list-table}
@@ -23,8 +21,6 @@ This guide walks you through installing pytest-routes and running your first smo
 * - ASGI Application
   - Litestar, FastAPI, or Starlette
 ```
-
----
 
 ## Installation
 
@@ -55,55 +51,84 @@ Install with your framework of choice for optimal type extraction:
 ::::{tab-set}
 
 :::{tab-item} Litestar
-```bash
-# Using uv (recommended)
-uv add "pytest-routes[litestar]"
+::::{tab-set}
 
-# Using pip
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[litestar]"
+```
+:::
+
+:::{tab-item} pip
+```bash
 pip install "pytest-routes[litestar]"
 ```
 :::
 
-:::{tab-item} FastAPI
-```bash
-# Using uv (recommended)
-uv add "pytest-routes[fastapi]"
+::::
+:::
 
-# Using pip
+:::{tab-item} FastAPI
+::::{tab-set}
+
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[fastapi]"
+```
+:::
+
+:::{tab-item} pip
+```bash
 pip install "pytest-routes[fastapi]"
 ```
 :::
 
-:::{tab-item} Starlette
-```bash
-# Using uv (recommended)
-uv add "pytest-routes[starlette]"
+::::
+:::
 
-# Using pip
+:::{tab-item} Starlette
+::::{tab-set}
+
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[starlette]"
+```
+:::
+
+:::{tab-item} pip
+```bash
 pip install "pytest-routes[starlette]"
 ```
 :::
 
-:::{tab-item} All Extras
-```bash
-# Using uv (recommended)
-uv add "pytest-routes[all]"
+::::
+:::
 
-# Using pip
+:::{tab-item} All Extras
+::::{tab-set}
+
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[all]"
+```
+:::
+
+:::{tab-item} pip
+```bash
 pip install "pytest-routes[all]"
 ```
 :::
 
 ::::
+:::
 
----
+::::
 
 ## Verify Installation
 
 After installation, verify that pytest-routes is installed correctly:
 
 ```bash
-# Check that the plugin is registered
 pytest --help | grep routes
 ```
 
@@ -168,7 +193,6 @@ def app():
 ```
 
 ```bash
-# App is automatically discovered from the fixture
 pytest --routes
 ```
 
@@ -252,8 +276,6 @@ methods = ["GET", "POST"]
 ```
 
 See the [Configuration Guide](usage/configuration.md) for all options.
-
----
 
 ## Next Steps
 

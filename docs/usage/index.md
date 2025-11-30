@@ -14,8 +14,6 @@ reports
 frameworks/index
 ```
 
----
-
 ## Overview
 
 pytest-routes provides property-based smoke testing for ASGI applications. It automatically:
@@ -29,8 +27,6 @@ pytest-routes provides property-based smoke testing for ASGI applications. It au
 New to pytest-routes? Start with the [Getting Started](../getting-started.md) guide,
 then return here for in-depth usage patterns.
 ```
-
----
 
 ## How It Works
 
@@ -103,15 +99,13 @@ When a test fails, Hypothesis automatically "shrinks" the input to find the
 **minimal example** that still causes the failure. This makes debugging significantly
 easier by removing irrelevant complexity from the failing case.
 
-```
+```text
 # Before shrinking: Complex failing input
 {"name": "aB7x_qR2mN...", "email": "test1234567@...", "age": 98234}
 
 # After shrinking: Minimal failing input
 {"name": "", "email": "x", "age": -1}
 ```
-
----
 
 ## Common Patterns
 
@@ -171,7 +165,7 @@ pytest --routes --routes-app myapp:app --routes-seed $GITHUB_RUN_ID
 When a test fails, pytest-routes reports the seed used, allowing you to reproduce
 the exact failure:
 
-```
+```text
 FAILED test_routes[GET /users/{id}] - AssertionError: Status 500
   Seed: 98765  # <-- Use this to reproduce
   Input: {"id": 42}
@@ -196,8 +190,6 @@ pytest --routes --routes-app myapp:app --routes-max-examples 500
 Start with fewer examples during development (`--routes-max-examples 10`) for fast
 feedback, then increase for CI/CD pipelines where thoroughness matters more than speed.
 ```
-
----
 
 ## Custom Strategies
 
@@ -238,8 +230,6 @@ Custom strategies are especially useful for:
 
 See the [API Reference](../api/index.rst) for the full strategy registration API.
 
----
-
 ## Response Validation
 
 pytest-routes supports multiple validation strategies that can be combined:
@@ -277,8 +267,6 @@ validator = CompositeValidator([
 | `ContentTypeValidator` | Validates response Content-Type header |
 | `JsonSchemaValidator` | Validates response body against JSON schema |
 | `OpenAPIValidator` | Validates response against OpenAPI specification |
-
----
 
 ## Integration with CI/CD
 
@@ -331,8 +319,6 @@ fail_on_5xx = true
 allowed_status_codes = [200, 201, 204, 400, 401, 403, 404, 422]
 exclude = ["/health", "/metrics"]
 ```
-
----
 
 ## Next Steps
 

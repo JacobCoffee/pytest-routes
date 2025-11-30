@@ -4,25 +4,22 @@ pytest-routes integrates with [Schemathesis](https://schemathesis.readthedocs.io
 OpenAPI contract testing capabilities. This allows you to validate that your API responses
 conform to your OpenAPI schema specification.
 
-```{contents}
-:local:
-:depth: 2
-```
-
----
-
 ## Installation
 
 Schemathesis is an optional dependency. Install it with:
 
+::::{tab-set}
+:::{tab-item} pip
 ```bash
 pip install pytest-routes[schemathesis]
-
-# Or with uv
+```
+:::
+:::{tab-item} uv
+```bash
 uv add "pytest-routes[schemathesis]"
 ```
-
----
+:::
+::::
 
 ## Quick Start
 
@@ -33,11 +30,10 @@ pytest --routes --routes-app myapp:app --routes-schemathesis
 ```
 
 This will:
+
 1. Load your OpenAPI schema from `/openapi.json` (configurable)
 2. Validate all responses against the schema
 3. Report any conformance violations
-
----
 
 ## Configuration
 
@@ -62,8 +58,6 @@ checks = [
     "response_schema_conformance",
 ]
 ```
-
----
 
 ## What Gets Validated
 
@@ -133,8 +127,6 @@ components:
 
 If a response is missing the required `id` field, the validation fails.
 
----
-
 ## Framework-Specific Schema Paths
 
 Different frameworks expose OpenAPI schemas at different paths:
@@ -159,8 +151,6 @@ pytest --routes --routes-app myapp:app --routes-schemathesis \
 
 Starlette doesn't have built-in OpenAPI support. You'll need to use a library like
 `starlette-openapi` and configure the schema path accordingly.
-
----
 
 ## Programmatic Usage
 
@@ -195,13 +185,11 @@ if adapter.available:
         print(f"Validation errors: {result.errors}")
 ```
 
----
-
 ## Troubleshooting
 
 ### Schema Not Found
 
-```
+```text
 RuntimeError: Failed to load OpenAPI schema from /openapi.json
 ```
 
@@ -210,15 +198,24 @@ Check your framework's documentation for how to enable OpenAPI schema generation
 
 ### Schemathesis Not Installed
 
-```
+```text
 ImportError: Schemathesis is not installed. Install with: pip install pytest-routes[schemathesis]
 ```
 
 **Solution:** Install the Schemathesis optional dependency:
 
+::::{tab-set}
+:::{tab-item} pip
 ```bash
 pip install pytest-routes[schemathesis]
 ```
+:::
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[schemathesis]"
+```
+:::
+::::
 
 ### Validation Failures
 
@@ -229,8 +226,6 @@ your OpenAPI schema. Common causes:
 2. **Wrong types:** Field types don't match schema (e.g., string instead of integer)
 3. **Undocumented status codes:** Response status code not in schema
 4. **Wrong content type:** Response Content-Type doesn't match schema
-
----
 
 ## Best Practices
 
@@ -245,8 +240,6 @@ your OpenAPI schema. Common causes:
 
 4. **Start with basic checks** - Begin with `status_code_conformance` and add more
    checks as your schema matures.
-
----
 
 ## See Also
 

@@ -2,13 +2,6 @@
 
 pytest-routes provides flexible authentication support for testing protected API endpoints.
 
-```{contents}
-:local:
-:depth: 2
-```
-
----
-
 ## Overview
 
 Many APIs require authentication. pytest-routes supports:
@@ -17,8 +10,6 @@ Many APIs require authentication. pytest-routes supports:
 - **API Key Authentication** - Header or query parameter-based keys
 - **Composite Authentication** - Multiple auth methods combined
 - **Per-Route Overrides** - Different auth for different routes
-
----
 
 ## Quick Start
 
@@ -30,10 +21,21 @@ Many APIs require authentication. pytest-routes supports:
 bearer_token = "$API_TOKEN"  # Read from environment variable
 ```
 
+::::{tab-set}
+
+:::{tab-item} uv (recommended)
 ```bash
-# Set the environment variable and run tests
+API_TOKEN=your-secret-token uv run pytest --routes --routes-app myapp:app
+```
+:::
+
+:::{tab-item} pip
+```bash
 API_TOKEN=your-secret-token pytest --routes --routes-app myapp:app
 ```
+:::
+
+::::
 
 ### API Key
 
@@ -43,8 +45,6 @@ API_TOKEN=your-secret-token pytest --routes --routes-app myapp:app
 api_key = "$API_KEY"
 header_name = "X-API-Key"
 ```
-
----
 
 ## Authentication Providers
 
@@ -145,8 +145,6 @@ from pytest_routes import RouteTestConfig, NoAuth
 config = RouteTestConfig(auth=NoAuth())
 ```
 
----
-
 ## Environment Variables
 
 Authentication tokens should **never** be hardcoded. Use environment variables:
@@ -160,15 +158,16 @@ The `$` prefix tells pytest-routes to read from the environment.
 
 **Example workflow:**
 
+::::{tab-set}
+
+:::{tab-item} Local Development
 ```bash
-# Local development
 export API_TOKEN=$(vault read -field=token secret/api)
 pytest --routes
-
-# CI/CD (GitHub Actions)
-# Use repository secrets
 ```
+:::
 
+:::{tab-item} GitHub Actions
 ```yaml
 # .github/workflows/test.yml
 env:
@@ -177,8 +176,9 @@ env:
 steps:
   - run: pytest --routes --routes-app myapp:app
 ```
+:::
 
----
+::::
 
 ## Per-Route Overrides
 
@@ -214,8 +214,6 @@ skip = true
 2. Global `[tool.pytest-routes.auth]`
 3. No authentication
 
----
-
 ## Pytest Markers
 
 Use markers for test-level authentication control:
@@ -244,8 +242,6 @@ from pytest_routes import BearerTokenAuth
 def test_special_endpoint():
     ...
 ```
-
----
 
 ## Example: Testing an Authenticated API
 
@@ -301,13 +297,25 @@ pattern = "/public*"
 
 **Running Tests:**
 
+::::{tab-set}
+
+:::{tab-item} uv (recommended)
+```bash
+export USER_TOKEN=user-jwt-token
+export ADMIN_TOKEN=admin-jwt-token
+uv run pytest --routes -v
+```
+:::
+
+:::{tab-item} pip
 ```bash
 export USER_TOKEN=user-jwt-token
 export ADMIN_TOKEN=admin-jwt-token
 pytest --routes -v
 ```
+:::
 
----
+::::
 
 ## Troubleshooting
 
@@ -346,8 +354,6 @@ pattern = "/api/v1/*"  # Matches /api/v1/users
 [[tool.pytest-routes.routes]]
 pattern = "/api/*"     # Would NOT match /api/v1/users if above matches first
 ```
-
----
 
 ## API Reference
 

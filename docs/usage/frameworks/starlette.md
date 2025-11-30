@@ -5,17 +5,9 @@
 [Starlette](https://www.starlette.io/) is the base ASGI framework that FastAPI
 builds upon.
 
----
-
 ## Installation
 
 ::::{tab-set}
-
-:::{tab-item} uv (recommended)
-```bash
-uv add "pytest-routes[starlette]"
-```
-:::
 
 :::{tab-item} pip
 ```bash
@@ -23,9 +15,13 @@ pip install "pytest-routes[starlette]"
 ```
 :::
 
-::::
+:::{tab-item} uv
+```bash
+uv add "pytest-routes[starlette]"
+```
+:::
 
----
+::::
 
 ## Features
 
@@ -33,8 +29,6 @@ pip install "pytest-routes[starlette]"
 - Path parameter extraction from URL patterns (`:int`, `:str`, `:uuid`, etc.)
 - Support for `Route`, `Mount`, and `Router` classes
 - Endpoint function introspection
-
----
 
 ## Complete Example
 
@@ -83,8 +77,6 @@ routes = [
 app = Starlette(routes=routes, debug=True)
 ```
 
----
-
 ## Running Tests
 
 ```bash
@@ -94,8 +86,6 @@ pytest --routes --routes-app myapp.main:app
 # Include the root route
 pytest --routes --routes-app myapp.main:app --routes-include "/*,/api/*"
 ```
-
----
 
 ## Tips
 
@@ -113,8 +103,6 @@ with the mount path prefix.
 **Query params have limited type info.** Starlette doesn't expose query
 parameter types, so pytest-routes generates strings by default.
 ```
-
----
 
 ## Available Path Converters
 

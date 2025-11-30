@@ -3,13 +3,6 @@
 pytest-routes can be configured via command-line options or `pyproject.toml`.
 CLI options always take precedence over file configuration.
 
-```{contents}
-:local:
-:depth: 2
-```
-
----
-
 ## Complete Configuration Example
 
 Here's a complete `pyproject.toml` configuration showing all available options:
@@ -87,8 +80,6 @@ response_validators = ["status_code"]
 verbose = false
 ```
 
----
-
 ## Configuration Options Reference
 
 ### Application Settings
@@ -146,8 +137,6 @@ framework = "litestar"
 Use explicit framework hints when auto-detection fails or when using
 a framework that wraps another (e.g., a custom framework built on Starlette).
 ```
-
----
 
 ### Test Execution Settings
 
@@ -218,8 +207,6 @@ For CI/CD, pass the seed via CLI using the run ID: `--routes-seed $GITHUB_RUN_ID
 This gives reproducibility within a run while varying inputs across runs.
 ```
 
----
-
 ### Route Filtering Settings
 
 #### `include`
@@ -288,8 +275,6 @@ methods = ["POST", "PUT", "PATCH", "DELETE"]
 # Include all methods
 methods = ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 ```
-
----
 
 ### Response Validation Settings
 
@@ -383,8 +368,6 @@ response_validators = ["status_code", "content_type"]
   - Validates response against OpenAPI specification
 ```
 
----
-
 ### Output Settings
 
 #### `verbose`
@@ -401,8 +384,6 @@ Default
 [tool.pytest-routes]
 verbose = true
 ```
-
----
 
 ## Authentication Configuration
 
@@ -474,8 +455,6 @@ Each route override can specify:
 | `allowed_status_codes` | `list[int]` | Override allowed status codes |
 | `auth` | `object` | Override authentication |
 
----
-
 ## Configuration Precedence
 
 Configuration is merged from multiple sources with this precedence (highest first):
@@ -499,8 +478,6 @@ pytest --routes --routes-app myapp:app --routes-max-examples 100
 
 # Result: max_examples=100, exclude=["/health", "/metrics"]
 ```
-
----
 
 ## Environment Variables
 
@@ -532,8 +509,6 @@ steps:
         --routes-max-examples $SMOKE_TEST_EXAMPLES \
         --routes-seed ${{ github.run_id }}
 ```
-
----
 
 ## Configuration Profiles
 
@@ -592,8 +567,6 @@ methods = ["GET", "HEAD"]
 max_examples = 50
 exclude = ["/admin/*", "/internal/*"]
 ```
-
----
 
 ## Fixture-Based Configuration
 

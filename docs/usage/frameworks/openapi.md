@@ -4,8 +4,6 @@ If framework-specific extraction fails, pytest-routes falls back to OpenAPI
 schema extraction. This works with any ASGI framework that exposes an OpenAPI
 schema.
 
----
-
 ## Features
 
 - Schema-based route discovery
@@ -13,15 +11,11 @@ schema.
 - Response schema validation (optional)
 - Support for `$ref` schema references
 
----
-
 ## Usage
 
 OpenAPI extraction is automatic when:
 1. Framework-specific extraction fails or is unavailable
 2. The app exposes an OpenAPI schema at `/openapi.json`, `/openapi.yaml`, or similar
-
----
 
 ## Manual Configuration
 
@@ -31,8 +25,6 @@ OpenAPI extraction is automatic when:
 framework = "openapi"
 openapi_path = "/api/openapi.json"  # Custom schema path
 ```
-
----
 
 ## When to Use OpenAPI Extraction
 

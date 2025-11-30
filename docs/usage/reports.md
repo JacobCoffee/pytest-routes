@@ -4,13 +4,6 @@ pytest-routes can generate comprehensive HTML and JSON reports with detailed met
 about your route smoke tests. Reports include test results, coverage statistics,
 and performance timing data.
 
-```{contents}
-:local:
-:depth: 2
-```
-
----
-
 ## Quick Start
 
 Generate an HTML report with the `--routes-report` flag:
@@ -24,8 +17,6 @@ This creates a standalone HTML file with:
 - Route-by-route results
 - Performance metrics per route
 - Coverage statistics
-
----
 
 ## Report Types
 
@@ -105,8 +96,6 @@ pytest --routes --routes-app myapp:app \
 }
 ```
 
----
-
 ## Configuration
 
 ### CLI Options
@@ -129,8 +118,6 @@ include_coverage = true
 include_timing = true
 theme = "light"  # or "dark"
 ```
-
----
 
 ## Metrics Collected
 
@@ -175,8 +162,6 @@ Route coverage statistics:
 | `tested_routes` | Routes that were tested |
 | `untested_routes` | Routes that were not tested |
 | `coverage_percentage` | Percentage of routes tested |
-
----
 
 ## Programmatic Usage
 
@@ -229,8 +214,6 @@ generator.write_report("report.html", test_metrics, coverage)
 generator.write_json("results.json", test_metrics, coverage)
 ```
 
----
-
 ## CI/CD Integration
 
 ### GitHub Actions
@@ -277,8 +260,6 @@ smoke_tests:
       junit: pytest-routes-results.json
 ```
 
----
-
 ## Customization
 
 ### Custom Report Title
@@ -307,8 +288,6 @@ Control which metrics are included:
 include_coverage = true   # Include coverage statistics
 include_timing = true     # Include performance timing
 ```
-
----
 
 ## See Also
 

@@ -12,8 +12,6 @@ starlette
 openapi
 ```
 
----
-
 ## Framework Comparison
 
 ```{list-table} Feature Support by Framework
@@ -50,8 +48,6 @@ openapi
   - Fully supported
 ```
 
----
-
 ## Framework Auto-Detection
 
 pytest-routes automatically detects your framework based on the application class:
@@ -79,8 +75,6 @@ Override auto-detection when needed:
 # Force a specific extractor
 framework = "litestar"  # or "fastapi", "starlette", "openapi"
 ```
-
----
 
 ## Custom Extractors
 
@@ -115,8 +109,6 @@ class MyFrameworkExtractor(RouteExtractor):
 
         return routes
 ```
-
----
 
 ## Troubleshooting
 
