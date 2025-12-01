@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 ---
+## [0.4.0](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.4..v0.4.0) - 2025-12-01
+
+### Documentation
+
+- regenerate changelog for v0.3.4 - ([1b9b679](https://github.com/JacobCoffee/pytest-routes/commit/1b9b6790f1f4b49b5699c0c1c5c0565520d5b84c)) - github-actions[bot]
+
+### Features
+
+- add stateful testing and WebSocket support (v0.4.0) (#3) - ([ba9c704](https://github.com/JacobCoffee/pytest-routes/commit/ba9c7043650f3bc00aaa618ca6728aa0e8ec10f8)) - Jacob Coffee
+
+### Miscellaneous Chores
+
+- **(deps)** Bump the actions group with 10 updates (#1) - ([baac7d5](https://github.com/JacobCoffee/pytest-routes/commit/baac7d5adeb654684b12e1a5f7a2e0ad9cf78686)) - dependabot[bot]
+
+---
 ## [0.3.4](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.3..v0.3.4) - 2025-11-30
 
 ### Documentation
