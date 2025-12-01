@@ -655,6 +655,7 @@ class StatefulTestItem(pytest.Item):
 
         Raises:
             StatefulTestError: If any stateful test sequences fail.
+            pytest.skip.Exception: If the app doesn't have OpenAPI schema.
         """
         import asyncio
 
@@ -662,14 +663,19 @@ class StatefulTestItem(pytest.Item):
             return await self.runner.run_stateful_tests()
 
         try:
-            loop = asyncio.get_running_loop()
-            import concurrent.futures
+            try:
+                loop = asyncio.get_running_loop()
+                import concurrent.futures
 
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                future = executor.submit(asyncio.run, run_test())
-                results = future.result()
-        except RuntimeError:
-            results = asyncio.run(run_test())
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    future = executor.submit(asyncio.run, run_test())
+                    results = future.result()
+            except RuntimeError:
+                results = asyncio.run(run_test())
+        except RuntimeError as e:
+            if "Failed to load schema" in str(e):
+                pytest.skip(f"Stateful testing requires OpenAPI schema: {e}")
+            raise
 
         failures = [r for r in results if not r.passed]
         if failures:
