@@ -735,7 +735,10 @@ to test API workflows and sequences.</p>
 if any test sequences fail.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pytest_routes.plugin.StatefulTestError" title="pytest_routes.plugin.StatefulTestError"><strong>StatefulTestError</strong></a> – If any stateful test sequences fail.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#pytest_routes.plugin.StatefulTestError" title="pytest_routes.plugin.StatefulTestError"><strong>StatefulTestError</strong></a> – If any stateful test sequences fail.</p></li>
+<li><p><a class="reference external" href="https://docs.pytest.org/en/stable/reference/reference.html#pytest.skip.Exception" title="(in pytest v9.0.1)"><strong>pytest.skip.Exception</strong></a> – If the app doesn’t have OpenAPI schema.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
