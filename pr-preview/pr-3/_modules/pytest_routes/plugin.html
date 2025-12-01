@@ -857,7 +857,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="664">
 </span><span data-line="665">        <span class="k">try</span><span class="p">:</span>
 </span><span data-line="666">            <span class="k">try</span><span class="p">:</span>
-</span><span data-line="667">                <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_running_loop</span><span class="p">()</span>
+</span><span data-line="667">                <span class="n">asyncio</span><span class="o">.</span><span class="n">get_running_loop</span><span class="p">()</span>
 </span><span data-line="668">                <span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
 </span><span data-line="669">
 </span><span data-line="670">                <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
@@ -972,7 +972,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="761">            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">test_route_async</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">)</span>
 </span><span data-line="762">
 </span><span data-line="763">        <span class="k">try</span><span class="p">:</span>
-</span><span data-line="764">            <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_running_loop</span><span class="p">()</span>
+</span><span data-line="764">            <span class="n">asyncio</span><span class="o">.</span><span class="n">get_running_loop</span><span class="p">()</span>
 </span><span data-line="765">            <span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
 </span><span data-line="766">
 </span><span data-line="767">            <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
