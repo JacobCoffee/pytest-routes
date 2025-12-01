@@ -480,7 +480,7 @@ def _create_rule_for_operation(
                                 self.bundles_storage[bundle_name].append(value)
                             return value
                 except Exception:
-                    pass
+                    pass  # Response may not be JSON; bundle extraction is best-effort
 
             self.history.append(
                 {

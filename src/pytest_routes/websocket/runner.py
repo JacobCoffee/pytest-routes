@@ -437,34 +437,3 @@ def _print_verbose_result(result: WebSocketTestResult) -> None:
     print(f"        sent={result.messages_sent}, received={result.messages_received}")  # noqa: T201
     if result.error:
         print(f"        error: {result.error[:100]}")  # noqa: T201
-
-
-# TODO: Implement stateful testing with Hypothesis RuleBasedStateMachine
-# class WebSocketStateMachine(RuleBasedStateMachine):
-#     """State machine for stateful WebSocket testing."""
-#
-#     def __init__(self):
-#         super().__init__()
-#         self.connection = None
-#         self.messages_sent = []
-#         self.messages_received = []
-#
-#     @initialize()
-#     def connect(self):
-#         """Establish WebSocket connection."""
-#         pass
-#
-#     @rule(message=text_message_strategy())
-#     def send_text(self, message):
-#         """Send a text message."""
-#         pass
-#
-#     @rule(message=json_message_strategy())
-#     def send_json(self, message):
-#         """Send a JSON message."""
-#         pass
-#
-#     @invariant()
-#     def connection_alive(self):
-#         """Check that connection is still alive."""
-#         pass

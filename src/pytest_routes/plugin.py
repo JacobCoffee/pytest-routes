@@ -664,7 +664,7 @@ class StatefulTestItem(pytest.Item):
 
         try:
             try:
-                loop = asyncio.get_running_loop()
+                asyncio.get_running_loop()
                 import concurrent.futures
 
                 with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -761,7 +761,7 @@ class WebSocketTestItem(pytest.Item):
             return await self.runner.test_route_async(self.route)
 
         try:
-            loop = asyncio.get_running_loop()
+            asyncio.get_running_loop()
             import concurrent.futures
 
             with concurrent.futures.ThreadPoolExecutor() as executor:

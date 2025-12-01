@@ -15,7 +15,6 @@ from litestar.exceptions import NotAuthorizedException
 if TYPE_CHECKING:
     from litestar.connection import ASGIConnection
     from litestar.handlers import BaseRouteHandler
-    from litestar.channels import ChannelsPlugin
 
 
 def require_auth(connection: ASGIConnection[Any, Any, Any], _: BaseRouteHandler) -> None:
