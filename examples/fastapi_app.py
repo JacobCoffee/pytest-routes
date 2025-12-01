@@ -1,8 +1,11 @@
-"""Example FastAPI application for pytest-routes demonstration."""
+"""Example FastAPI application for pytest-routes demonstration.
+
+Includes WebSocket routes for v0.4.0 WebSocket testing demonstration.
+"""
 
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 
 app = FastAPI(title="pytest-routes Example", version="0.1.0")
@@ -100,3 +103,47 @@ async def delete_user(user_id: int) -> None:
 async def get_item(item_id: int, q: str | None = None) -> dict:
     """Get an item with optional query parameter."""
     return {"item_id": item_id, "query": q}
+
+
+# WebSocket routes for v0.4.0 demonstration
+@app.websocket("/ws/echo")
+async def ws_echo(websocket: WebSocket) -> None:
+    """Echo WebSocket - sends back whatever it receives."""
+    await websocket.accept()
+    try:
+        while True:
+            data = await websocket.receive_text()
+            await websocket.send_text(f"Echo: {data}")
+    except WebSocketDisconnect:
+        pass
+
+
+@app.websocket("/ws/chat/{room_id}")
+async def ws_chat(websocket: WebSocket, room_id: str) -> None:
+    """Chat room WebSocket with path parameter."""
+    await websocket.accept()
+    await websocket.send_json({"type": "joined", "room": room_id})
+    try:
+        while True:
+            data = await websocket.receive_json()
+            response = {
+                "type": "message",
+                "room": room_id,
+                "content": data.get("content", ""),
+            }
+            await websocket.send_json(response)
+    except WebSocketDisconnect:
+        pass
+
+
+@app.websocket("/ws/notifications")
+async def ws_notifications(websocket: WebSocket) -> None:
+    """Notifications WebSocket - server-push pattern."""
+    await websocket.accept()
+    await websocket.send_json({"type": "connected", "status": "ok"})
+    try:
+        while True:
+            await websocket.receive_text()
+            await websocket.send_json({"type": "notification", "message": "You have updates"})
+    except WebSocketDisconnect:
+        pass

@@ -109,7 +109,7 @@ class RouteMetrics:
 
 
 @dataclass
-class TestMetrics:
+class RunMetrics:
     """Aggregate test metrics across all routes.
 
     Attributes:
@@ -204,16 +204,16 @@ class TestMetrics:
         }
 
 
-def aggregate_metrics(route_metrics: list[RouteMetrics]) -> TestMetrics:
+def aggregate_metrics(route_metrics: list[RouteMetrics]) -> RunMetrics:
     """Aggregate individual route metrics into test metrics.
 
     Args:
         route_metrics: List of RouteMetrics to aggregate.
 
     Returns:
-        Aggregated TestMetrics.
+        Aggregated RunMetrics.
     """
-    metrics = TestMetrics()
+    metrics = RunMetrics()
     for rm in route_metrics:
         key = f"{rm.method}:{rm.route_path}"
         metrics.routes[key] = rm

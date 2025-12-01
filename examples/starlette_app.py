@@ -1,11 +1,15 @@
-"""Example Starlette application for pytest-routes demonstration."""
+"""Example Starlette application for pytest-routes demonstration.
+
+Includes WebSocket routes for v0.4.0 WebSocket testing demonstration.
+"""
 
 from __future__ import annotations
 
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
-from starlette.routing import Route
+from starlette.routing import Route, WebSocketRoute
+from starlette.websockets import WebSocket, WebSocketDisconnect
 
 # In-memory "database"
 users_db: dict[int, dict] = {
@@ -79,6 +83,48 @@ async def get_item(request: Request) -> JSONResponse:
     return JSONResponse({"item_id": item_id, "query": q})
 
 
+# WebSocket handlers for v0.4.0 demonstration
+async def ws_echo(websocket: WebSocket) -> None:
+    """Echo WebSocket - sends back whatever it receives."""
+    await websocket.accept()
+    try:
+        while True:
+            data = await websocket.receive_text()
+            await websocket.send_text(f"Echo: {data}")
+    except WebSocketDisconnect:
+        pass
+
+
+async def ws_chat(websocket: WebSocket) -> None:
+    """Chat room WebSocket with path parameter."""
+    room_id = websocket.path_params.get("room_id", "default")
+    await websocket.accept()
+    await websocket.send_json({"type": "joined", "room": room_id})
+    try:
+        while True:
+            data = await websocket.receive_json()
+            response = {
+                "type": "message",
+                "room": room_id,
+                "content": data.get("content", ""),
+            }
+            await websocket.send_json(response)
+    except WebSocketDisconnect:
+        pass
+
+
+async def ws_notifications(websocket: WebSocket) -> None:
+    """Notifications WebSocket - server-push pattern."""
+    await websocket.accept()
+    await websocket.send_json({"type": "connected", "status": "ok"})
+    try:
+        while True:
+            await websocket.receive_text()
+            await websocket.send_json({"type": "notification", "message": "You have updates"})
+    except WebSocketDisconnect:
+        pass
+
+
 routes = [
     Route("/", root, methods=["GET"]),
     Route("/health", health, methods=["GET"]),
@@ -88,6 +134,10 @@ routes = [
     Route("/users/{user_id:int}", update_user, methods=["PATCH"]),
     Route("/users/{user_id:int}", delete_user, methods=["DELETE"]),
     Route("/items/{item_id:int}", get_item, methods=["GET"]),
+    # WebSocket routes
+    WebSocketRoute("/ws/echo", ws_echo),
+    WebSocketRoute("/ws/chat/{room_id}", ws_chat),
+    WebSocketRoute("/ws/notifications", ws_notifications),
 ]
 
 app = Starlette(routes=routes, debug=True)

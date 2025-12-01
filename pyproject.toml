@@ -86,7 +86,7 @@ license = {text = "MIT"}
 name = "pytest-routes"
 readme = "README.md"
 requires-python = ">=3.10,<3.14"
-version = "0.3.4"
+version = "0.4.0"
 
 [project.entry-points.pytest11]
 pytest_routes = "pytest_routes.plugin"
@@ -241,6 +241,7 @@ filterwarnings = [
     "ignore::PendingDeprecationWarning",
     "ignore::pytest.PytestUnraisableExceptionWarning",
     "ignore::RuntimeWarning",
+    "ignore:cannot collect 'test_endpoint':pytest.PytestCollectionWarning",
 ]
 markers = [
     "unit: Unit tests (fast, isolated)",
@@ -325,6 +326,21 @@ max-complexity = 12
 ]
 "src/pytest_routes/integrations/schemathesis.py" = [
     "PERF203",  # try-except-in-loop (necessary for collecting all errors)
+]
+# Stateful testing module - complex due to Hypothesis state machine generation
+"src/pytest_routes/stateful/plugin.py" = [
+    "T201",     # print (used for pytest output during collection)
+]
+"src/pytest_routes/stateful/runner.py" = [
+    "TRY301",   # raise in try block (necessary for schema loading error)
+]
+"src/pytest_routes/stateful/state_machine.py" = [
+    "ARG001",   # unused-function-argument (Hypothesis callback patterns)
+    "C901",     # too-complex (Hypothesis rule generation is inherently complex)
+    "PLR0912",  # too-many-branches (dynamic rule creation requires branching)
+    "PLR0915",  # too-many-statements (state machine generation)
+    "S110",     # try-except-pass (intentional for non-JSON response handling)
+    "TRY301",   # raise in try block (necessary for error handling)
 ]
 "tests/**/*.*" = [
     "A",

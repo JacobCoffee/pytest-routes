@@ -46,9 +46,17 @@ from pytest_routes.reporting import (
     HTMLReportGenerator,
     RouteCoverage,
     RouteMetrics,
-    TestMetrics,
+    RunMetrics,
     aggregate_metrics,
     calculate_coverage,
+)
+from pytest_routes.stateful import (
+    HookConfig,
+    LinkConfig,
+    StatefulTestConfig,
+    StatefulTestResult,
+    StatefulTestRunner,
+    TransitionRecord,
 )
 from pytest_routes.validation.response import (
     CompositeValidator,
@@ -112,7 +120,14 @@ __all__ = [
     "HTMLReportGenerator",
     "RouteCoverage",
     "RouteMetrics",
-    "TestMetrics",
+    "RunMetrics",
     "aggregate_metrics",
     "calculate_coverage",
+    # Stateful Testing
+    "HookConfig",
+    "LinkConfig",
+    "StatefulTestConfig",
+    "StatefulTestResult",
+    "StatefulTestRunner",
+    "TransitionRecord",
 ]

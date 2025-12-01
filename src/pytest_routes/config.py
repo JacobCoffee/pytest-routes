@@ -18,6 +18,8 @@ else:
 
 if TYPE_CHECKING:
     from pytest_routes.auth.providers import AuthProvider
+    from pytest_routes.stateful.config import StatefulTestConfig
+    from pytest_routes.websocket.config import WebSocketTestConfig
 
 
 @dataclass
@@ -145,6 +147,12 @@ class RouteTestConfig:
     # Reporting
     report: ReportConfig = field(default_factory=ReportConfig)
 
+    # Stateful testing (lazy import to avoid circular dependency)
+    stateful: StatefulTestConfig | None = None
+
+    # WebSocket testing (lazy import to avoid circular dependency)
+    websocket: WebSocketTestConfig | None = None
+
     def get_override_for_route(self, path: str) -> RouteOverride | None:
         """Get the matching override for a route path.
 
@@ -238,6 +246,12 @@ class RouteTestConfig:
         # Parse report configuration if present
         report = _parse_report_config(data.get("report", {}))
 
+        # Parse stateful configuration if present
+        stateful = _parse_stateful_config(data.get("stateful", {}))
+
+        # Parse WebSocket configuration if present
+        websocket = _parse_websocket_config(data.get("websocket", {}))
+
         return cls(
             max_examples=data.get("max_examples", defaults.max_examples),
             timeout_per_route=data.get("timeout", defaults.timeout_per_route),
@@ -257,6 +271,8 @@ class RouteTestConfig:
             route_overrides=route_overrides,
             schemathesis=schemathesis,
             report=report,
+            stateful=stateful,
+            websocket=websocket,
         )
 
 
@@ -415,6 +431,65 @@ def _parse_report_config(data: dict[str, Any]) -> ReportConfig:
         include_timing=data.get("include_timing", defaults.include_timing),
         theme=data.get("theme", defaults.theme),
     )
+
+
+def _parse_stateful_config(data: dict[str, Any]) -> StatefulTestConfig | None:
+    """Parse stateful testing configuration from dictionary.
+
+    Args:
+        data: Stateful testing configuration dictionary.
+
+    Returns:
+        StatefulTestConfig instance or None if not configured.
+
+    Example config in pyproject.toml::
+
+        [tool.pytest - routes.stateful]
+        enabled = true
+        mode = "links"
+        step_count = 50
+        max_examples = 100
+        stateful_recursion_limit = 5
+        fail_fast = false
+        collect_coverage = true
+
+        [tool.pytest - routes.stateful.link_config]
+        follow_links = true
+        max_link_depth = 3
+    """
+    if not data:
+        return None
+
+    # Lazy import to avoid circular dependency
+    from pytest_routes.stateful.config import StatefulTestConfig
+
+    return StatefulTestConfig.from_dict(data)
+
+
+def _parse_websocket_config(data: dict[str, Any]) -> WebSocketTestConfig | None:
+    """Parse WebSocket testing configuration from dictionary.
+
+    Args:
+        data: WebSocket testing configuration dictionary.
+
+    Returns:
+        WebSocketTestConfig instance or None if not configured.
+
+    Example config in pyproject.toml::
+
+        [tool.pytest - routes.websocket]
+        enabled = true
+        max_messages = 10
+        connection_timeout = 30.0
+        message_timeout = 10.0
+    """
+    if not data:
+        return None
+
+    # Lazy import to avoid circular dependency
+    from pytest_routes.websocket.config import WebSocketTestConfig
+
+    return WebSocketTestConfig.from_dict(data)
 
 
 def load_config_from_pyproject(path: Path | None = None) -> RouteTestConfig:
@@ -576,6 +651,10 @@ def merge_configs(
         schemathesis=_merge_schemathesis_config(cli_config.schemathesis, file_config.schemathesis),
         # Report: CLI takes precedence if enabled
         report=_merge_report_config(cli_config.report, file_config.report),
+        # Stateful: CLI takes precedence if set
+        stateful=_merge_stateful_config(cli_config.stateful, file_config.stateful),
+        # WebSocket: CLI takes precedence if set
+        websocket=_merge_websocket_config(cli_config.websocket, file_config.websocket),
     )
 
 
@@ -637,3 +716,59 @@ def _merge_report_config(
         include_timing=include_timing,
         theme=theme,
     )
+
+
+def _merge_stateful_config(
+    cli_config: StatefulTestConfig | None,
+    file_config: StatefulTestConfig | None,
+) -> StatefulTestConfig | None:
+    """Merge stateful configs with CLI taking precedence.
+
+    Args:
+        cli_config: Stateful configuration from CLI options.
+        file_config: Stateful configuration from pyproject.toml.
+
+    Returns:
+        Merged StatefulTestConfig or None if neither is set.
+    """
+    if cli_config is None and file_config is None:
+        return None
+
+    if cli_config is None:
+        return file_config
+
+    if file_config is None:
+        return cli_config
+
+    # Both are set, merge them using the stateful module's merge function
+    from pytest_routes.stateful.config import merge_stateful_configs
+
+    return merge_stateful_configs(cli_config, file_config)
+
+
+def _merge_websocket_config(
+    cli_config: WebSocketTestConfig | None,
+    file_config: WebSocketTestConfig | None,
+) -> WebSocketTestConfig | None:
+    """Merge WebSocket configs with CLI taking precedence.
+
+    Args:
+        cli_config: WebSocket configuration from CLI options.
+        file_config: WebSocket configuration from pyproject.toml.
+
+    Returns:
+        Merged WebSocketTestConfig or None if neither is set.
+    """
+    if cli_config is None and file_config is None:
+        return None
+
+    if cli_config is None:
+        return file_config
+
+    if file_config is None:
+        return cli_config
+
+    # Both are set, merge them using the websocket module's merge function
+    from pytest_routes.websocket.config import merge_websocket_configs
+
+    return merge_websocket_configs(cli_config, file_config)

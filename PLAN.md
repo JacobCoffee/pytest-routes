@@ -6,8 +6,8 @@
 
 ## Current Status
 
-**Version**: 0.3.1 (Released)
-**Phase**: v0.3.0 - Schemathesis Integration & Reporting with Documentation
+**Version**: 0.4.0 (In Development)
+**Phase**: v0.4.0 - Stateful Testing & WebSocket Support
 **Last Updated**: 2025-11-30
 
 ### Test Coverage
@@ -189,7 +189,7 @@ Initial development on `main`:
   - [x] `calculate_coverage()` function
 - [x] Performance timing per route
   - [x] `RouteMetrics` class with min/max/avg timing
-  - [x] `TestMetrics` class for aggregate test metrics
+  - [x] `RunMetrics` class for aggregate test metrics
   - [x] `aggregate_metrics()` function
 - [x] Tests for new features (40 tests, 263 total)
 - [x] Documentation
@@ -199,15 +199,36 @@ Initial development on `main`:
   - [x] API reference for reporting module
   - [x] API reference for integrations module
 
-### Next Up
+#### v0.4.0 - Stateful Testing & WebSocket Support (Complete)
+- [x] Stateful testing (CRUD flows via Schemathesis links)
+  - [x] `StatefulTestConfig` dataclass with all configuration options
+  - [x] `StatefulTestRunner` orchestrating state machine execution
+  - [x] `APIStateMachine` extending Hypothesis RuleBasedStateMachine
+  - [x] `LinkConfig` for OpenAPI link handling
+  - [x] `HookConfig` for lifecycle hooks (setup, teardown, before/after call)
+  - [x] Bundle management for value exchange between operations
+  - [x] Coverage metrics (operation, transition, link coverage)
+  - [x] CLI options: `--routes-stateful`, `--routes-stateful-step-count`, etc.
+  - [x] pyproject.toml configuration support
+- [x] WebSocket route testing
+  - [x] `WebSocketTestConfig` dataclass for WebSocket-specific options
+  - [x] `WebSocketTestClient` wrapping Starlette TestClient
+  - [x] `WebSocketTestRunner` with Hypothesis integration
+  - [x] Message strategies: text, JSON, binary, GraphQL subscriptions
+  - [x] Framework support: Litestar, Starlette, FastAPI
+  - [x] CLI options: `--routes-websocket`, `--routes-ws-max-messages`, etc.
+  - [x] pyproject.toml configuration support
+- [x] Documentation
+  - [x] `docs/usage/stateful.md` - Complete stateful testing guide
+  - [x] `docs/usage/websocket.md` - Complete WebSocket testing guide
+  - [x] Updated CLI options reference with new options
+  - [x] Updated index with v0.4.0 feature highlights
 
-#### v0.4.0 - Stateful Testing & WebSocket Support (Planned)
-- [ ] Stateful testing (CRUD flows via Schemathesis links)
-- [ ] WebSocket route testing
-- [ ] State machine visualization
+### Next Up
 
 #### v1.0.0 - Stable Release (Planned)
 - [ ] Stable API guarantee
+- [ ] State machine visualization
 - [ ] Fuzz testing mode
 - [ ] Comprehensive CI/CD integration examples
 

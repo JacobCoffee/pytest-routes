@@ -66,11 +66,11 @@ class LitestarExtractor(RouteExtractor):
             return False
 
     def extract_routes(self, app: Any) -> list[RouteInfo]:
-        """Extract all HTTP routes from a Litestar application.
+        """Extract all HTTP and WebSocket routes from a Litestar application.
 
         This method traverses the Litestar route registry and extracts comprehensive
         metadata for each route including path parameters, query parameters, request
-        body types, and route metadata.
+        body types, and route metadata. It handles both HTTP and WebSocket routes.
 
         Args:
             app: A Litestar application instance.
@@ -80,10 +80,11 @@ class LitestarExtractor(RouteExtractor):
             path (route path pattern), methods (HTTP methods), name (handler name),
             handler (function reference), path_params (parameter name to type mapping),
             query_params (query parameter mapping), body_type (request body type),
-            tags (route tags), deprecated (deprecation flag), description (route docs).
+            tags (route tags), deprecated (deprecation flag), description (route docs),
+            is_websocket (True for WebSocket routes), websocket_metadata (WebSocket config).
 
         Example:
-            >>> from litestar import Litestar, get, post
+            >>> from litestar import Litestar, get, post, websocket
             >>> from litestar.dto import DTOData
             >>> from dataclasses import dataclass
             >>>
@@ -100,23 +101,31 @@ class LitestarExtractor(RouteExtractor):
             >>> async def create_user(data: CreateUser) -> dict:
             ...     return {"name": data.name}
             >>>
-            >>> app = Litestar(route_handlers=[get_user, create_user])
+            >>> @websocket("/ws/chat")
+            >>> async def chat_handler(socket) -> None:
+            ...     await socket.accept()
+            ...     await socket.send_json({"type": "welcome"})
+            >>>
+            >>> app = Litestar(route_handlers=[get_user, create_user, chat_handler])
             >>> extractor = LitestarExtractor()
             >>> routes = extractor.extract_routes(app)
             >>> len(routes)
-            2
+            3
             >>> routes[0].path_params
             {'user_id': <class 'int'>}
             >>> routes[1].tags
             ['users']
+            >>> routes[2].is_websocket
+            True
 
         Note:
-            - HEAD methods are automatically skipped
+            - HEAD methods are automatically skipped for HTTP routes
             - Handles both old API (handler directly) and new API (handler tuple)
             - Type hints are extracted from handler functions when available
             - Dependencies and framework injection parameters are filtered out
+            - WebSocket routes have auto_accept=True in their metadata
         """
-        from litestar.routes import HTTPRoute
+        from litestar.routes import HTTPRoute, WebSocketRoute
 
         routes: list[RouteInfo] = []
 
@@ -150,6 +159,8 @@ class LitestarExtractor(RouteExtractor):
                             description=getattr(handler, "description", None),
                         )
                     )
+            elif isinstance(route, WebSocketRoute):
+                routes.append(self._build_websocket_route_info(route))
 
         return routes
 
@@ -270,3 +281,53 @@ class LitestarExtractor(RouteExtractor):
         if hasattr(handler, "data_dto") and handler.data_dto:
             return handler.data_dto
         return hints.get("data")
+
+    def _build_websocket_route_info(self, route: Any) -> RouteInfo:
+        """Build RouteInfo for a Litestar WebSocket route.
+
+        Args:
+            route: A Litestar WebSocketRoute instance.
+
+        Returns:
+            RouteInfo configured for WebSocket with appropriate metadata.
+        """
+        from pytest_routes.discovery.base import WebSocketMessageType, WebSocketMetadata
+
+        handler = route.route_handler
+
+        try:
+            hints = get_type_hints(handler.fn) if handler.fn else {}
+        except Exception:
+            hints = {}
+
+        path_params = self._extract_path_params(route, hints)
+
+        ws_metadata = WebSocketMetadata(
+            subprotocols=[],
+            accepted_message_types=[
+                WebSocketMessageType.TEXT,
+                WebSocketMessageType.BINARY,
+                WebSocketMessageType.JSON,
+            ],
+            sends_message_types=[
+                WebSocketMessageType.TEXT,
+                WebSocketMessageType.BINARY,
+                WebSocketMessageType.JSON,
+            ],
+            auto_accept=True,
+        )
+
+        return RouteInfo(
+            path=route.path,
+            methods=["WEBSOCKET"],
+            name=getattr(handler, "name", None),
+            handler=getattr(handler, "fn", None),
+            path_params=path_params,
+            query_params={},
+            body_type=None,
+            tags=list(getattr(handler, "tags", None) or []),
+            deprecated=getattr(handler, "deprecated", False) or False,
+            description=getattr(handler, "description", None),
+            is_websocket=True,
+            websocket_metadata=ws_metadata,
+        )

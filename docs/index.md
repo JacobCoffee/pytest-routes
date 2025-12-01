@@ -92,6 +92,41 @@ Optional OpenAPI response validation.
 
 ---
 
+## New in v0.4.0
+
+::::{grid} 1 2 2 2
+:gutter: 3
+
+:::{grid-item-card} Stateful Testing
+:link: usage/stateful
+:link-type: doc
+:class-card: sd-border-0
+
+Test API workflows where operations depend on each other. Uses Hypothesis
+state machines to test CRUD sequences and complex interactions automatically.
+
+```bash
+pytest --routes --routes-app myapp:app --routes-stateful
+```
+:::
+
+:::{grid-item-card} WebSocket Testing
+:link: usage/websocket
+:link-type: doc
+:class-card: sd-border-0
+
+Property-based testing for WebSocket endpoints. Generates randomized message
+sequences to validate your real-time API behavior.
+
+```bash
+pytest --routes --routes-app myapp:app --routes-websocket
+```
+:::
+
+::::
+
+---
+
 ## Quick Start
 
 ### Installation
