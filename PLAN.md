@@ -6,15 +6,15 @@
 
 ## Current Status
 
-**Version**: 0.4.0 (In Development)
-**Phase**: v0.4.0 - Stateful Testing & WebSocket Support
-**Last Updated**: 2025-11-30
+**Version**: 0.4.0 (Released)
+**Phase**: v0.4.0 - Stateful Testing & WebSocket Support Complete
+**Last Updated**: 2025-12-01
 
 ### Test Coverage
 
 | Metric | Value |
 |--------|-------|
-| Unit Tests | 263 |
+| Unit Tests | 435 |
 | Route Smoke Tests | 9 (per example app) |
 | Coverage | ~90% |
 | Target | 90% |
@@ -24,7 +24,7 @@
 | File | Tests | Description |
 |------|-------|-------------|
 | `test_auth.py` | 24 | Authentication provider tests |
-| `test_config.py` | 34 | Configuration and auth/overrides |
+| `test_config.py` | 35 | Configuration and auth/overrides |
 | `test_discovery.py` | 9 | Route extraction tests |
 | `test_strategies.py` | 25 | Type-to-strategy mapping (enhanced) |
 | `test_plugin.py` | 13 | Plugin and pattern matching |
@@ -34,10 +34,13 @@
 | `test_headers.py` | 21 | Header generation strategies |
 | `test_query_params.py` | 11 | Query parameter extraction |
 | `test_openapi_body_extraction.py` | 12 | OpenAPI body type extraction |
-| `validation/test_response.py` | 26 | Response validation |
+| `validation/test_response.py` | 30 | Response validation |
 | `validation/test_integration.py` | 6 | Validation integration |
-| `test_reporting.py` | 31 | Reporting metrics and HTML generation |
-| `test_schemathesis_integration.py` | 9 | Schemathesis adapter tests |
+| `test_reporting.py` | 30 | Reporting metrics and HTML generation |
+| `test_schemathesis_integration.py` | 10 | Schemathesis adapter tests |
+| `test_stateful.py` | 73 | Stateful testing (state machine, bundles) |
+| `test_websocket.py` | 72 | WebSocket testing (client, strategies) |
+| `test_websocket_discovery.py` | 27 | WebSocket route discovery |
 
 ### Example Apps
 
@@ -199,7 +202,7 @@ Initial development on `main`:
   - [x] API reference for reporting module
   - [x] API reference for integrations module
 
-#### v0.4.0 - Stateful Testing & WebSocket Support (Complete)
+#### v0.4.0 - Stateful Testing & WebSocket Support (Complete) ✅
 - [x] Stateful testing (CRUD flows via Schemathesis links)
   - [x] `StatefulTestConfig` dataclass with all configuration options
   - [x] `StatefulTestRunner` orchestrating state machine execution
@@ -223,6 +226,12 @@ Initial development on `main`:
   - [x] `docs/usage/websocket.md` - Complete WebSocket testing guide
   - [x] Updated CLI options reference with new options
   - [x] Updated index with v0.4.0 feature highlights
+- [x] Tests (172 new tests)
+  - [x] `test_stateful.py` - 73 tests for state machine and bundles
+  - [x] `test_websocket.py` - 72 tests for WebSocket client and strategies
+  - [x] `test_websocket_discovery.py` - 27 tests for route discovery
+
+**Released**: v0.4.0 on PyPI with Sigstore signatures.
 
 ### Next Up
 
@@ -1139,7 +1148,7 @@ pytest --routes --routes-app myapp:app --routes-schemathesis --routes-schemathes
 
 ---
 
-*Document Version: 1.4.0*
-*Last Updated: 2025-11-30*
+*Document Version: 1.5.0*
+*Last Updated: 2025-12-01*
 *Author: Claude (Architecture Review)*
-*Status: v0.3.0 Complete - Schemathesis Integration & Reporting*
+*Status: v0.4.0 Complete - Stateful Testing & WebSocket Support*
