@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 ---
+## [0.4.1](https://github.com/JacobCoffee/pytest-routes/compare/v0.4.0..v0.4.1) - 2026-10-11
+
+### Documentation
+
+- regenerate changelog for v0.4.0 - ([f7e82b1](https://github.com/JacobCoffee/pytest-routes/commit/f7e82b198786f51a84d3fe3444ac1f31635d7fcc)) - github-actions[bot]
+- update PLAN.md for v0.4.0 release - ([acca781](https://github.com/JacobCoffee/pytest-routes/commit/acca7816d8cb37ae1477ced266cbf7e89c7d22f4)) - Jacob Coffee
+
+### Features
+
+- support Python 3.14 and 3.15 (#12) - ([09752a3](https://github.com/JacobCoffee/pytest-routes/commit/09752a37cc864b6481ec5a164d79c728e46731ca)) - Jacob Coffee
+
+### Miscellaneous Chores
+
+- **(deps)** Bump the actions group across 1 directory with 11 updates (#9) - ([be0d410](https://github.com/JacobCoffee/pytest-routes/commit/be0d4107dbea4561ecac3a95c933fc1d5073d0d1)) - dependabot[bot]
+- **(deps-dev)** Update uv-build requirement from <0.10.0,>=0.9.11 to >=0.9.11,<0.13.0 in the python-dependencies group across 1 directory (#11) - ([930e2ed](https://github.com/JacobCoffee/pytest-routes/commit/930e2ed90d726e4445a21c365abe2467a22a6453)) - dependabot[bot]
+- bump version to 0.4.1 - ([d52b994](https://github.com/JacobCoffee/pytest-routes/commit/d52b994caaefbb4d07d0fe1110cf3ab5775d07c7)) - Jacob Coffee
+
+---
 ## [0.4.0](https://github.com/JacobCoffee/pytest-routes/compare/v0.3.4..v0.4.0) - 2025-12-01
 
 ### Documentation
